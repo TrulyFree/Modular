@@ -8,10 +8,11 @@ cd "$TARGET_DIR"
 
 mvn test
 
-git add -A
-
 read -p "$MSG_PROMPT" msg
 read -p "$BRANCH_PROMPT" branch
 
+git checkout -b "$branch"
+
+git add -A
 git commit -m "$msg"
 git push origin "$branch"
