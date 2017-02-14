@@ -20,6 +20,8 @@ read branch
 git show-ref --verify --quiet refs/heads/"$branch"
 if [[ $? -ne 0 ]]; then
 	git checkout -b "$branch"
+else
+	git checkout "$branch"
 fi
 
 git add -A
