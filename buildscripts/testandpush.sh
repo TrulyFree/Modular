@@ -8,8 +8,10 @@ cd "$TARGET_DIR"
 
 mvn test
 
-read -p "$MSG_PROMPT" msg
-read -p "$BRANCH_PROMPT" branch
+echo -n "$MSG_PROMPT"
+read msg
+echo -n "$BRANCH_PROMPT"
+read branch
 
 git show-ref --verify --quiet refs/heads/"$branch"
 if [[ $? -ne 0 ]]; then
