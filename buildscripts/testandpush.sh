@@ -11,7 +11,10 @@ mvn test
 read -p "$MSG_PROMPT" msg
 read -p "$BRANCH_PROMPT" branch
 
-git checkout -b "$branch"
+git show-ref --verify --quiet refs/heads/"$branch"
+if [[ $? -ne 0 ]]; then
+	git checkout -b "$branch"
+fi
 
 git add -A
 git commit -m "$msg"
