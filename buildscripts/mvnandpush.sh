@@ -31,9 +31,9 @@ git add -A
 git commit -m "$msg"
 
 echo -n "$PUSH_PROMPT"
-read -n 1 -r
+read reply
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
+if [[ $reply =~ ^[Yy]$ ]]
 then
 	git push origin "$branch"
 fi
