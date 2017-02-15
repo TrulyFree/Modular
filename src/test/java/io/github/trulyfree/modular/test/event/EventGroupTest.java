@@ -8,11 +8,14 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.event.Event;
 import io.github.trulyfree.modular.event.EventGroup;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventGroupTest {
 
 	private static int modified;
