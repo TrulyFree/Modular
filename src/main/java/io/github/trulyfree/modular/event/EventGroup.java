@@ -19,10 +19,12 @@ import java.util.Collection;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface DependentEventGroup {
-	
-	public Event enactNextEvent();
+public interface EventGroup {
+
+	public boolean enactNextEvent();
+
 	public Event size();
+
 	public Collection<Event> events();
 
 }

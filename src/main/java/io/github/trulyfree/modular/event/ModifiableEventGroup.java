@@ -17,20 +17,8 @@ package io.github.trulyfree.modular.event;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class EventHandler {
-	
-	private final EventGroup eg;
-	
-	public EventHandler(EventGroup eg) {
-		this.eg = eg;
-	}
+public interface ModifiableEventGroup {
 
-	public final EventGroup getEventGroup() {
-		return eg;
-	}
+	public boolean addEvent();
 	
-	public final boolean tick() {
-		return eg.enactNextEvent();
-	}
-
 }
