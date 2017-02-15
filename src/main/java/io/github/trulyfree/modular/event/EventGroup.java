@@ -23,8 +23,8 @@ public interface EventGroup<T extends Event> {
 
 	public boolean enactNextEvent();
 
-	public T size();
+	public int size();
 
-	public Collection<Event> events();
+	public Collection<T> events();
 
 }
