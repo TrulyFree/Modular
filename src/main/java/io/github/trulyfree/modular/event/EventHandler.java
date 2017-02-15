@@ -19,13 +19,13 @@ package io.github.trulyfree.modular.event;
 
 public abstract class EventHandler {
 	
-	private final EventGroup eg;
+	private final EventGroup<? extends Event> eg;
 	
-	public EventHandler(EventGroup eg) {
+	public EventHandler(EventGroup<? extends Event> eg) {
 		this.eg = eg;
 	}
 
-	public final EventGroup getEventGroup() {
+	public final EventGroup<? extends Event> getEventGroup() {
 		return eg;
 	}
 	

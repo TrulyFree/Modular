@@ -19,11 +19,11 @@ import java.util.Collection;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface EventGroup {
+public interface EventGroup<T extends Event> {
 
 	public boolean enactNextEvent();
 
-	public Event size();
+	public T size();
 
 	public Collection<Event> events();
 
