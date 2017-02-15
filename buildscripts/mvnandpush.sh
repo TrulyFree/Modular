@@ -11,6 +11,8 @@ echo -n "$MVN_OPTIONS_PROMPT"
 read mvn_opt
 
 mvn $mvn_opt
+mvn surefire-report:report-only
+mvn site -DgenerateReports=false
 
 echo -n "$MSG_PROMPT"
 read msg

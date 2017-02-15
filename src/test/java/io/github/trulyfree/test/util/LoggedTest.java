@@ -3,6 +3,8 @@ package io.github.trulyfree.test.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -20,6 +22,8 @@ public abstract class LoggedTest {
 	}
 
 	private static TestGroupResults log;
+	
+	private static List<String> testUnits = new ArrayList<String>();
 
 	private static File testLogDir = new File(System.getProperty("maventestdir"));
 
