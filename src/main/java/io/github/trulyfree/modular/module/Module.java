@@ -21,6 +21,8 @@ public interface Module {
 
 	boolean setup();
 	
+	boolean isReady();
+	
 	boolean destroy();
 
 }

@@ -19,8 +19,8 @@ import java.util.List;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface ParentModule extends Module {
-
-	List<Module> getChildren();	
+public interface ParentModule<T extends Module> extends Module {
+	
+	List<T> getChildren();	
 	
 }
