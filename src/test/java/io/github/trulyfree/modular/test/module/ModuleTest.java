@@ -1,6 +1,4 @@
-package io.github.trulyfree.test.modular.impl;
-
-import io.github.trulyfree.modular.module.ParentModule;
+package io.github.trulyfree.modular.test.module;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +7,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import io.github.trulyfree.modular.module.Module;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -28,19 +28,18 @@ import org.junit.runners.MethodSorters;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ParentModuleTest {
+public class ModuleTest {
 	
-	private static ParentModule<SimpleModule> module;
+	private static Module module;
 	
 	@BeforeClass
 	public static void setup() {
-		module = new SimpleParentModule();
+		module = new SimpleModule();
 	}
 	
 	@Test
 	public void stage0_verifyNoAction() {
 		assertEquals(SimpleModule.someValue, 0);
-		assertEquals(SimpleParentModule.children, null);
 		assertFalse(module.isReady());
 	}
 	
@@ -52,31 +51,23 @@ public class ParentModuleTest {
 	@Test
 	public void stage2_verifySetup() {
 		assertEquals(SimpleModule.someValue, 1);
-		assertNotEquals(SimpleParentModule.children, null);
 		assertTrue(module.isReady());
 	}
 	
 	@Test
-	public void stage3_testGetChildren() {
-		assertEquals(SimpleParentModule.children, ((ParentModule<SimpleModule>) module).getChildren());
-	}
-	
-	@Test
-	public void stage4_testDestroy() {
+	public void stage3_testDestroy() {
 		assertTrue(module.destroy());
 	}
 	
 	@Test
-	public void stage5_verifyDestroy() {
+	public void stage4_verifyDestroy() {
 		assertEquals(SimpleModule.someValue, 0);
-		assertEquals(SimpleParentModule.children, null);
 		assertFalse(module.isReady());
 	}
 	
 	@AfterClass
 	public static void destroy() {
 		SimpleModule.someValue = 0;
-		SimpleParentModule.children = null;
 	}
-	
+
 }

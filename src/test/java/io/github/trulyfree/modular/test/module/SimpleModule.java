@@ -1,9 +1,6 @@
-package io.github.trulyfree.test.modular.impl;
+package io.github.trulyfree.modular.test.module;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.github.trulyfree.modular.module.ParentModule;
+import io.github.trulyfree.modular.module.Module;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -22,27 +19,28 @@ import io.github.trulyfree.modular.module.ParentModule;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleParentModule extends SimpleModule implements ParentModule<SimpleModule> {
+public class SimpleModule implements Module {
 
-	public static List<SimpleModule> children;
+	public static int someValue;
+	
+	private boolean ready;
 	
 	@Override
 	public boolean setup() {
-		children = new ArrayList<SimpleModule>();
-		super.setup();
+		someValue = 1;
+		ready = true;
 		return true;
+	}
+
+	@Override
+	public boolean isReady() {
+		return ready;
 	}
 
 	@Override
 	public boolean destroy() {
-		children = null;
-		super.destroy();
+		someValue = 0;
+		ready = false;
 		return true;
 	}
-
-	@Override
-	public List<SimpleModule> getChildren() {
-		return children;
-	}
-
 }
