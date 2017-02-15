@@ -9,33 +9,58 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.event.EventPriority;
+import io.github.trulyfree.modular.event.PrioritizedEvent;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrioritizedEventTest {
 
 	private static int modified;
 
-	private static Event event1;
-	private static Event event2;
+	private static PrioritizedEvent event1;
+	private static PrioritizedEvent event2;
 
 	@BeforeClass
 	public static void setup() {
 		modified = 0;
 
-		event1 = new Event() {
+		event1 = new PrioritizedEvent() {
 			@Override
 			public boolean enact() {
 				modified = 1;
 				return true;
 			}
+
+			@Override
+			public EventPriority getPriority() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean setPriority(EventPriority priority) {
+				// TODO Auto-generated method stub
+				return false;
+			}
 		};
 
-		event2 = new Event() {
+		event2 = new PrioritizedEvent() {
 			@Override
 			public boolean enact() {
 				modified = 0;
 				return true;
+			}
+
+			@Override
+			public EventPriority getPriority() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean setPriority(EventPriority priority) {
+				// TODO Auto-generated method stub
+				return false;
 			}
 		};
 	}

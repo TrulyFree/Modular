@@ -2,6 +2,7 @@ package io.github.trulyfree.modular.event;
 
 public interface PrioritizedEvent extends Event, Comparable<Event> {
 
+	public boolean setPriority(EventPriority priority);
 	public EventPriority getPriority();
 
 	@Override
