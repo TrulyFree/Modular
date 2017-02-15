@@ -19,31 +19,32 @@ public class ModuleTest {
 	
 	@Test
 	public void stage0_verifyNoAction() {
-		assertEquals(castModule().someValue, 0);
+		System.out.println(0);
+		assertEquals(SimpleModule.someValue, 0);
 	}
 	
 	@Test
 	public void stage1_testSetup() {
+		System.out.println(1);
 		assertTrue(module.setup());
 	}
 	
 	@Test
 	public void stage2_verifySetup() {
-		assertEquals(castModule().someValue, 1);
+		System.out.println(2);
+		assertEquals(SimpleModule.someValue, 1);
 	}
 	
 	@Test
 	public void stage3_testDestroy() {
+		System.out.println(3);
 		assertTrue(module.destroy());
 	}
 	
 	@Test
 	public void stage4_verifyDestroy() {
-		assertEquals(castModule().someValue, 0);
-	}
-	
-	private SimpleModule castModule() {
-		return SimpleModule.class.cast(module);
+		System.out.println(4);
+		assertEquals(SimpleModule.someValue, 0);
 	}
 
 }

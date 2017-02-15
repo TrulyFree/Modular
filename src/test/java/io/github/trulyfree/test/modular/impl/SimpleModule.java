@@ -4,7 +4,7 @@ import io.github.trulyfree.modular.module.Module;
 
 public class SimpleModule implements Module {
 
-	public int someValue;
+	public static int someValue;
 	
 	@Override
 	public boolean setup() {
