@@ -58,6 +58,7 @@ public class ParentModuleTest {
 	
 	@AfterClass
 	public static void destroy() {
+		SimpleModule.someValue = 0;
 		SimpleParentModule.children = null;
 	}
 	

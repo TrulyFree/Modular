@@ -26,5 +26,4 @@ public class SimpleModule implements Module {
 		ready = false;
 		return true;
 	}
-	
 }
