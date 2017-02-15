@@ -2,6 +2,8 @@ package io.github.trulyfree.test.modular.impl;
 
 import static org.junit.Assert.*;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -11,10 +13,11 @@ import io.github.trulyfree.modular.module.Module;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ModuleTest {
 	
-	private final Module module;
+	private static Module module;
 	
-	public ModuleTest() {
-		this.module = new SimpleModule();
+	@BeforeClass
+	public static void setup() {
+		module = new SimpleModule();
 	}
 	
 	@Test
@@ -45,8 +48,9 @@ public class ModuleTest {
 		assertFalse(module.isReady());
 	}
 	
-	public Module getModule() {
-		return module;
+	@AfterClass
+	public static void destroy() {
+		SimpleModule.someValue = 0;
 	}
 
 }

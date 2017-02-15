@@ -1,10 +1,11 @@
 package io.github.trulyfree.test.modular.impl;
 
-import io.github.trulyfree.modular.module.Module;
 import io.github.trulyfree.modular.module.ParentModule;
 
 import static org.junit.Assert.*;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -12,10 +13,11 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParentModuleTest {
 	
-	private final ParentModule<SimpleModule> module;
+	private static ParentModule<SimpleModule> module;
 	
-	public ParentModuleTest() {
-		this.module = new SimpleParentModule();
+	@BeforeClass
+	public static void setup() {
+		module = new SimpleParentModule();
 	}
 	
 	@Test
@@ -54,7 +56,9 @@ public class ParentModuleTest {
 		assertFalse(module.isReady());
 	}
 	
-	public Module getModule() {
-		return module;
+	@AfterClass
+	public static void destroy() {
+		SimpleParentModule.children = null;
 	}
+	
 }
