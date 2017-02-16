@@ -33,7 +33,6 @@ git commit -m "$msg"
 
 echo -n "$PUSH_PROMPT"
 read reply
-echo
 if [[ $reply =~ ^[Yy]$ ]]
 then
 	git push origin "$branch"
