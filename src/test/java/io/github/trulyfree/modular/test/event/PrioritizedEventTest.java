@@ -11,6 +11,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import io.github.trulyfree.modular.event.Event;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -18,6 +19,7 @@ public class PrioritizedEventTest {
 
 	private static int modified;
 
+	private static Event event0;
 	private static PrioritizedEvent event1;
 	private static PrioritizedEvent event2;
 
@@ -25,6 +27,13 @@ public class PrioritizedEventTest {
 	public static void setup() {
 		modified = 0;
 
+		event0 = new Event() {
+			@Override
+			public boolean enact() {
+				return true;
+			}
+		};
+		
 		event1 = new SimplePrioritizedEvent(DIRE) {
 			@Override
 			public boolean enact() {
@@ -86,10 +95,16 @@ public class PrioritizedEventTest {
 	}
 	
 	@Test
-	public void stage8_testCompareTo() {
+	public void stage8_testCompareToOtherPrioritized() {
 		assertEquals(event1.compareTo(event2), 1);
 		assertEquals(event2.compareTo(event1), -1);
 		assertEquals(event1.compareTo(event1), 0);
+	}
+	
+	@Test
+	public void stage9_testCompareToStandardEvent() {
+		assertEquals(event1.compareTo(event0), 1);
+		assertEquals(event2.compareTo(event0), 1);
 	}
 
 	@AfterClass
