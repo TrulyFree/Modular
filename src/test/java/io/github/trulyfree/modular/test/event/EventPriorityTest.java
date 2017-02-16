@@ -42,8 +42,8 @@ public class EventPriorityTest {
 	
 	@Test
 	public void stage2_verifyShufflePriorities() {
-		for (int i = 0; i < priorities.size(); i++) {
-			assertTrue(priorities.contains(EventPriority.values()[i]));
+		for (EventPriority priority : EventPriority.values()) {
+			assertTrue(priorities.contains(priority));
 		}
 	}
 	
