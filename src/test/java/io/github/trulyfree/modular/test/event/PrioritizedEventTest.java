@@ -3,13 +3,14 @@ package io.github.trulyfree.modular.test.event;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static io.github.trulyfree.modular.event.EventPriority.*;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.EventPriority;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -24,43 +25,19 @@ public class PrioritizedEventTest {
 	public static void setup() {
 		modified = 0;
 
-		event1 = new PrioritizedEvent() {
+		event1 = new SimplePrioritizedEvent(DIRE) {
 			@Override
 			public boolean enact() {
 				modified = 1;
 				return true;
 			}
-
-			@Override
-			public EventPriority getPriority() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean setPriority(EventPriority priority) {
-				// TODO Auto-generated method stub
-				return false;
-			}
 		};
 
-		event2 = new PrioritizedEvent() {
+		event2 = new SimplePrioritizedEvent(AESTHETIC) {
 			@Override
 			public boolean enact() {
 				modified = 0;
 				return true;
-			}
-
-			@Override
-			public EventPriority getPriority() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean setPriority(EventPriority priority) {
-				// TODO Auto-generated method stub
-				return false;
 			}
 		};
 	}
