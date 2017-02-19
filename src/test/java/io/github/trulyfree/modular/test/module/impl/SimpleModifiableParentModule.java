@@ -7,10 +7,10 @@ import io.github.trulyfree.modular.module.ModifiableParentModule;
 import io.github.trulyfree.modular.module.Module;
 
 @SuppressWarnings("serial")
-public class SimpleModifiableParentModule extends ArrayList<Module> implements ModifiableParentModule<Module> {
+public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T> implements ModifiableParentModule<T> {
 
 	@Override
-	public Collection<Module> getChildren() {
+	public Collection<T> getChildren() {
 		return this;
 	}
 
@@ -31,17 +31,17 @@ public class SimpleModifiableParentModule extends ArrayList<Module> implements M
 	}
 
 	@Override
-	public boolean addModule(Module module) {
+	public boolean addModule(T module) {
 		return this.add(module);
 	}
 
 	@Override
-	public Module removeModule(Module module) {
+	public T removeModule(Module module) {
 		int index = this.indexOf(module);
 		if (index == -1) {
 			return null;
 		} else {
-			Module toReturn = this.get(index);
+			T toReturn = this.get(index);
 			this.remove(index);
 			return toReturn;
 		}

@@ -34,7 +34,7 @@ import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PrioritizedEventGroupTest {
+public class PrioritizedEventListTest {
 
 	private static int modified = 0;
 	private static List<PrioritizedEvent> eventList, compare;
