@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.event.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;

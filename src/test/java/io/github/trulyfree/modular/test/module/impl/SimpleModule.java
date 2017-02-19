@@ -1,7 +1,6 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.module.impl;
 
-import io.github.trulyfree.modular.event.EventPriority;
-import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.module.Module;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -20,23 +19,28 @@ import io.github.trulyfree.modular.event.PrioritizedEvent;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class SimplePrioritizedEvent implements PrioritizedEvent {
-	
-	private EventPriority priority;
-	
-	public SimplePrioritizedEvent(EventPriority priority) {
-		setPriority(priority);
-	}
+public class SimpleModule implements Module {
 
+	public static int someValue;
+	
+	private boolean ready;
+	
 	@Override
-	public boolean setPriority(EventPriority priority) {
-		this.priority = priority;
+	public boolean setup() {
+		someValue = 1;
+		ready = true;
 		return true;
 	}
 
 	@Override
-	public EventPriority getPriority() {
-		return priority;
+	public boolean isReady() {
+		return ready;
 	}
 
+	@Override
+	public boolean destroy() {
+		someValue = 0;
+		ready = false;
+		return true;
+	}
 }

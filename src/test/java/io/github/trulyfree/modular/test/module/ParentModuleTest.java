@@ -1,6 +1,8 @@
 package io.github.trulyfree.modular.test.module;
 
 import io.github.trulyfree.modular.module.ParentModule;
+import io.github.trulyfree.modular.test.module.impl.SimpleModule;
+import io.github.trulyfree.modular.test.module.impl.SimpleParentModule;
 
 import static org.junit.Assert.*;
 

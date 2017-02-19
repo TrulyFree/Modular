@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.module.Module;
+import io.github.trulyfree.modular.test.module.impl.SimpleModule;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE

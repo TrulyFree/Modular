@@ -14,6 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.event.EventPriority;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE

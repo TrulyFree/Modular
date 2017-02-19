@@ -1,9 +1,7 @@
-package io.github.trulyfree.modular.test.module;
+package io.github.trulyfree.modular.test.event.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.github.trulyfree.modular.module.ParentModule;
+import io.github.trulyfree.modular.event.EventPriority;
+import io.github.trulyfree.modular.event.PrioritizedEvent;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -22,27 +20,23 @@ import io.github.trulyfree.modular.module.ParentModule;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleParentModule extends SimpleModule implements ParentModule<SimpleModule> {
-
-	public static List<SimpleModule> children;
+public abstract class SimplePrioritizedEvent implements PrioritizedEvent {
 	
+	private EventPriority priority;
+	
+	public SimplePrioritizedEvent(EventPriority priority) {
+		setPriority(priority);
+	}
+
 	@Override
-	public boolean setup() {
-		children = new ArrayList<SimpleModule>();
-		super.setup();
+	public boolean setPriority(EventPriority priority) {
+		this.priority = priority;
 		return true;
 	}
 
 	@Override
-	public boolean destroy() {
-		children = null;
-		super.destroy();
-		return true;
-	}
-
-	@Override
-	public List<SimpleModule> getChildren() {
-		return children;
+	public EventPriority getPriority() {
+		return priority;
 	}
 
 }
