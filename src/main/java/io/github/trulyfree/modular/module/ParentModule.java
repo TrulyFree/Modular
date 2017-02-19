@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 
 /**
- * ParentModule interface. All modules with multiple submodules should implement
+ * ParentModule interface. All modules with multiple child modules should implement
  * this interface. It is highly recommended that all implementations of this
  * class use only non-final instance fields as to assure the usefulness of the
  * setup and destroy methods of the Module interface from which this interface
