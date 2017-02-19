@@ -13,7 +13,7 @@ public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T>
 	
 	@Override
 	public Collection<T> getChildren() {
-		return this;
+		return new ArrayList<T>(this);
 	}
 
 	@Override
@@ -49,6 +49,11 @@ public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T>
 			this.remove(index);
 			return toReturn;
 		}
+	}
+	
+	@Override
+	public void clear() {
+		removeModuleByType(Module.class); // Force ModifiableParentModule implementation
 	}
 
 }
