@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event.impl;
+package io.github.trulyfree.modular.test.integrate.impl;
 
 import io.github.trulyfree.modular.event.Event;
 import io.github.trulyfree.modular.general.Cancellable;
