@@ -17,8 +17,28 @@ package io.github.trulyfree.modular.event;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Event main interface. All operations which do not need to be enacted
+ * immediately should be a simple implementation of this interface, and should
+ * be handled by a EventHandler.
+ * 
+ * @author vtcakavsmoace
+ *
+ */
 public interface Event {
 
+	/**
+	 * Method to be called in order to enact the operations desired. Think of
+	 * this method as synonymous with Runnable's "run", except that this returns
+	 * a boolean if the operation is successful. This method should not cause
+	 * any throwables to be thrown. Instead, all throwables should be handled
+	 * within this method. If the event is cancelled, throws a fatal throwable,
+	 * or is for any other reason not successfully completed, it should catch
+	 * any thrown throwables and return false.
+	 * 
+	 * @return success The success of this operation. If the event fails to be
+	 *         enacted for any reason, this should return false.
+	 */
 	public boolean enact();
-	
+
 }
