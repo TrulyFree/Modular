@@ -10,28 +10,34 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.github.trulyfree.modular.module.ModifiableParentModule;
-import io.github.trulyfree.modular.module.ParentModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleModifiableParentModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleModule;
-import io.github.trulyfree.modular.test.module.impl.SimpleParentModule;
 
 public class ModifiableParentModuleTest {
 	
 	private static ModifiableParentModule<SimpleModule> module;
+	private static SimpleModule[] modulesToAdd;
 	
 	@BeforeClass
 	public static void setup() {
 		module = new SimpleModifiableParentModule<SimpleModule>();
-		SimpleModule[] modules = new SimpleModule[] {
-				
+		modulesToAdd = new SimpleModule[] {
+				new SimpleModule(1),
+				new SimpleModule(2),
+				new SimpleModule(3)
 		};
 	}
 		
+	@Test
+	public void stage0_verifyNoAction() {
+		assertEquals(0, module.getChildren().size());
+		assertFalse(module.isReady());
+	}
 	
 	@AfterClass
 	public static void destroy() {
 		SimpleModule.someValue = 0;
-		SimpleParentModule.children = null;
+		module = null;
 	}
 
 }

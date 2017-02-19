@@ -35,7 +35,7 @@ public class ModuleTest {
 	
 	@BeforeClass
 	public static void setup() {
-		module = new SimpleModule();
+		module = new SimpleModule(1);
 	}
 	
 	@Test

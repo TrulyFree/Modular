@@ -36,7 +36,7 @@ public class ParentModuleTest {
 	
 	@BeforeClass
 	public static void setup() {
-		module = new SimpleParentModule();
+		module = new SimpleParentModule(1);
 	}
 	
 	@Test
@@ -53,8 +53,8 @@ public class ParentModuleTest {
 	
 	@Test
 	public void stage2_verifySetup() {
-		assertEquals(SimpleModule.someValue, 1);
-		assertNotEquals(SimpleParentModule.children, null);
+		assertEquals(1, SimpleModule.someValue);
+		assertNotEquals(null, SimpleParentModule.children);
 		assertTrue(module.isReady());
 	}
 	
@@ -70,8 +70,8 @@ public class ParentModuleTest {
 	
 	@Test
 	public void stage5_verifyDestroy() {
-		assertEquals(SimpleModule.someValue, 0);
-		assertEquals(SimpleParentModule.children, null);
+		assertEquals(0, SimpleModule.someValue);
+		assertEquals(null, SimpleParentModule.children);
 		assertFalse(module.isReady());
 	}
 	

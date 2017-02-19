@@ -23,11 +23,16 @@ public class SimpleModule implements Module {
 
 	public static int someValue;
 	
+	private final int setValue;
 	private boolean ready;
+	
+	public SimpleModule(int value) {
+		this.setValue = value;
+	}
 	
 	@Override
 	public boolean setup() {
-		someValue = 1;
+		someValue = setValue;
 		ready = true;
 		return true;
 	}

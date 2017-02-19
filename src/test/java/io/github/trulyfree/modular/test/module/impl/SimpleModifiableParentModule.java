@@ -9,6 +9,8 @@ import io.github.trulyfree.modular.module.Module;
 @SuppressWarnings("serial")
 public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T> implements ModifiableParentModule<T> {
 
+	private boolean ready;
+	
 	@Override
 	public Collection<T> getChildren() {
 		return this;
@@ -16,17 +18,19 @@ public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T>
 
 	@Override
 	public boolean setup() {
+		ready = true;
 		return true;
 	}
 
 	@Override
 	public boolean isReady() {
-		return true;
+		return ready;
 	}
 
 	@Override
 	public boolean destroy() {
 		clear();
+		ready = false;
 		return true;
 	}
 

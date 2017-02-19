@@ -24,6 +24,10 @@ import io.github.trulyfree.modular.module.ParentModule;
 
 public class SimpleParentModule extends SimpleModule implements ParentModule<SimpleModule> {
 
+	public SimpleParentModule(int value) {
+		super(value);
+	}
+
 	public static List<SimpleModule> children;
 	
 	@Override
