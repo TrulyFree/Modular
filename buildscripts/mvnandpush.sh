@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
-MVN_OPTIONS_PROMPT="Maven arguments? "
 JAVADOCS_PROMPT="Build javadocs? [Y/n] "
+MVN_OPTIONS_PROMPT="Maven arguments? "
 MSG="$1"
 BRANCH="$2"
 PUSH="$3"
