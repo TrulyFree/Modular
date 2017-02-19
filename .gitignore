@@ -14,5 +14,9 @@
 # Maven
 log/
 target/*
+
+# Site
+/site/
+target/*
 !target/site/
 /target/
