@@ -1,4 +1,7 @@
 io.github.trulyfree.modular.test.event
 io.github.trulyfree.modular.test.event.impl
+io.github.trulyfree.modular.test.general
+io.github.trulyfree.modular.test.integrate
+io.github.trulyfree.modular.test.integrate.impl
 io.github.trulyfree.modular.test.module
 io.github.trulyfree.modular.test.module.impl
