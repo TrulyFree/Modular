@@ -43,7 +43,7 @@ public class SimpleEventGroup implements EventGroup<Event> {
 	}
 
 	@Override
-	public Collection<Event> events() {
+	public Collection<Event> getEvents() {
 		Collection<Event> events = new ArrayList<Event>(size());
 		for (Event event : this.events) {
 			events.add(event);

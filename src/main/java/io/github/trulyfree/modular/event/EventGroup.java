@@ -25,6 +25,6 @@ public interface EventGroup<T extends Event> {
 
 	public int size();
 
-	public Collection<T> events();
+	public Collection<T> getEvents();
 
 }
