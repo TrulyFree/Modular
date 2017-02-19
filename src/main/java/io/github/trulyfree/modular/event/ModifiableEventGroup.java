@@ -1,6 +1,10 @@
 package io.github.trulyfree.modular.event;
 
-/* Modular library by TrulyFree: A general-use module-building library.
+import java.util.Collection;
+
+import io.github.trulyfree.modular.event.Event;
+
+/* Modular library by TrulyFree: A general-use Event-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +23,14 @@ package io.github.trulyfree.modular.event;
 
 public interface ModifiableEventGroup<T extends Event> extends EventGroup<T> {
 
-	public boolean add(T event);
+	public boolean addEvent(T event);
+
+	public T removeEvent(T event);
+
+	public Collection<T> removeEventByType(Class<? extends Event> type);
+
+	public default Collection<T> clear() {
+		return removeEventByType(Event.class);
+	}
 	
 }
