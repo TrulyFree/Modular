@@ -13,10 +13,7 @@
 
 # Maven
 log/
-target/*
+/target/
 
 # Site
 /site/
-target/*
-!target/site/
-/target/

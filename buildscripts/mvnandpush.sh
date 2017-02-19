@@ -2,7 +2,7 @@
 
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 MVN_OPTIONS_PROMPT="Maven arguments? "
-MSG_PROMPT="Commit message? "
+MSG="$1"
 BRANCH_PROMPT="Branch? "
 PUSH_PROMPT="Push to remote? [Y/n] "
 
@@ -16,8 +16,6 @@ mvn $mvn_opt
 mvn surefire-report:report-only
 mvn site -DgenerateReports=false
 
-echo -n "$MSG_PROMPT"
-read msg
 echo -n "$BRANCH_PROMPT"
 read branch
 
@@ -29,7 +27,7 @@ else
 fi
 
 git add -A
-git commit -m "$msg"
+git commit -m "$MSG"
 
 echo -n "$PUSH_PROMPT"
 read reply
