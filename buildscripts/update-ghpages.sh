@@ -1,16 +1,14 @@
 #!/bin/bash
 
-TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../"
 SITE_DIR="$TARGET_DIR""site/"
 MSG="$1"
 PUSH="$2"
 BRANCH="gh-pages"
 
-cd "$SITE_DIR"
-
-rm -rv *
-
 cd "$TARGET_DIR"
+
+rm -rv "$SITE_DIR""*"
 
 cp -rv target/site/* "$SITE_DIR"
 
