@@ -1,5 +1,6 @@
 package io.github.trulyfree.modular.event;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import io.github.trulyfree.modular.event.Event;
@@ -27,10 +28,18 @@ public interface ModifiableEventGroup<T extends Event> extends EventGroup<T> {
 
 	public T removeEvent(T event);
 
-	public Collection<T> removeEventByType(Class<? extends Event> type);
+	public default Collection<T> removeEventByType(Class<? extends Event> type) {
+		Collection<T> toReturn = new ArrayList<T>(this.getEvents().size());
+		for (T event : this.getEvents()) {
+			if (type.isInstance(event)) {
+				toReturn.add(this.removeEvent(event));
+			}
+		}
+		return toReturn;
+	}
 
 	public default Collection<T> clear() {
 		return removeEventByType(Event.class);
 	}
-	
+
 }

@@ -1,5 +1,6 @@
 package io.github.trulyfree.modular.module;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -61,7 +62,8 @@ public interface ModifiableParentModule<T extends Module> extends ParentModule<T
 
 	/**
 	 * Method to be called in order to remove all of a type of module from the
-	 * children of this parent module.
+	 * children of this parent module. A suggested implementation has been
+	 * provided, but implementations may differ on the approach chosen.
 	 * 
 	 * @param type
 	 *            The type of module to remove. Note that this should respect
@@ -69,7 +71,15 @@ public interface ModifiableParentModule<T extends Module> extends ParentModule<T
 	 * @return removed The module(s) removed by this operation. If no module is
 	 *         removed, this should return an empty collection of modules.
 	 */
-	public Collection<T> removeModuleByType(Class<? extends Module> type);
+	public default Collection<T> removeModuleByType(Class<? extends Module> type) {
+		Collection<T> toReturn = new ArrayList<T>(this.getChildren().size());
+		for (T module : this.getChildren()) {
+			if (type.isInstance(module)) {
+				toReturn.add(this.removeModule(module));
+			}
+		}
+		return toReturn;
+	}
 
 	/**
 	 * Method to be called in order to remove all children of this parent
