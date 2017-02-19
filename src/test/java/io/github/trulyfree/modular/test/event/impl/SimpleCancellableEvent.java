@@ -1,7 +1,7 @@
 package io.github.trulyfree.modular.test.event.impl;
 
-import io.github.trulyfree.modular.event.Cancellable;
 import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.general.Cancellable;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE

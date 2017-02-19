@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.event;
+package io.github.trulyfree.modular.general;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
