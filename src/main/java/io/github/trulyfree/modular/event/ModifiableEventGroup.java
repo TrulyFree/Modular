@@ -38,8 +38,8 @@ public interface ModifiableEventGroup<T extends Event> extends EventGroup<T> {
 		return toReturn;
 	}
 
-	public default Collection<T> clear() {
-		return removeEventByType(Event.class);
+	public default void clear() {
+		removeEventByType(Event.class);
 	}
 
 }

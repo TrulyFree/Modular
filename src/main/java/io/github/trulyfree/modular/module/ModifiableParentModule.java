@@ -89,12 +89,9 @@ public interface ModifiableParentModule<T extends Module> extends ParentModule<T
 	 * quick-and-dirty way to convert this modifiable parent module into a
 	 * unmodifiable parent module by constructing an implementation of
 	 * ParentModule to with the collection returned.
-	 * 
-	 * @return removed The module(s) removed by this operation. If no module is
-	 *         removed, this should return an empty collection of modules.
 	 */
-	public default Collection<T> clear() {
-		return removeModuleByType(Module.class);
+	public default void clear() {
+		removeModuleByType(Module.class);
 	}
 
 }
