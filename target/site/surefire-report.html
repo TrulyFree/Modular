@@ -78,12 +78,12 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
-<td>43</td>
+<td>48</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.002</td></tr></table><br />
+<td>0.003</td></tr></table><br />
 <p>Note: failures are anticipated and checked for with assertions while errors are unanticipated.</p><br /></div>
 <div class="section">
 <h2><a name="Package_List"></a>Package List</h2><a name="Package_List"></a>
@@ -99,12 +99,12 @@ function toggleDisplay(elementId) {
 <th>Time</th></tr>
 <tr class="b">
 <td><a href="#io.github.trulyfree.modular.test.event">io.github.trulyfree.modular.test.event</a></td>
-<td>32</td>
+<td>37</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.002</td></tr>
+<td>0.003</td></tr>
 <tr class="a">
 <td><a href="#io.github.trulyfree.modular.test.module">io.github.trulyfree.modular.test.module</a></td>
 <td>11</td>
@@ -127,6 +127,15 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
+<td><a href="#io.github.trulyfree.modular.test.eventCancellableTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
+<td><a href="#io.github.trulyfree.modular.test.eventCancellableTest">CancellableTest</a></td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+<td>0.001</td></tr>
+<tr class="a">
 <td><a href="#io.github.trulyfree.modular.test.eventEventGroupTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#io.github.trulyfree.modular.test.eventEventGroupTest">EventGroupTest</a></td>
 <td>5</td>
@@ -135,7 +144,7 @@ function toggleDisplay(elementId) {
 <td>0</td>
 <td>100%</td>
 <td>0.001</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#io.github.trulyfree.modular.test.eventEventPriorityTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#io.github.trulyfree.modular.test.eventEventPriorityTest">EventPriorityTest</a></td>
 <td>5</td>
@@ -143,8 +152,8 @@ function toggleDisplay(elementId) {
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.001</td></tr>
-<tr class="b">
+<td>0</td></tr>
+<tr class="a">
 <td><a href="#io.github.trulyfree.modular.test.eventEventTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#io.github.trulyfree.modular.test.eventEventTest">EventTest</a></td>
 <td>5</td>
@@ -153,7 +162,7 @@ function toggleDisplay(elementId) {
 <td>0</td>
 <td>100%</td>
 <td>0</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#io.github.trulyfree.modular.test.eventPrioritizedEventGroupTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#io.github.trulyfree.modular.test.eventPrioritizedEventGroupTest">PrioritizedEventGroupTest</a></td>
 <td>7</td>
@@ -162,7 +171,7 @@ function toggleDisplay(elementId) {
 <td>0</td>
 <td>100%</td>
 <td>0</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#io.github.trulyfree.modular.test.eventPrioritizedEventTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#io.github.trulyfree.modular.test.eventPrioritizedEventTest">PrioritizedEventTest</a></td>
 <td>10</td>
@@ -170,7 +179,7 @@ function toggleDisplay(elementId) {
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0</td></tr></table></div>
+<td>0.001</td></tr></table></div>
 <div class="section">
 <h3><a name="io.github.trulyfree.modular.test.module"></a>io.github.trulyfree.modular.test.module</h3><a name="io.github.trulyfree.modular.test.module"></a>
 <table border="1" class="bodyTable">
@@ -205,12 +214,35 @@ function toggleDisplay(elementId) {
 <h2><a name="Test_Cases"></a>Test Cases</h2><a name="Test_Cases"></a>
 <p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p>
 <div class="section">
+<h3><a name="CancellableTest"></a>CancellableTest</h3><a name="io.github.trulyfree.modular.test.eventCancellableTest"></a>
+<table border="1" class="bodyTable">
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_io.github.trulyfree.modular.test.event.CancellableTest.stage0_verifyNoAction"></a>stage0_verifyNoAction</td>
+<td>0.001</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_io.github.trulyfree.modular.test.event.CancellableTest.stage1_testSetCancelled"></a>stage1_testSetCancelled</td>
+<td>0</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_io.github.trulyfree.modular.test.event.CancellableTest.stage2_verifySetCancelled"></a>stage2_verifySetCancelled</td>
+<td>0</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_io.github.trulyfree.modular.test.event.CancellableTest.stage3_testSetCancelledFalse"></a>stage3_testSetCancelledFalse</td>
+<td>0</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_io.github.trulyfree.modular.test.event.CancellableTest.stage4_verifySetCancelledFalse"></a>stage4_verifySetCancelledFalse</td>
+<td>0</td></tr></table></div>
+<div class="section">
 <h3><a name="EventGroupTest"></a>EventGroupTest</h3><a name="io.github.trulyfree.modular.test.eventEventGroupTest"></a>
 <table border="1" class="bodyTable">
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventGroupTest.stage0_verifyNoAction"></a>stage0_verifyNoAction</td>
-<td>0.001</td></tr>
+<td>0</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventGroupTest.stage1_testEnactNextEvent"></a>stage1_testEnactNextEvent</td>
@@ -218,7 +250,7 @@ function toggleDisplay(elementId) {
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventGroupTest.stage2_verifyEnactNextEvent"></a>stage2_verifyEnactNextEvent</td>
-<td>0</td></tr>
+<td>0.001</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventGroupTest.stage3_testEnactNextEvent"></a>stage3_testEnactNextEvent</td>
@@ -233,7 +265,7 @@ function toggleDisplay(elementId) {
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventPriorityTest.stage0_verifyNoAction"></a>stage0_verifyNoAction</td>
-<td>0.001</td></tr>
+<td>0</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.EventPriorityTest.stage1_shufflePriorities"></a>stage1_shufflePriorities</td>
@@ -338,7 +370,7 @@ function toggleDisplay(elementId) {
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.PrioritizedEventTest.stage7_verifySetPriority"></a>stage7_verifySetPriority</td>
-<td>0</td></tr>
+<td>0.001</td></tr>
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td><a name="TC_io.github.trulyfree.modular.test.event.PrioritizedEventTest.stage8_testCompareToOtherPrioritized"></a>stage8_testCompareToOtherPrioritized</td>
