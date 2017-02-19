@@ -1,17 +1,17 @@
 #!/bin/bash
 
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
-SITE_DIR="site"
+SITE_DIR="site/"
 MSG="$1"
 PUSH="$2"
 BRANCH="gh-pages"
 
 cd "$TARGET_DIR"
 
-cp -rv target/site/* site/
-mv -v site/surefire-report.html site/index.html
+cp -rv target/site/* "$SITE_DIR"
 
 cd "$SITE_DIR"
+mv -v surefire-report.html index.html
 
 git show-ref --verify --quiet refs/heads/"$BRANCH"
 if [[ $? -ne 0 ]]; then
