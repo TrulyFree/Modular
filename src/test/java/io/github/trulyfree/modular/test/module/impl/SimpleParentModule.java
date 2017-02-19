@@ -29,7 +29,7 @@ public class SimpleParentModule extends SimpleModule implements ParentModule<Sim
 	}
 
 	public static List<SimpleModule> children;
-	
+
 	@Override
 	public boolean setup() {
 		children = new ArrayList<SimpleModule>();

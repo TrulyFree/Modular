@@ -29,14 +29,14 @@ import io.github.trulyfree.modular.general.Cancellable;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CancellableTest {
-	
+
 	private static Cancellable cancellable;
-	
+
 	@BeforeClass
 	public static void setup() {
 		cancellable = new Cancellable() {
 			private boolean cancelled;
-			
+
 			@Override
 			public boolean setCancelled(boolean cancelled) {
 				this.cancelled = cancelled;
@@ -49,35 +49,35 @@ public class CancellableTest {
 			}
 		};
 	}
-	
+
 	@Test
 	public void stage0_verifyNoAction() {
 		assertFalse(cancellable.isCancelled());
 	}
-	
+
 	@Test
 	public void stage1_testSetCancelled() {
 		assertTrue(cancellable.setCancelled(true));
 	}
-	
+
 	@Test
 	public void stage2_verifySetCancelled() {
 		assertTrue(cancellable.isCancelled());
 	}
-	
+
 	@Test
 	public void stage3_testSetCancelledFalse() {
 		assertTrue(cancellable.setCancelled(false));
 	}
-	
+
 	@Test
 	public void stage4_verifySetCancelledFalse() {
 		stage0_verifyNoAction();
 	}
-	
+
 	@AfterClass
 	public static void destroy() {
 		cancellable = null;
 	}
-	
+
 }

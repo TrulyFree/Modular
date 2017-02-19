@@ -31,54 +31,54 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParentModuleTest {
-	
+
 	private static ParentModule<SimpleModule> module;
-	
+
 	@BeforeClass
 	public static void setup() {
 		module = new SimpleParentModule(1);
 	}
-	
+
 	@Test
 	public void stage0_verifyNoAction() {
 		assertEquals(SimpleModule.someValue, 0);
 		assertEquals(SimpleParentModule.children, null);
 		assertFalse(module.isReady());
 	}
-	
+
 	@Test
 	public void stage1_testSetup() {
 		assertTrue(module.setup());
 	}
-	
+
 	@Test
 	public void stage2_verifySetup() {
 		assertEquals(1, SimpleModule.someValue);
 		assertNotEquals(null, SimpleParentModule.children);
 		assertTrue(module.isReady());
 	}
-	
+
 	@Test
 	public void stage3_testGetChildren() {
 		assertEquals(SimpleParentModule.children, ((ParentModule<SimpleModule>) module).getChildren());
 	}
-	
+
 	@Test
 	public void stage4_testDestroy() {
 		assertTrue(module.destroy());
 	}
-	
+
 	@Test
 	public void stage5_verifyDestroy() {
 		assertEquals(0, SimpleModule.someValue);
 		assertEquals(null, SimpleParentModule.children);
 		assertFalse(module.isReady());
 	}
-	
+
 	@AfterClass
 	public static void destroy() {
 		SimpleModule.someValue = 0;
 		SimpleParentModule.children = null;
 	}
-	
+
 }

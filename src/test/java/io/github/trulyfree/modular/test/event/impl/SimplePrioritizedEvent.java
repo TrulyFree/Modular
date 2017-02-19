@@ -21,9 +21,9 @@ import io.github.trulyfree.modular.event.PrioritizedEvent;
  */
 
 public abstract class SimplePrioritizedEvent implements PrioritizedEvent {
-	
+
 	private EventPriority priority;
-	
+
 	public SimplePrioritizedEvent(EventPriority priority) {
 		setPriority(priority);
 	}

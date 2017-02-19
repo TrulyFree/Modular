@@ -22,14 +22,14 @@ import io.github.trulyfree.modular.module.Module;
 public class SimpleModule implements Module {
 
 	public static int someValue;
-	
+
 	private final int setValue;
 	private boolean ready;
-	
+
 	public SimpleModule(int value) {
 		this.setValue = value;
 	}
-	
+
 	@Override
 	public boolean setup() {
 		someValue = setValue;

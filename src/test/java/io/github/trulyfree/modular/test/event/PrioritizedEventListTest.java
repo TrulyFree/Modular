@@ -96,24 +96,24 @@ public class PrioritizedEventListTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void stage4_orderEvents() {
 		Collections.sort(eventList);
 	}
-	
+
 	@Test
 	public void stage5_verifyOrderEvents() {
 		for (int i = 0; i < eventList.size(); i++) {
 			assertEquals(0, eventList.get(i).compareTo(compare.get(i)));
 		}
 	}
-	
+
 	@Test
 	public void stage6_testAndVerifyEnactEach() {
 		stage1_testAndVerifyEnactEach();
 	}
-	
+
 	@AfterClass
 	public static void destroy() {
 		eventList = null;

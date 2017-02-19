@@ -27,13 +27,13 @@ import io.github.trulyfree.modular.event.EventGroup;
 public class SimpleEventGroup implements EventGroup<Event> {
 
 	private List<Event> events;
-	
+
 	public SimpleEventGroup(List<Event> events) {
 		this.events = events;
 	}
-	
+
 	@Override
-	public boolean enactNextEvent() {		
+	public boolean enactNextEvent() {
 		return events.remove(0).enact();
 	}
 

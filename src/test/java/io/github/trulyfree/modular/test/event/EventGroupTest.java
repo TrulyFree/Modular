@@ -45,7 +45,7 @@ public class EventGroupTest {
 		modified = 0;
 
 		Event event1, event2;
-		
+
 		event1 = new Event() {
 			@Override
 			public boolean enact() {
@@ -61,11 +61,11 @@ public class EventGroupTest {
 				return true;
 			}
 		};
-		
+
 		List<Event> events = new ArrayList<Event>(2);
 		events.add(event1);
 		events.add(event2);
-		
+
 		eg = new SimpleEventGroup(events);
 	}
 
@@ -99,5 +99,5 @@ public class EventGroupTest {
 		modified = 0;
 		eg = null;
 	}
-	
+
 }

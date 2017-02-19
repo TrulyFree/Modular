@@ -51,7 +51,7 @@ public class PrioritizedEventTest {
 				return true;
 			}
 		};
-		
+
 		event1 = new SimplePrioritizedEvent(DIRE) {
 			@Override
 			public boolean enact() {
@@ -93,32 +93,32 @@ public class PrioritizedEventTest {
 	public void stage4_verifyEnact() {
 		assertEquals(0, modified);
 	}
-	
+
 	@Test
 	public void stage5_testGetPriority() {
 		assertTrue(event1.getPriority() == DIRE);
 		assertTrue(event2.getPriority() == AESTHETIC);
 	}
-	
+
 	@Test
 	public void stage6_testSetPriority() {
 		assertTrue(event1.setPriority(HIGH));
 		assertTrue(event2.setPriority(IMPORTANT));
 	}
-	
+
 	@Test
 	public void stage7_verifySetPriority() {
 		assertTrue(event1.getPriority() == HIGH);
 		assertTrue(event2.getPriority() == IMPORTANT);
 	}
-	
+
 	@Test
 	public void stage8_testCompareToOtherPrioritized() {
 		assertEquals(event1.compareTo(event2), 1);
 		assertEquals(event2.compareTo(event1), -1);
 		assertEquals(event1.compareTo(event1), 0);
 	}
-	
+
 	@Test
 	public void stage9_testCompareToStandardEvent() {
 		assertEquals(event1.compareTo(event0), 1);
