@@ -19,6 +19,6 @@ package io.github.trulyfree.modular.event;
 
 public interface ModifiableEventGroup<T extends Event> extends EventGroup<T> {
 
-	public boolean addEvent();
+	public boolean add(T event);
 	
 }
