@@ -3,8 +3,8 @@
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 MVN_OPTIONS_PROMPT="Maven arguments? "
 MSG="$1"
-PUSH="$2"
-BRANCH_PROMPT="Branch? "
+BRANCH="$2"
+PUSH="$3"
 
 cd "$TARGET_DIR"
 
@@ -16,14 +16,11 @@ mvn $mvn_opt
 mvn surefire-report:report-only
 mvn site -DgenerateReports=false
 
-echo -n "$BRANCH_PROMPT"
-read branch
-
-git show-ref --verify --quiet refs/heads/"$branch"
+git show-ref --verify --quiet refs/heads/"$BRANCH"
 if [[ $? -ne 0 ]]; then
-	git checkout -b "$branch"
+	git checkout -b "$BRANCH"
 else
-	git checkout "$branch"
+	git checkout "$BRANCH"
 fi
 
 git add -A
@@ -31,5 +28,5 @@ git commit -m "$MSG"
 
 if [[ $PUSH =~ ^[Yy]$ ]]
 then
-	git push origin "$branch"
+	git push origin "$BRANCH"
 fi
