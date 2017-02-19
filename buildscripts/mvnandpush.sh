@@ -2,7 +2,7 @@
 
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 MVN_OPTIONS_PROMPT="Maven arguments? "
-JAVADOCS_PROMPT="Build javadocs? "
+JAVADOCS_PROMPT="Build javadocs? [Y/n] "
 MSG="$1"
 BRANCH="$2"
 PUSH="$3"
@@ -20,6 +20,7 @@ mvn clean
 if [[ $javadocs =~ ^[Yy]$ ]]
 then
 	mvn javadoc:javadoc
+	mvn javadoc:test-javadoc
 fi
 
 mvn $mvn_opt
