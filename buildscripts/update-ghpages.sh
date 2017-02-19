@@ -3,8 +3,8 @@
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 SITE_DIR="site"
 MSG="$1"
+PUSH="$2"
 BRANCH="gh-pages"
-PUSH_PROMPT="Push to remote? [Y/n] "
 
 cd "$TARGET_DIR"
 
@@ -23,9 +23,7 @@ fi
 git add -A
 git commit -m "$MSG"
 
-echo -n "$PUSH_PROMPT"
-read reply
-if [[ $reply =~ ^[Yy]$ ]]
+if [[ $PUSH =~ ^[Yy]$ ]]
 then
 	git push origin "$BRANCH"
 fi

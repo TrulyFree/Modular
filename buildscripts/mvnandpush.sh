@@ -3,8 +3,8 @@
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 MVN_OPTIONS_PROMPT="Maven arguments? "
 MSG="$1"
+PUSH="$2"
 BRANCH_PROMPT="Branch? "
-PUSH_PROMPT="Push to remote? [Y/n] "
 
 cd "$TARGET_DIR"
 
@@ -29,9 +29,7 @@ fi
 git add -A
 git commit -m "$MSG"
 
-echo -n "$PUSH_PROMPT"
-read reply
-if [[ $reply =~ ^[Yy]$ ]]
+if [[ $PUSH =~ ^[Yy]$ ]]
 then
 	git push origin "$branch"
 fi
