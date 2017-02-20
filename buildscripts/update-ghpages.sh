@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../"
-SITE_DIR="$TARGET_DIR""site/"
+SITE_DIR="site/"
 MSG="$1"
 PUSH="$2"
 BRANCH="gh-pages"
