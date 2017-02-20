@@ -17,6 +17,16 @@ package io.github.trulyfree.modular.general;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Forkable interface. All modules or events which will run strictly on separate
+ * threads should implement this interface. It is highly suggested that Forkable
+ * Event implementations be an EventGroup in order to have an easy
+ * implementation for safeHalt. Forkable Cancellable Events should not end
+ * execution after being enacted if they are set to cancelled mid-execution.
+ * 
+ * @author vtcakavsmoace
+ *
+ */
 public interface Forkable {
 
 	public boolean safeHalt();
