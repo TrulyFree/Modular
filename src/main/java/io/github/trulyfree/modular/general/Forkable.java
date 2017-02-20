@@ -28,9 +28,36 @@ package io.github.trulyfree.modular.general;
  *
  */
 public interface Forkable {
-	
+
+	/**
+	 * Method to be called in order to safely halt the Forkable instance at the
+	 * next convienient process interval. It is suggested that Forkable Event
+	 * implementations be EventGroups such that the safeHalt method cause the
+	 * Forkable instance to halt between events, where events would represent a
+	 * "single action".
+	 * 
+	 * @return success A boolean representing whether or not the halting
+	 *         operation succeeded. This should always halt the current thread
+	 *         until the forked thread is suspended. False should only be
+	 *         returned if an throwable is thrown within this method, which the
+	 *         method should catch.
+	 */
 	public boolean safeHalt();
 
+	/**
+	 * Method to be called in order to immediately halt the Forkable instance,
+	 * regardless of its current operation. This method is inherently unsafe,
+	 * and should not be called except in situations of DIRE or MAX priority.
+	 * 
+	 * @return success A boolean representing whether or not the halting
+	 *         operation succeeded. This should only return false if an
+	 *         throwable is thrown before the forked operation is halted, in
+	 *         which case it should be caught and the method return false.
+	 * @throws Exception
+	 *             Any exception thrown by the halting process itself should NOT
+	 *             be caught and instead should be transferred to the method
+	 *             which calls this.
+	 */
 	public boolean immediateHalt() throws Exception;
 
 }
