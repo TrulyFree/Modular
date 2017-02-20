@@ -17,6 +17,13 @@ package io.github.trulyfree.modular.event;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * EventPriority helper enum. Defines the possible priority states of events for
+ * use in manipulating the order of PrioritizedEvents.
+ * 
+ * @author vtcakavsmoace
+ *
+ */
 public enum EventPriority {
 	AESTHETIC, MINIMAL, LOW, MEDIUM, IMPORTANT, HIGH, DIRE, MAX;
 }
