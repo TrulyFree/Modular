@@ -24,7 +24,11 @@ BRANCH="gh-pages"
 
 cd "$TARGET_DIR"
 
-rm -rv "$SITE_DIR""*"
+rm -rv "$SITE_DIR""index.html"
+rm -rv "$SITE_DIR""css"
+rm -rv "$SITE_DIR""images"
+rm -rv "$SITE_DIR""apidocs"
+rm -rv "$SITE_DIR""testapidocs"
 
 cp -rv target/site/* "$SITE_DIR"
 
