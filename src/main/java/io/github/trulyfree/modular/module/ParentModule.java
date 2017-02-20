@@ -38,12 +38,12 @@ public interface ParentModule<T extends Module> extends Module {
 	/**
 	 * Method to be called in order to retrieve the children of this interface.
 	 * The collection returned should NOT be capable of modifying the module's
-	 * child modules.
+	 * child modules. Instead, should this behavior be intended, the user should
+	 * implement the ModifiableParentModule interface.
 	 * 
 	 * @return children The child modules of this module. Note that
-	 *         modifications this collection should NOT modify the children of
-	 *         the parent module. Instead, should this behavior be intended, the
-	 *         user should implement the ModifiableParentModule interface.
+	 *         modifications to this collection should NOT modify the children of
+	 *         the parent module.
 	 */
 	Collection<T> getChildren();
 

@@ -34,7 +34,7 @@ public interface Forkable {
 	 * next convienient process interval. It is suggested that Forkable Event
 	 * implementations be EventGroups such that the safeHalt method cause the
 	 * Forkable instance to halt between events, where events would represent a
-	 * "single action".
+	 * "single action". Consider: <code>if (!halted) enactNextEvent();</code>
 	 * 
 	 * @return success A boolean representing whether or not the halting
 	 *         operation succeeded. This should always halt the current thread

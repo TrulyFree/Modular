@@ -19,12 +19,47 @@ import java.util.Collection;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * EventGroup interface. All events which are related in some way should be
+ * packaged in an EventGroup. Depending on the usage of EventHandlers, it may be
+ * efficient to use an implementation which also implements "Event", by which
+ * the "enact" method loops throughout the events contained within this event
+ * group and enacts them all.
+ * 
+ * @author vtcakavsmoace
+ *
+ * @param <T>
+ *            The type of Event supported by this EventGroup.
+ */
 public interface EventGroup<T extends Event> {
 
+	/**
+	 * Method to be called in order to enact the next Event contained by this
+	 * EventGroup. This method should be preferred over iterating through the
+	 * children and executing them individually in an external class.
+	 * 
+	 * @return success A boolean representing the success of the event enacted.
+	 */
 	public boolean enactNextEvent();
 
+	/**
+	 * Method to be called in order to check the number of events held by this
+	 * EventGroup in total, including those already enacted.
+	 * 
+	 * @return size The number of events held by this EventGroup.
+	 */
 	public int size();
 
+	/**
+	 * Method to be called in order to retrieve the events held by this
+	 * EventGroup, including those already enacted. The collection returned
+	 * should NOT be capable of modifying the EventGroup's internal Event
+	 * collection. If the EventGroup is intended to be modifiable, the user
+	 * should implement the ModifiableEventGroup interface.
+	 * 
+	 * @return events The events of this EventGroup. Note that modifications to
+	 *         this collection should NOT modify the events of the EventGroup.
+	 */
 	public Collection<T> getEvents();
 
 }
