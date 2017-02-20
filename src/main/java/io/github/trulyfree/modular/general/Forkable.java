@@ -28,9 +28,9 @@ package io.github.trulyfree.modular.general;
  *
  */
 public interface Forkable {
-
+	
 	public boolean safeHalt();
 
-	public boolean immediateHalt();
+	public boolean immediateHalt() throws Exception;
 
 }
