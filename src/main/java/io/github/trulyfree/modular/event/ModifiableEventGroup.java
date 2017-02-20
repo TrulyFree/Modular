@@ -88,7 +88,9 @@ public interface ModifiableEventGroup<T extends Event> extends EventGroup<T> {
 	 * according to need.
 	 */
 	public default void clear() {
-		removeEventByType(Event.class);
+		for (T event : this.getEvents()) {
+			this.removeEvent(event);
+		}
 	}
 
 }

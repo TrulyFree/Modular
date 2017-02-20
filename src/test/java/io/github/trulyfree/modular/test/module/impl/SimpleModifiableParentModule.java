@@ -70,8 +70,9 @@ public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T>
 
 	@Override
 	public void clear() {
-		removeModuleByType(Module.class); // Force ModifiableParentModule
-											// implementation
+		for (T module : this.getChildren()) {
+			this.removeModule(module);
+		}
 	}
 
 }

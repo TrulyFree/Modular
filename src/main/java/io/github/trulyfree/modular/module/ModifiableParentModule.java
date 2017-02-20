@@ -91,7 +91,9 @@ public interface ModifiableParentModule<T extends Module> extends ParentModule<T
 	 * ParentModule to with the collection returned.
 	 */
 	public default void clear() {
-		removeModuleByType(Module.class);
+		for (T module : this.getChildren()) {
+			this.removeModule(module);
+		}
 	}
 
 }
