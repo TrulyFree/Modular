@@ -31,7 +31,9 @@ rm -rv "$SITE_DIR""testapidocs"
 
 mkdir -p "$SITE_DIR""$TEST_TYPE""-tests"
 
-cp -rv target/site/* "$SITE_DIR""$TEST_TYPE""-tests/"
+cp -rv target/site/apidocs "$SITE_DIR"apidocs
+cp -rv target/site/testapidocs "$SITE_DIR"testapidocs
+cp -rv target/site/css target/site/images target/site/surefire-report.html "$SITE_DIR""$TEST_TYPE""-tests/"
 
 cd "$SITE_DIR"
 mv -v "$TEST_TYPE""-tests/"surefire-report.html "$TEST_TYPE""-tests/"index.html
