@@ -47,6 +47,10 @@ public interface PrioritizedEvent extends Event, Comparable<Event> {
 	 */
 	public EventPriority getPriority();
 
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public default int compareTo(Event event) {
 		if (event instanceof PrioritizedEvent) {
