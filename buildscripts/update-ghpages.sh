@@ -29,7 +29,7 @@ rm -rv "$SITE_DIR""$TEST_TYPE""-tests"
 rm -rv "$SITE_DIR""apidocs"
 rm -rv "$SITE_DIR""testapidocs"
 
-mkdir -p "$SITE_DIR""tests"
+mkdir -p "$SITE_DIR""$TEST_TYPE""-tests"
 
 cp -rv target/site/* "$SITE_DIR""$TEST_TYPE""-tests/"
 
