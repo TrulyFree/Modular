@@ -27,14 +27,17 @@ import io.github.trulyfree.modular.event.EventGroup;
 public class SimpleEventGroup implements EventGroup<Event> {
 
 	private List<Event> events;
+	
+	private int current;
 
 	public SimpleEventGroup(List<Event> events) {
 		this.events = events;
+		current = 0;
 	}
 
 	@Override
 	public boolean enactNextEvent() {
-		return events.remove(0).enact();
+		return events.get(next()).enact();
 	}
 
 	@Override
@@ -49,6 +52,13 @@ public class SimpleEventGroup implements EventGroup<Event> {
 			events.add(event);
 		}
 		return events;
+	}
+	
+	private int next() {
+		final int intermediary = current;
+		current++;
+		current %= this.size();
+		return intermediary;
 	}
 
 }
