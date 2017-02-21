@@ -19,21 +19,22 @@
 TARGET_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../"
 SITE_DIR="site/"
 MSG="$1"
-PUSH="$2"
+TEST_TYPE="$2"
+PUSH="$3"
 BRANCH="gh-pages"
 
 cd "$TARGET_DIR"
 
-rm -rv "$SITE_DIR""index.html"
-rm -rv "$SITE_DIR""css"
-rm -rv "$SITE_DIR""images"
+rm -rv "$SITE_DIR""$TEST_TYPE""-tests"
 rm -rv "$SITE_DIR""apidocs"
 rm -rv "$SITE_DIR""testapidocs"
 
-cp -rv target/site/* "$SITE_DIR"
+mkdir -p "$SITE_DIR""tests"
+
+cp -rv target/site/* "$SITE_DIR""$TEST_TYPE""-tests/"
 
 cd "$SITE_DIR"
-mv -v surefire-report.html index.html
+mv -v "$TEST_TYPE""-tests/"surefire-report.html "$TEST_TYPE""-tests/"index.html
 
 git show-ref --verify --quiet refs/heads/"$BRANCH"
 if [[ $? -ne 0 ]]; then

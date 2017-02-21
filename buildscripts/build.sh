@@ -40,5 +40,5 @@ buildscripts/mvnandpush.sh "$msg" "$branch" "$push"
 
 if [[ $ghpages =~ ^[Yy]$ ]]
 then
-	buildscripts/update-ghpages.sh "$msg" "$push"
+	buildscripts/update-ghpages.sh "$msg" "$branch" "$push"
 fi
