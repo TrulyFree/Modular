@@ -93,7 +93,7 @@ public class ModifiableEventGroupTest {
 			expected++;
 		}
 	}
-	
+
 	@Test
 	public void stage3_1_testAndVerifyEnactEachEvent() {
 		for (int expected = 1; expected < meg.size() + 1; expected++) {
