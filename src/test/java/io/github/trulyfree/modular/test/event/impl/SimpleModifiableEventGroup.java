@@ -19,17 +19,17 @@ public class SimpleModifiableEventGroup<T extends Event> implements ModifiableEv
 	}
 	
 	@Override
-	public boolean enactNextEvent() {
+	public synchronized boolean enactNextEvent() {
 		return events.get(next()).enact();
 	}
 
 	@Override
-	public int size() {
+	public synchronized int size() {
 		return events.size();
 	}
 
 	@Override
-	public Collection<T> getEvents() {
+	public synchronized Collection<T> getEvents() {
 		Collection<T> events = new ArrayList<T>(size());
 		for (T event : this.events) {
 			events.add(event);
@@ -38,12 +38,12 @@ public class SimpleModifiableEventGroup<T extends Event> implements ModifiableEv
 	}
 
 	@Override
-	public boolean addEvent(T event) {
+	public synchronized boolean addEvent(T event) {
 		return events.add(event);
 	}
 
 	@Override
-	public T removeEvent(T event) {
+	public synchronized T removeEvent(T event) {
 		int index = events.indexOf(event);
 		if (index == -1) {
 			return null;
@@ -51,6 +51,22 @@ public class SimpleModifiableEventGroup<T extends Event> implements ModifiableEv
 			T toReturn = events.get(index);
 			events.remove(index);
 			return toReturn;
+		}
+	}
+
+	@Override
+	public synchronized void enactAllOfType(Class<? extends T> type) {
+		for (T event : events) {
+			if (type.isInstance(event)) {
+				event.enact();
+			}
+		}
+	}
+
+	@Override
+	public synchronized void enactAll() {
+		for (T event : events) {
+			event.enact();
 		}
 	}
 	

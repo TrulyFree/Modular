@@ -24,13 +24,13 @@ import io.github.trulyfree.modular.event.EventGroup;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleEventGroup implements EventGroup<Event> {
+public class SimpleEventGroup<T extends Event> implements EventGroup<T> {
 
-	private List<Event> events;
+	private List<T> events;
 	
 	private int current;
 
-	public SimpleEventGroup(List<Event> events) {
+	public SimpleEventGroup(List<T> events) {
 		this.events = events;
 		current = 0;
 	}
@@ -46,12 +46,28 @@ public class SimpleEventGroup implements EventGroup<Event> {
 	}
 
 	@Override
-	public Collection<Event> getEvents() {
-		Collection<Event> events = new ArrayList<Event>(size());
-		for (Event event : this.events) {
+	public Collection<T> getEvents() {
+		Collection<T> events = new ArrayList<T>(size());
+		for (T event : this.events) {
 			events.add(event);
 		}
 		return events;
+	}
+
+	@Override
+	public void enactAllOfType(Class<? extends T> type) {
+		for (T event : events) {
+			if (type.isInstance(event)) {
+				event.enact();
+			}
+		}
+	}
+
+	@Override
+	public void enactAll() {
+		for (T event : events) {
+			event.enact();
+		}
 	}
 	
 	private int next() {

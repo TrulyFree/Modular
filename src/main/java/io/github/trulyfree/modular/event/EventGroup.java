@@ -36,7 +36,7 @@ public interface EventGroup<T extends Event> {
 	/**
 	 * Method to be called in order to enact the next Event contained by this
 	 * EventGroup. This method should be preferred over iterating through the
-	 * children and executing them individually in an external class.
+	 * children and executing them individually in an external class. As opposed to 
 	 * 
 	 * @return success A boolean representing the success of the event enacted.
 	 */
@@ -61,5 +61,9 @@ public interface EventGroup<T extends Event> {
 	 *         this collection should NOT modify the events of the EventGroup.
 	 */
 	public Collection<T> getEvents();
+	
+	public void enactAllOfType(Class<? extends T> type);
+
+	public void enactAll();
 
 }
