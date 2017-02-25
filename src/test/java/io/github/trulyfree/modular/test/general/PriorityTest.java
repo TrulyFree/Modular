@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.general;
 
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +32,7 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EventPriorityTest {
+public class PriorityTest {
 
 	private static List<Priority> priorities;
 
