@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.event;
+package io.github.trulyfree.modular.general;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -18,12 +18,12 @@ package io.github.trulyfree.modular.event;
  */
 
 /**
- * EventPriority helper enum. Defines the possible priority states of events for
- * use in manipulating the order of PrioritizedEvents.
+ * Priority helper enum. Defines the possible priority states of various items
+ * for use in manipulating the order of precedence in processing.
  * 
  * @author vtcakavsmoace
  *
  */
-public enum EventPriority {
+public enum Priority {
 	AESTHETIC, MINIMAL, LOW, MEDIUM, IMPORTANT, HIGH, DIRE, MAX;
 }

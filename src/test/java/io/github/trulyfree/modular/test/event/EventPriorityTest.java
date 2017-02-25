@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.github.trulyfree.modular.event.EventPriority;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import io.github.trulyfree.modular.general.Priority;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -34,13 +34,13 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventPriorityTest {
 
-	private static List<EventPriority> priorities;
+	private static List<Priority> priorities;
 
 	@BeforeClass
 	public static void setup() {
-		priorities = new ArrayList<EventPriority>(EventPriority.values().length);
+		priorities = new ArrayList<Priority>(Priority.values().length);
 
-		for (EventPriority priority : EventPriority.values()) {
+		for (Priority priority : Priority.values()) {
 			priorities.add(priority);
 		}
 	}
@@ -48,7 +48,7 @@ public class EventPriorityTest {
 	@Test
 	public void stage0_verifyNoAction() {
 		for (int i = 0; i < priorities.size(); i++) {
-			assertTrue(EventPriority.values()[i] == priorities.get(i));
+			assertTrue(Priority.values()[i] == priorities.get(i));
 		}
 	}
 
@@ -59,7 +59,7 @@ public class EventPriorityTest {
 
 	@Test
 	public void stage2_verifyShufflePriorities() {
-		for (EventPriority priority : EventPriority.values()) {
+		for (Priority priority : Priority.values()) {
 			assertTrue(priorities.contains(priority));
 		}
 	}

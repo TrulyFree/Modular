@@ -1,5 +1,7 @@
 package io.github.trulyfree.modular.event;
 
+import io.github.trulyfree.modular.general.Priority;
+
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
@@ -38,14 +40,14 @@ public interface PrioritizedEvent extends Event, Comparable<Event> {
 	 * @return success A boolean representing the success of the priority
 	 *         setting operation.
 	 */
-	public boolean setPriority(EventPriority priority);
+	public boolean setPriority(Priority priority);
 
 	/**
 	 * Method to be called in order to check the priority of this event.
 	 * 
 	 * @return priority The current priority level of the Event.
 	 */
-	public EventPriority getPriority();
+	public Priority getPriority();
 
 	
 	/* (non-Javadoc)

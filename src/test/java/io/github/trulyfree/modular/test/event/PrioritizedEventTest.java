@@ -1,9 +1,8 @@
 package io.github.trulyfree.modular.test.event;
 
+import static io.github.trulyfree.modular.general.Priority.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import static io.github.trulyfree.modular.event.EventPriority.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

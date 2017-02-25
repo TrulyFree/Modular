@@ -12,8 +12,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.EventPriority;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.general.Priority;
 import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -41,19 +41,19 @@ public class PrioritizedEventListTest {
 
 	@BeforeClass
 	public static void setup() {
-		eventList = new ArrayList<PrioritizedEvent>(EventPriority.values().length);
-		compare = new ArrayList<PrioritizedEvent>(EventPriority.values().length);
+		eventList = new ArrayList<PrioritizedEvent>(Priority.values().length);
+		compare = new ArrayList<PrioritizedEvent>(Priority.values().length);
 
 		for (int i = 0; i < eventList.size(); i++) {
 			final int intermediary = i;
-			eventList.add(new SimplePrioritizedEvent(EventPriority.values()[i]) {
+			eventList.add(new SimplePrioritizedEvent(Priority.values()[i]) {
 				@Override
 				public boolean enact() {
 					modified = intermediary + 1;
 					return true;
 				}
 			});
-			compare.add(new SimplePrioritizedEvent(EventPriority.values()[i]) {
+			compare.add(new SimplePrioritizedEvent(Priority.values()[i]) {
 				@Override
 				public boolean enact() {
 					return true;
