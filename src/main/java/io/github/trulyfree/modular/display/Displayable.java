@@ -22,5 +22,7 @@ import io.github.trulyfree.modular.general.Priority;
 public interface Displayable {
 
 	public Priority getPriority();
+	
+	public boolean setPriority(Priority priority);
 
 }
