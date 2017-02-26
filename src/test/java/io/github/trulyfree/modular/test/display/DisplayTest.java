@@ -22,6 +22,23 @@ import io.github.trulyfree.modular.test.display.impl.SimpleDisplay;
 import io.github.trulyfree.modular.test.display.impl.SimpleDisplayable;
 import io.github.trulyfree.modular.test.display.impl.SimpleDisplayableModule;
 
+/* Modular library by TrulyFree: A general-use module-building library.
+ * Copyright (C) 2016  VTCAKAVSMoACE
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DisplayTest {
 
@@ -43,7 +60,7 @@ public class DisplayTest {
 		successful.setPriorityThreshold(MAX);
 		failure.setPriorityThreshold(MAX);
 	}
-	
+
 	@Test
 	public void stage0_verifyNoAction() {
 		assertNotEquals(null, display);
@@ -53,12 +70,12 @@ public class DisplayTest {
 		assertEquals(11, failure.getDisplayables().size());
 		assertEquals(null, display.getDisplayableModule());
 	}
-	
+
 	@Test
 	public void stage1_0_testSetupDisplay() {
 		assertTrue(display.setup());
 	}
-	
+
 	@Test
 	public void stage1_1_verifySetupDisplay() {
 		assertTrue(display.isReady());
@@ -69,7 +86,7 @@ public class DisplayTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void stage2_0_testSetDisplayableModule() {
 		try {
@@ -78,7 +95,7 @@ public class DisplayTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void stage2_1_verifySetDisplayableModule() {
 		boolean[][] screen = display.getScreen();
@@ -92,20 +109,21 @@ public class DisplayTest {
 		}
 		assertEquals(successful, display.getDisplayableModule());
 	}
-	
+
 	@Test
 	public void stage3_0_testSetDisplayableModuleFailure() {
 		try {
 			display.setDisplayableModule(failure);
 			fail();
-		} catch (DisplayableException e) {}
+		} catch (DisplayableException e) {
+		}
 	}
-	
+
 	@Test
 	public void stage3_1_verifySetDisplayableModuleReversion() {
 		stage2_1_verifySetDisplayableModule();
 	}
-	
+
 	@AfterClass
 	public static void destroy() {
 		display = null;
