@@ -19,10 +19,11 @@ public class ForkableEventTest {
 
 	private static SimpleForkableEvent sfe;
 
-	public static boolean finished;
+	public static volatile boolean finished;
 
 	@Test
 	public void stage0_0_setup() {
+		finished = false;
 		List<Event> events = new ArrayList<Event>();
 		events.add(new Event() {
 
@@ -56,9 +57,33 @@ public class ForkableEventTest {
 	}
 
 	@Test
-	public void stage2_1_verifySafeHalt() {
+	public void stage1_1_verifySafeHalt() {
 		assertTrue(sfe.value > 10000);
 		assertTrue(finished);
+	}
+	
+	@Test
+	public void stage2_0_setupStage2() {
+		stage0_0_setup();
+	}
+	
+	@Test
+	public void stage2_1_testImmediateHalt() {
+		assertTrue(sfe.enact());
+		synchronized (sfe) {
+			try {
+				sfe.wait();
+				assertTrue(sfe.immediateHalt());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Test
+	public void stage2_2_verifyImmediateHalt() {
+		assertTrue(sfe.value > 10000);
+		assertFalse(finished);
 	}
 
 }
