@@ -16,7 +16,7 @@
  */
 
 /**
- * Defines interfaces which have applications throughout the Modular library
- * implementation.
+ * Defines exceptions which deal with the creation and modification of
+ * displayable modules.
  */
-package io.github.trulyfree.modular.general;
+package io.github.trulyfree.modular.display.except;
