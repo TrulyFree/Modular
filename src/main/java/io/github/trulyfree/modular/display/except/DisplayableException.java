@@ -109,7 +109,10 @@ public class DisplayableException extends Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(message);
 		sb.append(": ");
+		sb.append(disp.toString());
+		sb.append(" (");
 		sb.append(disp.getClass().getName());
+		sb.append(")");
 		return sb.toString();
 	}
 
