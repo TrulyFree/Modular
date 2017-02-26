@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.trulyfree</groupId>
 	<artifactId>modular</artifactId>
-	<version>initialdevelopment</version>
+	<version>0.0.1-beta</version>
 	<name>Modular</name>
 	<description>A module framework for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
 	<dependencies>
