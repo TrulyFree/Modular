@@ -24,7 +24,7 @@ import io.github.trulyfree.modular.display.except.DisplayableException;
 public class SimpleDisplay implements Display<SimpleDisplayable> {
 
 	private DisplayableModule<SimpleDisplayable> module;
-	
+
 	private boolean[][] screen;
 
 	@Override
@@ -53,20 +53,24 @@ public class SimpleDisplay implements Display<SimpleDisplayable> {
 	public boolean setDisplayableModule(DisplayableModule<SimpleDisplayable> module) throws DisplayableException {
 		DisplayableModule<SimpleDisplayable> backupModule = this.module;
 		boolean[][] backupScreen = this.screen;
-		SimpleDisplayable cause = null;
-		try {
-			this.module = module;
-			this.screen = new boolean[10][10];
-			for (SimpleDisplayable displayable : module.getDisplayables()) {
-				cause = displayable;
+		this.module = module;
+		this.screen = new boolean[10][10];
+		for (SimpleDisplayable displayable : module.getDisplayables()) {
+			try {
 				this.screen[displayable.getX()][displayable.getY()] = true;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				if (displayable.getPriority().compareTo(module.getPriorityThreshold()) >= 0) {
+					this.module = backupModule;
+					this.screen = backupScreen;
+					throw new DisplayableException(e, displayable);
+				}
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			this.module = backupModule;
-			this.screen = backupScreen;
-			throw new DisplayableException(e, cause);
 		}
 		return true;
+	}
+
+	public boolean[][] getScreen() {
+		return screen;
 	}
 
 }
