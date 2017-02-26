@@ -22,9 +22,9 @@ import io.github.trulyfree.modular.display.Displayable;
 /**
  * UnsupportedDisplayableException class. This exception should be thrown
  * whenever a Display does not support a Displayable instance provided by the
- * DisplayableModule that is below the Display's priority threshold OR when a
- * Displayable instance fails to be rendered. You MUST provide a Displayable
- * instance in order to throw this Exception.
+ * DisplayableModule that is below the DisplayableModule's priority threshold OR
+ * when a Displayable instance fails to be rendered. You MUST provide a
+ * Displayable instance in order to throw this Exception.
  * 
  * @author vtcakavsmoace
  *
