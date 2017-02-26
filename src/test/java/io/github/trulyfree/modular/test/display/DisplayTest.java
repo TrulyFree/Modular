@@ -11,6 +11,7 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -103,6 +104,13 @@ public class DisplayTest {
 	@Test
 	public void stage3_1_verifySetDisplayableModuleReversion() {
 		stage2_1_verifySetDisplayableModule();
+	}
+	
+	@AfterClass
+	public static void destroy() {
+		display = null;
+		successful = null;
+		failure = null;
 	}
 
 }
