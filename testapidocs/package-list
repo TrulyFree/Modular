@@ -1,3 +1,5 @@
+io.github.trulyfree.modular.test.display
+io.github.trulyfree.modular.test.display.impl
 io.github.trulyfree.modular.test.event
 io.github.trulyfree.modular.test.event.impl
 io.github.trulyfree.modular.test.general
