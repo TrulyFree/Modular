@@ -23,25 +23,55 @@ import io.github.trulyfree.modular.module.Module;
  */
 
 /**
+ * DisplayableModule interface. Implementations of this interface will act as a
+ * "parent" for all the Displayables which they monitor, modify, and contain.
+ * DisplayableModules which may also appear as subdisplays (i.e. a LinearLayout
+ * inside of a LinearLayout in Android) should also implement Displayable.
+ * 
  * @author vtcakavsmoace
  *
+ * @param <T>
+ *            The type of displayable supported by the target display or an
+ *            extension thereof.
  */
 public interface DisplayableModule<T extends Displayable> extends Module {
 
 	/**
-	 * @return
+	 * Method to be called in order to retrieve the displayables contained by
+	 * this module. The collection returned should NOT be capable of modifying
+	 * the module's contained displayables. However, the individual displayables
+	 * may be modified with changes that do affect those located within this
+	 * module.
+	 * 
+	 * @return displayables The displayables held by this module.
 	 */
 	public Collection<T> getDisplayables();
-	
+
 	/**
+	 * Method to be called in order to set the intended threshold of priority
+	 * for displayables held within this class. This priority should determine
+	 * whether or not a displayable will be suppressed should it throw a
+	 * DisplayableException during rendering. If the priority threshold returned
+	 * is greater than the priority of the displayable, it will be suppressed,
+	 * otherwise a DisplayableException will be thrown (uncaught).
+	 * 
 	 * @param priority
-	 * @return
+	 *            The new priority threshold of this displayable module.
+	 * @return success A boolean representing the success or failure of the set
+	 *         operation.
 	 */
 	public boolean setPriorityThreshold(Priority priority);
-	
+
 	/**
-	 * @return
+	 * Method to be called in order to get the intended threshold of priority
+	 * for displayables held within this class. This priority should determine
+	 * whether or not a displayable will be suppressed should it throw a
+	 * DisplayableException during rendering. If the priority threshold returned
+	 * is greater than the priority of the displayable, it will be suppressed,
+	 * otherwise a DisplayableException will be thrown (uncaught).
+	 * 
+	 * @return threshold The priority threshold of this displayable module.
 	 */
 	public Priority getPriorityThreshold();
-	
+
 }
