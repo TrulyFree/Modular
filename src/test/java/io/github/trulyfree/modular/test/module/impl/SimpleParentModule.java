@@ -46,7 +46,7 @@ public class SimpleParentModule extends SimpleModule implements ParentModule<Sim
 
 	@Override
 	public List<SimpleModule> getChildren() {
-		return children;
+		return new ArrayList<SimpleModule>(children);
 	}
 
 }

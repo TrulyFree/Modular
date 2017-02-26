@@ -151,7 +151,7 @@ public class ModifiableParentModuleTest {
 	}
 
 	@Test
-	public void stage8_testGetChildren() {
+	public void stage7_1_testGetChildren() {
 		final List<SimpleModule> unmodified = parentModule.getChildren();
 		final List<SimpleModule> modified = parentModule.getChildren();
 		for (int i = 0; i < unmodified.size(); i++) {
