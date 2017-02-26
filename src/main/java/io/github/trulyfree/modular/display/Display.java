@@ -21,22 +21,38 @@ import io.github.trulyfree.modular.module.Module;
  */
 
 /**
+ * Display interface. All Modular programs with displays should define an
+ * implementation of this interface. The task of the implementation is to parse
+ * and display DisplayableModules provided by the module.
+ * 
  * @author vtcakavsmoace
  *
  * @param <T>
+ *            The type of displayable supported by the display.
  */
 public interface Display<T extends Displayable> extends Module {
 
 	/**
-	 * @return
+	 * Method to be called in order to get the current DisplayableModule being
+	 * displayed by this display.
+	 * 
+	 * @return displayableModule The DisplayableModule currently being displayed
+	 *         by this display.
 	 */
 	public DisplayableModule<T> getDisplayableModule();
-	
+
 	/**
-	 * @param displayable
-	 * @return
+	 * Method to be called in order to set the current DisplayableModule being
+	 * displayaed by this display. This method should single-handledly perform
+	 * parsing and rendering for the display.
+	 * 
+	 * @param module
+	 *            The DisplayableModule which is attempting to be displayed.
+	 * @return success The success of this operation. This should return true
+	 *         unless the display is locked into a DisplayableModule.
 	 * @throws DisplayableException
+	 *             if the parsing operation throws a throwable.
 	 */
-	public boolean setDisplayableModule(DisplayableModule<T> displayable) throws DisplayableException;
-	
+	public boolean setDisplayableModule(DisplayableModule<T> module) throws DisplayableException;
+
 }
