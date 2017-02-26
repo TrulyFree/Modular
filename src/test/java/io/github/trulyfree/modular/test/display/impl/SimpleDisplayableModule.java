@@ -27,17 +27,18 @@ import io.github.trulyfree.modular.general.Priority;
 public class SimpleDisplayableModule implements DisplayableModule<SimpleDisplayable> {
 
 	List<SimpleDisplayable> displayables;
-	
+
 	private Priority threshold;
-	
+
 	private boolean setup;
-	
+
 	public SimpleDisplayableModule(Collection<? extends SimpleDisplayable> displayables) {
 		this.displayables = new ArrayList<SimpleDisplayable>(displayables);
 	}
 
 	@Override
 	public boolean setup() {
+		setup = true;
 		return true;
 	}
 
