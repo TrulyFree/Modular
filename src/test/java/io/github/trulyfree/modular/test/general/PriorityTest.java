@@ -53,24 +53,24 @@ public class PriorityTest {
 	}
 
 	@Test
-	public void stage1_shufflePriorities() {
+	public void stage1_0_shufflePriorities() {
 		Collections.reverse(priorities); // We don't want exact list
 	}
 
 	@Test
-	public void stage2_verifyShufflePriorities() {
+	public void stage1_1_verifyShufflePriorities() {
 		for (Priority priority : Priority.values()) {
 			assertTrue(priorities.contains(priority));
 		}
 	}
 
 	@Test
-	public void stage3_orderPriorities() {
+	public void stage2_0_orderPriorities() {
 		Collections.sort(priorities);
 	}
 
 	@Test
-	public void stage4_verifyOrderPriorities() {
+	public void stage2_1_verifyOrderPriorities() {
 		stage0_verifyNoAction();
 	}
 

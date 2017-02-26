@@ -76,12 +76,12 @@ public class PrioritizedEventListTest {
 	}
 
 	@Test
-	public void stage2_shuffleEvents() {
+	public void stage2_0_shuffleEvents() {
 		Collections.reverse(eventList);
 	}
 
 	@Test
-	public void stage3_verifyShuffleEvents() {
+	public void stage2_1_verifyShuffleEvents() {
 		boolean succeed;
 		for (PrioritizedEvent event1 : compare) {
 			succeed = false;
@@ -98,19 +98,19 @@ public class PrioritizedEventListTest {
 	}
 
 	@Test
-	public void stage4_orderEvents() {
+	public void stage3_0_orderEvents() {
 		Collections.sort(eventList);
 	}
 
 	@Test
-	public void stage5_verifyOrderEvents() {
+	public void stage3_1_verifyOrderEvents() {
 		for (int i = 0; i < eventList.size(); i++) {
 			assertEquals(0, eventList.get(i).compareTo(compare.get(i)));
 		}
 	}
 
 	@Test
-	public void stage6_testAndVerifyEnactEach() {
+	public void stage4_testAndVerifyEnactEach() {
 		stage1_testAndVerifyEnactEach();
 	}
 

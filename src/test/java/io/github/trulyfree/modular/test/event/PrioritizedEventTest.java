@@ -74,52 +74,52 @@ public class PrioritizedEventTest {
 	}
 
 	@Test
-	public void stage1_testEnact() {
+	public void stage1_0_testEnact() {
 		assertTrue(event1.enact());
 	}
 
 	@Test
-	public void stage2_verifyEnact() {
+	public void stage1_1_verifyEnact() {
 		assertEquals(1, modified);
 	}
 
 	@Test
-	public void stage3_testEnact() {
+	public void stage2_0_testEnact() {
 		assertTrue(event2.enact());
 	}
 
 	@Test
-	public void stage4_verifyEnact() {
+	public void stage2_1_verifyEnact() {
 		assertEquals(0, modified);
 	}
 
 	@Test
-	public void stage5_testGetPriority() {
+	public void stage3_testGetPriority() {
 		assertTrue(event1.getPriority() == DIRE);
 		assertTrue(event2.getPriority() == AESTHETIC);
 	}
 
 	@Test
-	public void stage6_testSetPriority() {
+	public void stage4_0_testSetPriority() {
 		assertTrue(event1.setPriority(HIGH));
 		assertTrue(event2.setPriority(IMPORTANT));
 	}
 
 	@Test
-	public void stage7_verifySetPriority() {
+	public void stage4_1_verifySetPriority() {
 		assertTrue(event1.getPriority() == HIGH);
 		assertTrue(event2.getPriority() == IMPORTANT);
 	}
 
 	@Test
-	public void stage8_testCompareToOtherPrioritized() {
+	public void stage5_testCompareToOtherPrioritized() {
 		assertEquals(event1.compareTo(event2), 1);
 		assertEquals(event2.compareTo(event1), -1);
 		assertEquals(event1.compareTo(event1), 0);
 	}
 
 	@Test
-	public void stage9_testCompareToStandardEvent() {
+	public void stage6_testCompareToStandardEvent() {
 		assertEquals(event1.compareTo(event0), 1);
 		assertEquals(event2.compareTo(event0), 1);
 	}

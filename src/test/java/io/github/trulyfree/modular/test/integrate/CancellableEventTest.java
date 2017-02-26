@@ -50,70 +50,70 @@ public class CancellableEventTest {
 	}
 
 	@Test
-	public void stage0_0_verifyNoAction() {
+	public void stage0_verifyNoAction() {
 		assertEquals(0, modified);
 		assertFalse(event.isCancelled());
 	}
 
 	@Test
-	public void stage0_1_testEnact() {
+	public void stage1_0_testEnact() {
 		assertTrue(event.enact());
 	}
 
 	@Test
-	public void stage0_2_verifyEnact() {
+	public void stage1_1_verifyEnact() {
 		assertEquals(1, modified);
 	}
 
 	@Test
-	public void stage0_3_resetModified() {
+	public void stage2_0_setupStage2() {
 		modified = 0;
 		assertEquals(0, modified);
 	}
 
 	@Test
-	public void stage0_4_testCancelled() {
+	public void stage2_1_testCancelled() {
 		assertTrue(event.setCancelled(true));
 	}
 
 	@Test
-	public void stage0_5_verifyCancelled() {
+	public void stage2_2_verifyCancelled() {
 		assertTrue(event.isCancelled());
 	}
 
 	@Test
-	public void stage0_6_testEnactFailure() {
+	public void stage3_0_testEnactFailure() {
 		assertFalse(event.enact());
 	}
 
 	@Test
-	public void stage0_7_verifyEnactFailure() {
+	public void stage3_1_verifyEnactFailure() {
 		assertEquals(0, modified);
 	}
 
 	@Test
-	public void stage0_8_testCancelled() {
+	public void stage4_0_testCancelled() {
 		assertTrue(event.setCancelled(false));
 	}
 
 	@Test
-	public void stage0_9_verifyCancelled() {
+	public void stage4_1_verifyCancelled() {
 		assertFalse(event.isCancelled());
 	}
 
 	@Test
-	public void stage1_0_verifyNoAction() {
-		stage0_0_verifyNoAction();
+	public void stage5_0_verifyNoAction() {
+		stage0_verifyNoAction();
 	}
 
 	@Test
-	public void stage1_1_testEnact() {
-		stage0_1_testEnact();
+	public void stage6_0_testEnact() {
+		stage1_0_testEnact();
 	}
 
 	@Test
-	public void stage1_2_verifyEnact() {
-		stage0_2_verifyEnact();
+	public void stage6_1_verifyEnact() {
+		stage1_1_verifyEnact();
 	}
 
 	@AfterClass

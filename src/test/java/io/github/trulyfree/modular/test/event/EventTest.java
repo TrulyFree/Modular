@@ -62,22 +62,22 @@ public class EventTest {
 	}
 
 	@Test
-	public void stage1_testEnact() {
+	public void stage1_0_testEnact() {
 		assertTrue(event1.enact());
 	}
 
 	@Test
-	public void stage2_verifyEnact() {
+	public void stage1_1_verifyEnact() {
 		assertEquals(1, modified);
 	}
 
 	@Test
-	public void stage3_testEnact() {
+	public void stage2_0_testEnact() {
 		assertTrue(event2.enact());
 	}
 
 	@Test
-	public void stage4_verifyEnact() {
+	public void stage2_1_verifyEnact() {
 		assertEquals(0, modified);
 	}
 

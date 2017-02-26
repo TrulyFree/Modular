@@ -49,19 +49,19 @@ public class ParentModuleTest {
 	}
 
 	@Test
-	public void stage1_testSetup() {
+	public void stage1_0_testSetup() {
 		assertTrue(parentModule.setup());
 	}
 
 	@Test
-	public void stage2_verifySetup() {
+	public void stage1_1_verifySetup() {
 		assertEquals(1, SimpleModule.someValue);
 		assertNotEquals(null, SimpleParentModule.children);
 		assertTrue(parentModule.isReady());
 	}
 
 	@Test
-	public void stage3_testGetChildren() {
+	public void stage2_testGetChildren() {
 		final List<SimpleModule> unmodified = parentModule.getChildren();
 		final List<SimpleModule> modified = parentModule.getChildren();
 		for (int i = 0; i < unmodified.size(); i++) {
@@ -78,12 +78,12 @@ public class ParentModuleTest {
 	}
 
 	@Test
-	public void stage4_testDestroy() {
+	public void stage3_0_testDestroy() {
 		assertTrue(parentModule.destroy());
 	}
 
 	@Test
-	public void stage5_verifyDestroy() {
+	public void stage3_1_verifyDestroy() {
 		assertEquals(0, SimpleModule.someValue);
 		assertEquals(null, SimpleParentModule.children);
 		assertFalse(parentModule.isReady());

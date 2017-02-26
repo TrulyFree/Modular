@@ -82,7 +82,7 @@ public class EventGroupTest {
 	}
 	
 	@Test
-	public void stage3_0_resetModified() {
+	public void stage3_0_setupStage3() {
 		event1.modified = false;
 		event2.modified = false;
 	}
@@ -99,8 +99,8 @@ public class EventGroupTest {
 	}
 	
 	@Test
-	public void stage4_0_resetModified() {
-		stage3_0_resetModified();
+	public void stage4_0_setupStage4() {
+		stage3_0_setupStage3();
 	}
 	
 	@Test

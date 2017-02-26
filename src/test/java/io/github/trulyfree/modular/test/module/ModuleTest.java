@@ -45,23 +45,23 @@ public class ModuleTest {
 	}
 
 	@Test
-	public void stage1_testSetup() {
+	public void stage1_0_testSetup() {
 		assertTrue(module.setup());
 	}
 
 	@Test
-	public void stage2_verifySetup() {
+	public void stage1_1_verifySetup() {
 		assertEquals(SimpleModule.someValue, 1);
 		assertTrue(module.isReady());
 	}
 
 	@Test
-	public void stage3_testDestroy() {
+	public void stage2_0_testDestroy() {
 		assertTrue(module.destroy());
 	}
 
 	@Test
-	public void stage4_verifyDestroy() {
+	public void stage2_1_verifyDestroy() {
 		assertEquals(SimpleModule.someValue, 0);
 		assertFalse(module.isReady());
 	}

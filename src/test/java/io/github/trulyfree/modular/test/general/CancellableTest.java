@@ -56,22 +56,22 @@ public class CancellableTest {
 	}
 
 	@Test
-	public void stage1_testSetCancelled() {
+	public void stage1_0_testSetCancelled() {
 		assertTrue(cancellable.setCancelled(true));
 	}
 
 	@Test
-	public void stage2_verifySetCancelled() {
+	public void stage1_1_verifySetCancelled() {
 		assertTrue(cancellable.isCancelled());
 	}
 
 	@Test
-	public void stage3_testSetCancelledFalse() {
+	public void stage2_0_testSetCancelledFalse() {
 		assertTrue(cancellable.setCancelled(false));
 	}
 
 	@Test
-	public void stage4_verifySetCancelledFalse() {
+	public void stage2_0_verifySetCancelledFalse() {
 		stage0_verifyNoAction();
 	}
 
