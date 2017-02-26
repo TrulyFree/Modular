@@ -49,7 +49,7 @@ public class DisplayableModuleTest {
 		Priority[] priorities = Priority.values();
 		displayables = new ArrayList<SimpleDisplayable>(priorities.length);
 		for (Priority priority : priorities) {
-			displayables.add(new SimpleDisplayable(priority));
+			displayables.add(new SimpleDisplayable(priority, 0, 0));
 		}
 		module = new SimpleDisplayableModule(displayables);
 	}

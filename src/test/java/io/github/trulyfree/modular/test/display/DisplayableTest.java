@@ -38,7 +38,7 @@ public class DisplayableTest {
 
 	@BeforeClass
 	public static void setup() {
-		displayable = new SimpleDisplayable(AESTHETIC);
+		displayable = new SimpleDisplayable(AESTHETIC, 0, 0);
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class DisplayableTest {
 	
 	@Test
 	public void stage2_0_testCompareTo() {
-		Displayable comparableDisplay = new SimpleDisplayable(AESTHETIC);
+		Displayable comparableDisplay = new SimpleDisplayable(AESTHETIC, 0, 0);
 		assertTrue(comparableDisplay.compareTo(displayable) < 0);
 		assertTrue(displayable.compareTo(comparableDisplay) > 0);
 		assertTrue(comparableDisplay.setPriority(LOW));

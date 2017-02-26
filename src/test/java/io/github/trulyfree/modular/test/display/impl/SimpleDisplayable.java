@@ -24,8 +24,13 @@ public class SimpleDisplayable implements Displayable {
 
 	private Priority priority;
 	
-	public SimpleDisplayable(Priority priority) {
+	private final int x;
+	private final int y;
+	
+	public SimpleDisplayable(Priority priority, int x, int y) {
 		this.priority = priority;
+		this.x = x;
+		this.y = y;
 	}
 
 	@Override
@@ -39,4 +44,12 @@ public class SimpleDisplayable implements Displayable {
 		return true;
 	}
 
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+	
 }
