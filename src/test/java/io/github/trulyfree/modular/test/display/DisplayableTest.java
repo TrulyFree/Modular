@@ -17,31 +17,40 @@ import static io.github.trulyfree.modular.general.Priority.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DisplayableTest {
 
-	private static Displayable disp;
+	private static Displayable displayable;
 
 	@BeforeClass
 	public static void setup() {
-		disp = new SimpleDisplayable(AESTHETIC);
+		displayable = new SimpleDisplayable(AESTHETIC);
 	}
 	
 	@Test
 	public void stage0_verifyNoAction() {
-		assertEquals(AESTHETIC, disp.getPriority());
+		assertEquals(AESTHETIC, displayable.getPriority());
 	}
 	
 	@Test
 	public void stage1_0_testSetPriority() {
-		assertTrue(disp.setPriority(LOW));
+		assertTrue(displayable.setPriority(LOW));
 	}
 	
 	@Test
 	public void stage1_1_verifySetPriority() {
-		assertEquals(LOW, disp.getPriority());
+		assertEquals(LOW, displayable.getPriority());
+	}
+	
+	@Test
+	public void stage2_0_testCompareTo() {
+		Displayable comparableDisplay = new SimpleDisplayable(AESTHETIC);
+		assertTrue(comparableDisplay.compareTo(displayable) < 0);
+		assertTrue(displayable.compareTo(comparableDisplay) > 0);
+		assertTrue(comparableDisplay.setPriority(LOW));
+		assertEquals(0, displayable.compareTo(comparableDisplay));
 	}
 	
 	@AfterClass
 	public static void destroy() {
-		disp = null;
+		displayable = null;
 	}
 
 }

@@ -19,10 +19,15 @@ import io.github.trulyfree.modular.general.Priority;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface Displayable {
+public interface Displayable extends Comparable<Displayable> {
 
 	public Priority getPriority();
 	
 	public boolean setPriority(Priority priority);
+
+	@Override
+	public default int compareTo(Displayable displayable) {
+		return this.getPriority().compareTo(displayable.getPriority());
+	}
 
 }
