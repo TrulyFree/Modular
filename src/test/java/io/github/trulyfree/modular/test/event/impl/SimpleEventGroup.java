@@ -53,22 +53,6 @@ public class SimpleEventGroup<T extends Event> implements EventGroup<T> {
 		}
 		return events;
 	}
-
-	@Override
-	public void enactAllOfType(Class<? extends T> type) {
-		for (T event : events) {
-			if (type.isInstance(event)) {
-				event.enact();
-			}
-		}
-	}
-
-	@Override
-	public void enactAll() {
-		for (T event : events) {
-			event.enact();
-		}
-	}
 	
 	private int next() {
 		final int intermediary = current;

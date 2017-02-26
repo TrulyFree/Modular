@@ -62,8 +62,18 @@ public interface EventGroup<T extends Event> {
 	 */
 	public Collection<T> getEvents();
 	
-	public void enactAllOfType(Class<? extends T> type);
+	public default void enactAllOfType(Class<? extends T> type) {
+		for (T event : getEvents()) {
+			if (type.isInstance(event)) {
+				event.enact();
+			}
+		}
+	}
 
-	public void enactAll();
+	public default void enactAll() {
+		for (T event : getEvents()) {
+			event.enact();
+		}
+	}
 
 }
