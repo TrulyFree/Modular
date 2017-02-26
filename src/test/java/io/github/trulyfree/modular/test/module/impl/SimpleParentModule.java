@@ -28,11 +28,13 @@ public class SimpleParentModule extends SimpleModule implements ParentModule<Sim
 		super(value);
 	}
 
-	public static List<SimpleModule> children;
+	public static ArrayList<SimpleModule> children;
 
 	@Override
 	public boolean setup() {
 		children = new ArrayList<SimpleModule>();
+		children.add(new SimpleModule(1));
+		children.add(new SimpleModule(2));
 		super.setup();
 		return true;
 	}
