@@ -20,10 +20,23 @@ import io.github.trulyfree.modular.module.Module;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface Display<T extends DisplayableModule> extends Module {
+/**
+ * @author vtcakavsmoace
+ *
+ * @param <T>
+ */
+public interface Display<T extends Displayable> extends Module {
 
-	public T getDisplayableModule();
+	/**
+	 * @return
+	 */
+	public DisplayableModule<T> getDisplayableModule();
 	
-	public boolean setDisplayableModule(T displayable) throws DisplayableException;
+	/**
+	 * @param displayable
+	 * @return
+	 * @throws DisplayableException
+	 */
+	public boolean setDisplayableModule(DisplayableModule<T> displayable) throws DisplayableException;
 	
 }

@@ -24,7 +24,7 @@ import io.github.trulyfree.modular.general.Priority;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleDisplayableModule implements DisplayableModule {
+public class SimpleDisplayableModule implements DisplayableModule<SimpleDisplayable> {
 
 	List<SimpleDisplayable> displayables;
 	

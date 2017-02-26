@@ -22,12 +22,26 @@ import io.github.trulyfree.modular.module.Module;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface DisplayableModule extends Module {
+/**
+ * @author vtcakavsmoace
+ *
+ */
+public interface DisplayableModule<T extends Displayable> extends Module {
 
-	public Collection<? extends Displayable> getDisplayables();
+	/**
+	 * @return
+	 */
+	public Collection<T> getDisplayables();
 	
+	/**
+	 * @param priority
+	 * @return
+	 */
 	public boolean setPriorityThreshold(Priority priority);
 	
+	/**
+	 * @return
+	 */
 	public Priority getPriorityThreshold();
 	
 }
