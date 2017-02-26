@@ -1,10 +1,12 @@
 package io.github.trulyfree.modular.test.module;
 
-import io.github.trulyfree.modular.module.ParentModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleParentModule;
 
 import static org.junit.Assert.*;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -32,47 +34,59 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParentModuleTest {
 
-	private static ParentModule<SimpleModule> module;
+	private static SimpleParentModule parentModule;
 
 	@BeforeClass
 	public static void setup() {
-		module = new SimpleParentModule(1);
+		parentModule = new SimpleParentModule(1);
 	}
 
 	@Test
 	public void stage0_verifyNoAction() {
 		assertEquals(SimpleModule.someValue, 0);
 		assertEquals(SimpleParentModule.children, null);
-		assertFalse(module.isReady());
+		assertFalse(parentModule.isReady());
 	}
 
 	@Test
 	public void stage1_testSetup() {
-		assertTrue(module.setup());
+		assertTrue(parentModule.setup());
 	}
 
 	@Test
 	public void stage2_verifySetup() {
 		assertEquals(1, SimpleModule.someValue);
 		assertNotEquals(null, SimpleParentModule.children);
-		assertTrue(module.isReady());
+		assertTrue(parentModule.isReady());
 	}
 
 	@Test
 	public void stage3_testGetChildren() {
-		assertEquals(SimpleParentModule.children, ((ParentModule<SimpleModule>) module).getChildren());
+		final List<SimpleModule> unmodified = parentModule.getChildren();
+		final List<SimpleModule> modified = parentModule.getChildren();
+		for (int i = 0; i < unmodified.size(); i++) {
+			assertEquals(unmodified.get(i), modified.get(i));
+		}
+		Collections.reverse(modified);
+		boolean same = true;
+		for (int i = 0; i < unmodified.size(); i++) {
+			if (!unmodified.get(i).equals(modified.get(i))) {
+				same = false;
+			}
+		}
+		assertFalse(same);
 	}
 
 	@Test
 	public void stage4_testDestroy() {
-		assertTrue(module.destroy());
+		assertTrue(parentModule.destroy());
 	}
 
 	@Test
 	public void stage5_verifyDestroy() {
 		assertEquals(0, SimpleModule.someValue);
 		assertEquals(null, SimpleParentModule.children);
-		assertFalse(module.isReady());
+		assertFalse(parentModule.isReady());
 	}
 
 	@AfterClass

@@ -1,7 +1,7 @@
 package io.github.trulyfree.modular.test.module.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import io.github.trulyfree.modular.module.ModifiableParentModule;
 import io.github.trulyfree.modular.module.Module;
@@ -29,7 +29,7 @@ public class SimpleModifiableParentModule<T extends Module> extends ArrayList<T>
 	private boolean ready;
 
 	@Override
-	public Collection<T> getChildren() {
+	public List<T> getChildren() {
 		return new ArrayList<T>(this);
 	}
 

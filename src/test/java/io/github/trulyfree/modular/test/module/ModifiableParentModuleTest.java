@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,7 +14,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.module.ModifiableParentModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleModifiableParentModule;
 import io.github.trulyfree.modular.test.module.impl.SimpleModule;
 
@@ -36,7 +37,7 @@ import io.github.trulyfree.modular.test.module.impl.SimpleModule;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ModifiableParentModuleTest {
 
-	private static ModifiableParentModule<SimpleModule> parentModule;
+	private static SimpleModifiableParentModule<SimpleModule> parentModule;
 	private static SimpleModule[] modulesToAdd;
 
 	private static Collection<SimpleModule> removedModules;
@@ -129,8 +130,7 @@ public class ModifiableParentModuleTest {
 	@Test
 	public void stage6_0_setupStage6() {
 		removedModules = null;
-		stage2_0_testAddModule();
-		stage2_1_verifyAddModule();
+		stage5_0_setupStage5();
 	}
 
 	@Test
@@ -143,6 +143,28 @@ public class ModifiableParentModuleTest {
 		for (SimpleModule module : modulesToAdd) {
 			assertFalse(parentModule.getChildren().contains(module));
 		}
+	}
+	
+	@Test
+	public void stage7_0_setupStage7() {
+		stage6_0_setupStage6();
+	}
+
+	@Test
+	public void stage8_testGetChildren() {
+		final List<SimpleModule> unmodified = parentModule.getChildren();
+		final List<SimpleModule> modified = parentModule.getChildren();
+		for (int i = 0; i < unmodified.size(); i++) {
+			assertEquals(unmodified.get(i), modified.get(i));
+		}
+		Collections.reverse(modified);
+		boolean same = true;
+		for (int i = 0; i < unmodified.size(); i++) {
+			if (!unmodified.get(i).equals(modified.get(i))) {
+				same = false;
+			}
+		}
+		assertFalse(same);
 	}
 
 	@AfterClass
