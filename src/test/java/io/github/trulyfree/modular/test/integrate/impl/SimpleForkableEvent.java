@@ -29,7 +29,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	private volatile boolean halted;
 	private volatile boolean running;
 	private Thread fork;
-	
+
 	private volatile Boolean alteringBefore;
 	private volatile Boolean alteringAfter;
 
@@ -68,7 +68,8 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 			e.printStackTrace();
 		}
 		ForkableEventTest.finished = true;
-		after.enact();
+		if (after != null)
+			after.enact();
 		running = false;
 		return true;
 	}
@@ -77,7 +78,8 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	@Override
 	public boolean immediateHalt() throws Exception {
 		fork.stop();
-		after.enact();
+		if (after != null)
+			after.enact();
 		running = false;
 		return true;
 	}
@@ -85,7 +87,8 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	@Override
 	public boolean enact() {
 		running = true;
-		before.enact();
+		if (before != null)
+			before.enact();
 		fork.start();
 		return true;
 	}
@@ -116,13 +119,13 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 				}
 			}
 		}
-		
+
 		alteringBefore = true;
 		if (running) {
 			return false;
 		}
 		this.before = event;
-		
+
 		synchronized (alteringBefore) {
 			alteringBefore.notifyAll();
 		}
@@ -140,13 +143,13 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 				}
 			}
 		}
-		
+
 		alteringAfter = true;
 		if (running) {
 			return false;
 		}
 		this.after = event;
-		
+
 		synchronized (alteringAfter) {
 			alteringAfter.notifyAll();
 		}
