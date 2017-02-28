@@ -26,8 +26,15 @@ import io.github.trulyfree.modular.test.integrate.ForkableEventTest;
 
 public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Forkable, Event {
 
-	private boolean halted;
+	private volatile boolean halted;
+	private volatile boolean running;
 	private Thread fork;
+	
+	private volatile Boolean alteringBefore;
+	private volatile Boolean alteringAfter;
+
+	private Event before;
+	private Event after;
 
 	public int value = 0;
 
@@ -61,6 +68,8 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 			e.printStackTrace();
 		}
 		ForkableEventTest.finished = true;
+		after.enact();
+		running = false;
 		return true;
 	}
 
@@ -68,11 +77,15 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	@Override
 	public boolean immediateHalt() throws Exception {
 		fork.stop();
+		after.enact();
+		running = false;
 		return true;
 	}
 
 	@Override
 	public boolean enact() {
+		running = true;
+		before.enact();
 		fork.start();
 		return true;
 	}
@@ -90,6 +103,54 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 		if (value > 10000) {
 			notifyAll();
 		}
+	}
+
+	@Override
+	public boolean setBefore(Event event) {
+		synchronized (alteringBefore) {
+			while (alteringBefore) {
+				try {
+					alteringBefore.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		alteringBefore = true;
+		if (running) {
+			return false;
+		}
+		this.before = event;
+		
+		synchronized (alteringBefore) {
+			alteringBefore.notifyAll();
+		}
+		return true;
+	}
+
+	@Override
+	public boolean setAfter(Event event) {
+		synchronized (alteringAfter) {
+			while (alteringAfter) {
+				try {
+					alteringAfter.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		alteringAfter = true;
+		if (running) {
+			return false;
+		}
+		this.after = event;
+		
+		synchronized (alteringAfter) {
+			alteringAfter.notifyAll();
+		}
+		return true;
 	}
 
 }

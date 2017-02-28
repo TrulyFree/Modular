@@ -1,5 +1,7 @@
 package io.github.trulyfree.modular.general;
 
+import io.github.trulyfree.modular.event.Event;
+
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
@@ -59,5 +61,27 @@ public interface Forkable {
 	 *             which calls this.
 	 */
 	public boolean immediateHalt() throws Exception;
+
+	/**
+	 * Method to be called in order to set the action to occur before the
+	 * forkable is forked. This should not be changed while the forkable is
+	 * forked, and if there is an attempt to call this method while the fork is
+	 * active, no action should occur and the method should return false.
+	 * 
+	 * @return success A boolean representing whether or not the before event
+	 *         was set.
+	 */
+	public boolean setBefore(Event event);
+
+	/**
+	 * Method to be called in order to set the action to occur after the
+	 * forkable is forked. This should not be changed while the forkable is
+	 * forked, and if there is an attempt to call this method while the fork is
+	 * active, no action should occur and the method should return false.
+	 * 
+	 * @return success A boolean representing whether or not the after event was
+	 *         set.
+	 */
+	public boolean setAfter(Event event);
 
 }
