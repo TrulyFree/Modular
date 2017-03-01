@@ -1,5 +1,6 @@
 io.github.trulyfree.modular.display
 io.github.trulyfree.modular.display.except
 io.github.trulyfree.modular.event
+io.github.trulyfree.modular.event.handlers
 io.github.trulyfree.modular.general
 io.github.trulyfree.modular.module
