@@ -5,21 +5,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
+import io.github.trulyfree.modular.event.Event;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
 import io.github.trulyfree.modular.general.Priority;
 
 public class PrioritizedEventHandler
 		implements Collection<PrioritizedEvent>, EventHandler<PrioritizedEvent> {
 
-	private ArrayList<ArrayList<PrioritizedEvent>> lists;
+	private volatile ArrayList<ArrayList<PrioritizedEvent>> lists;
 
 	public PrioritizedEventHandler() {}
 	
 	@Override
 	public boolean enact() {
-		Iterator<PrioritizedEvent> iter = iterator();
-		PrioritizedEvent event;
-		while ((event = iter.next()) != null) {
+		for (Event event : this) {
 			event.enact();
 		}
 		return true;
@@ -56,7 +55,7 @@ public class PrioritizedEventHandler
 
 	@Override
 	public boolean add(PrioritizedEvent ero) {
-		if (ero == null) {
+		if (ero == null || ero.getPriority() == null) {
 			return false;
 		}
 		Priority val = ero.getPriority();
@@ -251,14 +250,14 @@ public class PrioritizedEventHandler
 	private class IteratorImpl implements Iterator<PrioritizedEvent> {
 
 		int ord;
-		final int index = 0;
 
 		@Override
 		public PrioritizedEvent next() {
-			if (!realign()) {
-				return null;
-			}
-			return PrioritizedEventHandler.this.remove(ord, index);
+			PrioritizedEvent toDo;
+			do {
+				toDo = PrioritizedEventHandler.this.remove(ord, 0);
+			} while (toDo == null && realign());
+			return toDo;
 		}
 
 		@Override
@@ -268,12 +267,15 @@ public class PrioritizedEventHandler
 
 		@Override
 		public void remove() {
-			PrioritizedEventHandler.this.remove(ord, index);
+			PrioritizedEventHandler.this.remove(ord, 0);
 		}
 
 		private boolean realign() {
-			for (int ord = lists.size() - 1; ord >= 0; ord++) {
-				if (lists.get(ord).size() > 0) {
+			if (PrioritizedEventHandler.this.size() == 0) {
+				return false;
+			}
+			for (ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
+				if (!lists.get(ord).isEmpty()) {
 					return true;
 				}
 			}
@@ -299,7 +301,7 @@ public class PrioritizedEventHandler
 
 	@Override
 	public boolean enactNextEvent() {
-		for (int ord = lists.size() - 1; ord >= 0; ord--) {
+		for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
 			ArrayList<PrioritizedEvent> list = lists.get(ord);
 			if (!list.isEmpty()) {
 				return list.remove(0).enact();

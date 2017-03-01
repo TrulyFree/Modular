@@ -31,11 +31,10 @@ public class PrioritizedEventHandlerTest {
 		handler = new PrioritizedEventHandler();
 		events = new ArrayList<EventImpl>();
 		
-		
-		for (int i = 1; i <= 10; i++) {
-			events.add(new EventImpl(i));
+		for (Priority priority : Priority.values()) {
+			events.add(new EventImpl(priority.ordinal(), priority));
 		}
-		expected = 1;
+		expected = Integer.MAX_VALUE;
 	}
 	
 	@Test
@@ -74,6 +73,7 @@ public class PrioritizedEventHandlerTest {
 	@Test
 	public void stage2_2_checkAddEvent() {
 		assertFalse(handler.addEvent(null));
+		assertFalse(handler.addEvent(new EventImpl(0, null)));
 	}
 	
 	@Test
@@ -81,13 +81,14 @@ public class PrioritizedEventHandlerTest {
 		for (Event event : handler.getEvents()) {
 			assertTrue(event.enact());
 		}
+		assertEquals(Priority.AESTHETIC.ordinal(), expected);
 	}
 	
 	@Test
 	public void stage3_1_testAndVerifyEnactEachEvent() {
-		expected = 1;
+		expected = Integer.MAX_VALUE;
 		while (handler.enactNextEvent()) {}
-		assertEquals(11, expected);
+		assertEquals(Priority.AESTHETIC.ordinal(), expected);
 	}
 	
 	@Test
@@ -98,12 +99,12 @@ public class PrioritizedEventHandlerTest {
 	@Test
 	public void stage4_0_setupStage4() {
 		stage2_0_testAddEvent();
-		expected = 1;
+		expected = Integer.MAX_VALUE;
 	}
 	
 	@Test
 	public void stage4_1_testEnact() {
-		handler.enact();
+		assertTrue(handler.enact());
 	}
 	
 	@Test
@@ -134,14 +135,17 @@ public class PrioritizedEventHandlerTest {
 	}
 	
 	private static void modify(int val) {
-		assertEquals(expected++, val);
+		assertTrue(val < expected);
+		expected = val;
 	}
 	
 	private static class EventImpl implements PrioritizedEvent {
 		private final int val;
+		private final Priority priority;
 		
-		public EventImpl(int val) {
+		public EventImpl(int val, Priority priority) {
 			this.val = val;
+			this.priority = priority;
 		}
 			
 		@Override
@@ -152,8 +156,7 @@ public class PrioritizedEventHandlerTest {
 
 		@Override
 		public Priority getPriority() {
-			// TODO Auto-generated method stub
-			return null;
+			return priority;
 		}
 	}
 	

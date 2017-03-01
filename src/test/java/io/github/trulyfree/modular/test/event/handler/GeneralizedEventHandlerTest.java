@@ -79,6 +79,7 @@ public class GeneralizedEventHandlerTest {
 		for (Event event : handler.getEvents()) {
 			assertTrue(event.enact());
 		}
+		assertEquals(11, expected);
 	}
 	
 	@Test
@@ -101,7 +102,7 @@ public class GeneralizedEventHandlerTest {
 	
 	@Test
 	public void stage4_1_testEnact() {
-		handler.enact();
+		assertTrue(handler.enact());
 	}
 	
 	@Test
