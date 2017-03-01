@@ -68,8 +68,8 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 
 	@Override
 	public boolean enact() {
-		while (list.size() > 0) {
-			list.remove(0).enact();
+		while (!list.isEmpty()) {
+			enactNextEvent();
 		}
 		return true;
 	}

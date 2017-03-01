@@ -1,7 +1,6 @@
-package io.github.trulyfree.modular.general;
+package io.github.trulyfree.modular.event.handlers;
 
 import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.handlers.EventHandler;
 
 public interface Handlerable {
 
