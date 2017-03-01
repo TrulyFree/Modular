@@ -13,20 +13,22 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.event.PrioritizedEvent;
 import io.github.trulyfree.modular.event.handlers.EventHandler;
-import io.github.trulyfree.modular.event.handlers.GeneralizedEventHandler;
+import io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler;
+import io.github.trulyfree.modular.general.Priority;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GeneralizedEventHandlerTest {
+public class PrioritizedEventHandlerTest {
 
-	private static EventHandler<Event> handler;
+	private static EventHandler<PrioritizedEvent> handler;
 	private static ArrayList<EventImpl> events;
 		
 	private static int expected;
 	
 	@BeforeClass
 	public static void setup() {
-		handler = new GeneralizedEventHandler();
+		handler = new PrioritizedEventHandler();
 		events = new ArrayList<EventImpl>();
 		
 		
@@ -135,7 +137,7 @@ public class GeneralizedEventHandlerTest {
 		assertEquals(expected++, val);
 	}
 	
-	private static class EventImpl implements Event {
+	private static class EventImpl implements PrioritizedEvent {
 		private final int val;
 		
 		public EventImpl(int val) {
@@ -146,6 +148,12 @@ public class GeneralizedEventHandlerTest {
 		public boolean enact() {
 			modify(val);
 			return true;
+		}
+
+		@Override
+		public Priority getPriority() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 	

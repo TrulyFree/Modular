@@ -31,18 +31,6 @@ import io.github.trulyfree.modular.general.Priority;
 public interface PrioritizedEvent extends Event, Comparable<Event> {
 
 	/**
-	 * Method to be called in order to set the priority of this event.
-	 * Generally, this should not be used after instantiation, but some
-	 * implementations may find it valuable.
-	 * 
-	 * @param priority
-	 *            The target priority level for the Event.
-	 * @return success A boolean representing the success of the priority
-	 *         setting operation.
-	 */
-	public boolean setPriority(Priority priority);
-
-	/**
 	 * Method to be called in order to check the priority of this event.
 	 * 
 	 * @return priority The current priority level of the Event.

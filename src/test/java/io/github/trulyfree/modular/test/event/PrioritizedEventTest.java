@@ -100,22 +100,10 @@ public class PrioritizedEventTest {
 	}
 
 	@Test
-	public void stage4_0_testSetPriority() {
-		assertTrue(event1.setPriority(HIGH));
-		assertTrue(event2.setPriority(IMPORTANT));
-	}
-
-	@Test
-	public void stage4_1_verifySetPriority() {
-		assertTrue(event1.getPriority() == HIGH);
-		assertTrue(event2.getPriority() == IMPORTANT);
-	}
-
-	@Test
 	public void stage5_testCompareToOtherPrioritized() {
-		assertEquals(event1.compareTo(event2), 1);
-		assertEquals(event2.compareTo(event1), -1);
-		assertEquals(event1.compareTo(event1), 0);
+		assertTrue(event1.compareTo(event2) > 0);
+		assertTrue(event2.compareTo(event1) < 0);
+		assertTrue(event1.compareTo(event1) == 0);
 	}
 
 	@Test

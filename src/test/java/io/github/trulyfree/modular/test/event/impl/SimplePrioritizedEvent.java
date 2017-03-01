@@ -25,13 +25,7 @@ public abstract class SimplePrioritizedEvent implements PrioritizedEvent {
 	private Priority priority;
 
 	public SimplePrioritizedEvent(Priority priority) {
-		setPriority(priority);
-	}
-
-	@Override
-	public boolean setPriority(Priority priority) {
 		this.priority = priority;
-		return true;
 	}
 
 	@Override
