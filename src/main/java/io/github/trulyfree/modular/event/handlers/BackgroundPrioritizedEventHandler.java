@@ -27,8 +27,9 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 			return false;
 		}
 		running = true;
-		before.enact();
-		// TODO
+		if (before != null)
+			before.enact();
+		new Thread(watcher).start();
 		return true;
 	}
 
@@ -179,14 +180,16 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	@Override
 	public boolean safeHalt() {
 		watcher.safeHalt();
-		after.enact();
+		if (after != null)
+			after.enact();
 		return true;
 	}
 
 	@Override
 	public boolean immediateHalt() throws Exception {
 		watcher.immediateHalt();
-		after.enact();
+		if (after != null)
+			after.enact();
 		return true;
 	}
 
@@ -334,20 +337,13 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 			@Override
 			public void run() {
 				do {
+					waitForEvent();
 					handling = true;
 					event.enact();
 					event = null;
 					handling = false;
 					synchronized (ThreadedEventHandlerManager.this) {
 						ThreadedEventHandlerManager.this.notify();
-					}
-					synchronized (this) {
-						try {
-							wait();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-							return;
-						}
 					}
 				} while (event != null);
 			}
@@ -364,6 +360,17 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 
 			public boolean isHandling() {
 				return handling;
+			}
+
+			private void waitForEvent() {
+				synchronized (this) {
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						return;
+					}
+				}
 			}
 
 		}

@@ -14,8 +14,8 @@ import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.event.Event;
 import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.event.handlers.BackgroundPrioritizedEventHandler;
 import io.github.trulyfree.modular.event.handlers.EventHandler;
-import io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler;
 import io.github.trulyfree.modular.general.Priority;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -28,7 +28,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 	
 	@BeforeClass
 	public static void setup() {
-		handler = new PrioritizedEventHandler();
+		handler = new BackgroundPrioritizedEventHandler(5);
 		events = new ArrayList<EventImpl>();
 		
 		for (Priority priority : Priority.values()) {
