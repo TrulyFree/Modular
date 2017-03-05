@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.action;
 
 import static org.junit.Assert.*;
 
@@ -12,9 +12,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.action.PrioritizedAction;
 import io.github.trulyfree.modular.general.Priority;
-import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
+import io.github.trulyfree.modular.test.action.impl.SimplePrioritizedEvent;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -37,12 +37,12 @@ import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
 public class PrioritizedEventListTest {
 
 	private static int modified = 0;
-	private static List<PrioritizedEvent> eventList, compare;
+	private static List<PrioritizedAction> eventList, compare;
 
 	@BeforeClass
 	public static void setup() {
-		eventList = new ArrayList<PrioritizedEvent>(Priority.values().length);
-		compare = new ArrayList<PrioritizedEvent>(Priority.values().length);
+		eventList = new ArrayList<PrioritizedAction>(Priority.values().length);
+		compare = new ArrayList<PrioritizedAction>(Priority.values().length);
 
 		for (int i = 0; i < eventList.size(); i++) {
 			final int intermediary = i;
@@ -83,9 +83,9 @@ public class PrioritizedEventListTest {
 	@Test
 	public void stage2_1_verifyShuffleEvents() {
 		boolean succeed;
-		for (PrioritizedEvent event1 : compare) {
+		for (PrioritizedAction event1 : compare) {
 			succeed = false;
-			for (PrioritizedEvent event2 : eventList) {
+			for (PrioritizedAction event2 : eventList) {
 				if (event1.compareTo(event2) == 0) {
 					succeed = true;
 					break;

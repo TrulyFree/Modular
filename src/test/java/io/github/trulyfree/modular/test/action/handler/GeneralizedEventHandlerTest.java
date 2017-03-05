@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event.handler;
+package io.github.trulyfree.modular.test.action.handler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,21 +12,21 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.handlers.EventHandler;
-import io.github.trulyfree.modular.event.handlers.GeneralizedEventHandler;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.handlers.ActionHandler;
+import io.github.trulyfree.modular.action.handlers.GeneralizedActionHandler;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GeneralizedEventHandlerTest {
 
-	private static EventHandler<Event> handler;
+	private static ActionHandler<Action> handler;
 	private static ArrayList<EventImpl> events;
 		
 	private static int expected;
 	
 	@BeforeClass
 	public static void setup() {
-		handler = new GeneralizedEventHandler();
+		handler = new GeneralizedActionHandler();
 		events = new ArrayList<EventImpl>();
 		
 		
@@ -64,8 +64,8 @@ public class GeneralizedEventHandlerTest {
 	
 	@Test
 	public void stage2_1_verifyAddEvent() {
-		for (Event event : events) {
-			assertTrue(handler.getEvents().contains(event));
+		for (Action action : events) {
+			assertTrue(handler.getEvents().contains(action));
 		}
 	}
 	
@@ -76,8 +76,8 @@ public class GeneralizedEventHandlerTest {
 	
 	@Test
 	public void stage3_0_testAndVerifyEachEvent() {
-		for (Event event : handler.getEvents()) {
-			assertTrue(event.enact());
+		for (Action action : handler.getEvents()) {
+			assertTrue(action.enact());
 		}
 		assertEquals(11, expected);
 	}
@@ -136,7 +136,7 @@ public class GeneralizedEventHandlerTest {
 		assertEquals(expected++, val);
 	}
 	
-	private static class EventImpl implements Event {
+	private static class EventImpl implements Action {
 		private final int val;
 		
 		public EventImpl(int val) {

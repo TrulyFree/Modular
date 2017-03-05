@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.action;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,9 +12,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.ModifiableEventGroup;
-import io.github.trulyfree.modular.test.event.impl.SimpleModifiableEventGroup;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ModifiableActionGroup;
+import io.github.trulyfree.modular.test.action.impl.SimpleModifiableEventGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -36,7 +36,7 @@ import io.github.trulyfree.modular.test.event.impl.SimpleModifiableEventGroup;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ModifiableEventGroupTest {
 
-	private static ModifiableEventGroup<EventImpl> meg;
+	private static ModifiableActionGroup<EventImpl> meg;
 	private static EventImpl[] eventsToAdd;
 
 	private static Collection<EventImpl> removedEvents;
@@ -77,8 +77,8 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage2_1_verifyAddEvent() {
-		for (Event event : eventsToAdd) {
-			assertTrue(meg.getEvents().contains(event));
+		for (Action action : eventsToAdd) {
+			assertTrue(meg.getEvents().contains(action));
 		}
 	}
 
@@ -107,8 +107,8 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage4_1_verifyRemoveEvent() {
-		for (Event event : eventsToAdd) {
-			assertFalse(meg.getEvents().contains(event));
+		for (Action action : eventsToAdd) {
+			assertFalse(meg.getEvents().contains(action));
 		}
 	}
 
@@ -130,8 +130,8 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage5_2_verifyClear() {
-		for (Event event : eventsToAdd) {
-			assertFalse(meg.getEvents().contains(event));
+		for (Action action : eventsToAdd) {
+			assertFalse(meg.getEvents().contains(action));
 		}
 	}
 
@@ -191,7 +191,7 @@ public class ModifiableEventGroupTest {
 		eventsToAdd = null;
 	}
 
-	private static class EventImpl implements Event {
+	private static class EventImpl implements Action {
 
 		public boolean modified;
 

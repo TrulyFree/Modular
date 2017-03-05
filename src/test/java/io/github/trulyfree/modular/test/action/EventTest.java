@@ -1,8 +1,6 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.action;
 
-import static io.github.trulyfree.modular.general.Priority.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -10,9 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.PrioritizedEvent;
-import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
+import io.github.trulyfree.modular.action.Action;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -32,26 +28,18 @@ import io.github.trulyfree.modular.test.event.impl.SimplePrioritizedEvent;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PrioritizedEventTest {
+public class EventTest {
 
 	private static int modified;
 
-	private static Event event0;
-	private static PrioritizedEvent event1;
-	private static PrioritizedEvent event2;
+	private static Action event1;
+	private static Action event2;
 
 	@BeforeClass
 	public static void setup() {
 		modified = 0;
 
-		event0 = new Event() {
-			@Override
-			public boolean enact() {
-				return true;
-			}
-		};
-
-		event1 = new SimplePrioritizedEvent(DIRE) {
+		event1 = new Action() {
 			@Override
 			public boolean enact() {
 				modified = 1;
@@ -59,7 +47,7 @@ public class PrioritizedEventTest {
 			}
 		};
 
-		event2 = new SimplePrioritizedEvent(AESTHETIC) {
+		event2 = new Action() {
 			@Override
 			public boolean enact() {
 				modified = 0;
@@ -91,25 +79,6 @@ public class PrioritizedEventTest {
 	@Test
 	public void stage2_1_verifyEnact() {
 		assertEquals(0, modified);
-	}
-
-	@Test
-	public void stage3_testGetPriority() {
-		assertTrue(event1.getPriority() == DIRE);
-		assertTrue(event2.getPriority() == AESTHETIC);
-	}
-
-	@Test
-	public void stage5_testCompareToOtherPrioritized() {
-		assertTrue(event1.compareTo(event2) > 0);
-		assertTrue(event2.compareTo(event1) < 0);
-		assertTrue(event1.compareTo(event1) == 0);
-	}
-
-	@Test
-	public void stage6_testCompareToStandardEvent() {
-		assertEquals(event1.compareTo(event0), 1);
-		assertEquals(event2.compareTo(event0), 1);
 	}
 
 	@AfterClass

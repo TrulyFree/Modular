@@ -1,11 +1,11 @@
-package io.github.trulyfree.modular.test.event.impl;
+package io.github.trulyfree.modular.test.action.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.github.trulyfree.modular.event.ModifiableEventGroup;
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ModifiableActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -24,7 +24,7 @@ import io.github.trulyfree.modular.event.Event;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleModifiableEventGroup<T extends Event> implements ModifiableEventGroup<T> {
+public class SimpleModifiableEventGroup<T extends Action> implements ModifiableActionGroup<T> {
 
 	private int current;
 	

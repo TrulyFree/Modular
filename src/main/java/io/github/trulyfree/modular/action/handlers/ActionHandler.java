@@ -1,6 +1,8 @@
-package io.github.trulyfree.modular.event.handlers;
+package io.github.trulyfree.modular.action.handlers;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ModifiableActionGroup;
+import io.github.trulyfree.modular.module.Module;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -22,18 +24,6 @@ import io.github.trulyfree.modular.event.Event;
 /**
  * @author vtcakavsmoace
  *
+ * @param <T>
  */
-public interface Handlerable {
-
-	/**
-	 * @param handler
-	 * @return
-	 */
-	public <T extends Event> boolean setEventHandler(EventHandler<T> handler);
-
-	/**
-	 * @return
-	 */
-	public EventHandler<? extends Event> getEventHandler();
-
-}
+public interface ActionHandler<T extends Action> extends ModifiableActionGroup<T>, Module, Action {}

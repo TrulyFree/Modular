@@ -1,8 +1,7 @@
-package io.github.trulyfree.modular.event.handlers;
+package io.github.trulyfree.modular.test.action.impl;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.ModifiableEventGroup;
-import io.github.trulyfree.modular.module.Module;
+import io.github.trulyfree.modular.action.PrioritizedAction;
+import io.github.trulyfree.modular.general.Priority;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -21,9 +20,17 @@ import io.github.trulyfree.modular.module.Module;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * @author vtcakavsmoace
- *
- * @param <T>
- */
-public interface EventHandler<T extends Event> extends ModifiableEventGroup<T>, Module, Event {}
+public abstract class SimplePrioritizedEvent implements PrioritizedAction {
+
+	private Priority priority;
+
+	public SimplePrioritizedEvent(Priority priority) {
+		this.priority = priority;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return priority;
+	}
+
+}

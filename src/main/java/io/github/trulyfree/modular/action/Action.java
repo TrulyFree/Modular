@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.event;
+package io.github.trulyfree.modular.action;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -18,14 +18,14 @@ package io.github.trulyfree.modular.event;
  */
 
 /**
- * Event main interface. All operations which do not need to be enacted
+ * Action main interface. All operations which do not need to be enacted
  * immediately should be a simple implementation of this interface, and should
- * be handled by a EventHandler.
+ * be handled by a ActionHandler.
  * 
  * @author vtcakavsmoace
  *
  */
-public interface Event {
+public interface Action {
 
 	/**
 	 * Method to be called in order to enact the operations desired. Think of

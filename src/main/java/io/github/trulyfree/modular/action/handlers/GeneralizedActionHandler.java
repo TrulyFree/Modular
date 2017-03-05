@@ -1,9 +1,9 @@
-package io.github.trulyfree.modular.event.handlers;
+package io.github.trulyfree.modular.action.handlers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -26,30 +26,30 @@ import io.github.trulyfree.modular.event.Event;
  * @author vtcakavsmoace
  *
  */
-public class GeneralizedEventHandler implements EventHandler<Event> {
+public class GeneralizedActionHandler implements ActionHandler<Action> {
 
 	/**
 	 * 
 	 */
-	private ArrayList<Event> list;
+	private ArrayList<Action> list;
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.ModifiableEventGroup#addEvent(io.github.trulyfree.modular.event.Event)
+	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean addEvent(Event event) {
-		if (event == null) {
+	public boolean addEvent(Action action) {
+		if (action == null) {
 			return false;
 		}
-		return list.add(event);
+		return list.add(action);
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.ModifiableEventGroup#removeEvent(io.github.trulyfree.modular.event.Event)
+	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public Event removeEvent(Event event) {
-		int index = list.indexOf(event);
+	public Action removeEvent(Action action) {
+		int index = list.indexOf(action);
 		if (index >= 0) {
 			return list.remove(index);
 		}
@@ -57,7 +57,7 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.EventGroup#enactNextEvent()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextEvent()
 	 */
 	@Override
 	public boolean enactNextEvent() {
@@ -68,11 +68,11 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.EventGroup#getEvents()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
 	 */
 	@Override
-	public Collection<Event> getEvents() {
-		return new ArrayList<Event>(list);
+	public Collection<Action> getEvents() {
+		return new ArrayList<Action>(list);
 	}
 
 	/* (non-Javadoc)
@@ -80,7 +80,7 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	 */
 	@Override
 	public boolean setup() {
-		list = new ArrayList<Event>();
+		list = new ArrayList<Action>();
 		return true;
 	}
 
@@ -102,7 +102,7 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.EventGroup#size()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#size()
 	 */
 	@Override
 	public int size() {
@@ -110,7 +110,7 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.ModifiableEventGroup#clear()
+	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#clear()
 	 */
 	@Override
 	public void clear() {
@@ -118,7 +118,7 @@ public class GeneralizedEventHandler implements EventHandler<Event> {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.Event#enact()
+	 * @see io.github.trulyfree.modular.action.Action#enact()
 	 */
 	@Override
 	public boolean enact() {

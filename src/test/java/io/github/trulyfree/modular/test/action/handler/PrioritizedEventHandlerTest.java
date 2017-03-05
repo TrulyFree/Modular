@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event.handler;
+package io.github.trulyfree.modular.test.action.handler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,23 +12,23 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.PrioritizedEvent;
-import io.github.trulyfree.modular.event.handlers.EventHandler;
-import io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.PrioritizedAction;
+import io.github.trulyfree.modular.action.handlers.ActionHandler;
+import io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler;
 import io.github.trulyfree.modular.general.Priority;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrioritizedEventHandlerTest {
 
-	private static EventHandler<PrioritizedEvent> handler;
+	private static ActionHandler<PrioritizedAction> handler;
 	private static ArrayList<EventImpl> events;
 		
 	private static int expected;
 	
 	@BeforeClass
 	public static void setup() {
-		handler = new PrioritizedEventHandler();
+		handler = new PrioritizedActionHandler();
 		events = new ArrayList<EventImpl>();
 		
 		for (Priority priority : Priority.values()) {
@@ -65,8 +65,8 @@ public class PrioritizedEventHandlerTest {
 	
 	@Test
 	public void stage2_1_verifyAddEvent() {
-		for (Event event : events) {
-			assertTrue(handler.getEvents().contains(event));
+		for (Action action : events) {
+			assertTrue(handler.getEvents().contains(action));
 		}
 	}
 	
@@ -78,8 +78,8 @@ public class PrioritizedEventHandlerTest {
 	
 	@Test
 	public void stage3_0_testAndVerifyEachEvent() {
-		for (Event event : handler.getEvents()) {
-			assertTrue(event.enact());
+		for (Action action : handler.getEvents()) {
+			assertTrue(action.enact());
 		}
 		assertEquals(Priority.AESTHETIC.ordinal(), expected);
 	}
@@ -139,7 +139,7 @@ public class PrioritizedEventHandlerTest {
 		expected = val;
 	}
 	
-	private static class EventImpl implements PrioritizedEvent {
+	private static class EventImpl implements PrioritizedAction {
 		private final int val;
 		private final Priority priority;
 		

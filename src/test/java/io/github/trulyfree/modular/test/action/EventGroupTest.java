@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.action;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -12,9 +12,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.EventGroup;
-import io.github.trulyfree.modular.test.event.impl.SimpleEventGroup;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ActionGroup;
+import io.github.trulyfree.modular.test.action.impl.SimpleEventGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -36,7 +36,7 @@ import io.github.trulyfree.modular.test.event.impl.SimpleEventGroup;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventGroupTest {
 
-	private static EventGroup<EventImpl> eg;
+	private static ActionGroup<EventImpl> eg;
 
 	private static EventImpl event1;
 	private static EventImpl2 event2;
@@ -121,7 +121,7 @@ public class EventGroupTest {
 		eg = null;
 	}
 
-	private static class EventImpl implements Event {
+	private static class EventImpl implements Action {
 
 		public boolean modified;
 		

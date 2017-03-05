@@ -2,9 +2,9 @@ package io.github.trulyfree.modular.test.integrate.impl;
 
 import java.util.List;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
 import io.github.trulyfree.modular.general.Forkable;
-import io.github.trulyfree.modular.test.event.impl.SimpleEventGroup;
+import io.github.trulyfree.modular.test.action.impl.SimpleEventGroup;
 import io.github.trulyfree.modular.test.integrate.ForkableEventTest;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -24,7 +24,7 @@ import io.github.trulyfree.modular.test.integrate.ForkableEventTest;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Forkable, Event {
+public class SimpleForkableEvent extends SimpleEventGroup<Action> implements Forkable, Action {
 
 	private volatile boolean halted;
 	private volatile boolean running;
@@ -33,13 +33,13 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	private volatile Boolean alteringBefore;
 	private volatile Boolean alteringAfter;
 
-	private Event before;
-	private Event after;
+	private Action before;
+	private Action after;
 
 	public int value = 0;
 
-	public SimpleForkableEvent(List<Event> events) {
-		super(events);
+	public SimpleForkableEvent(List<Action> actions) {
+		super(actions);
 		fork = new Thread(new Runnable() {
 
 			@Override
@@ -109,7 +109,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	}
 
 	@Override
-	public boolean setBefore(Event event) {
+	public boolean setBefore(Action action) {
 		synchronized (alteringBefore) {
 			while (alteringBefore) {
 				try {
@@ -124,7 +124,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 		if (running) {
 			return false;
 		}
-		this.before = event;
+		this.before = action;
 
 		synchronized (alteringBefore) {
 			alteringBefore.notifyAll();
@@ -133,7 +133,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 	}
 
 	@Override
-	public boolean setAfter(Event event) {
+	public boolean setAfter(Action action) {
 		synchronized (alteringAfter) {
 			while (alteringAfter) {
 				try {
@@ -148,7 +148,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Event> implements Fork
 		if (running) {
 			return false;
 		}
-		this.after = event;
+		this.after = action;
 
 		synchronized (alteringAfter) {
 			alteringAfter.notifyAll();

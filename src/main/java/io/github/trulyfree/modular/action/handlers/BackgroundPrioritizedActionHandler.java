@@ -1,10 +1,10 @@
-package io.github.trulyfree.modular.event.handlers;
+package io.github.trulyfree.modular.action.handlers;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.PrioritizedAction;
 import io.github.trulyfree.modular.general.Forkable;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -25,12 +25,12 @@ import io.github.trulyfree.modular.general.Forkable;
  */
 
 /**
- * BackgroundPrioritizedEventHandler class. Most modular programs will likely wish to use this handler type.
+ * BackgroundPrioritizedActionHandler class. Most modular programs will likely wish to use this handler type.
  * 
  * @author vtcakavsmoace
  *
  */
-public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler implements Forkable {
+public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler implements Forkable {
 
 	/**
 	 * 
@@ -50,17 +50,17 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/**
 	 * 
 	 */
-	private Event before;
+	private Action before;
 
 	/**
 	 * 
 	 */
-	private Event after;
+	private Action after;
 
 	/**
 	 * @param maxthreads
 	 */
-	public BackgroundPrioritizedEventHandler(int maxthreads) {
+	public BackgroundPrioritizedActionHandler(int maxthreads) {
 		watcher = new ThreadedEventHandlerManager(maxthreads);
 	}
 
@@ -68,7 +68,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#enact(
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#enact(
 	 * )
 	 */
 	@Override
@@ -87,7 +87,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#setup(
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#setup(
 	 * )
 	 */
 	@Override
@@ -101,7 +101,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * isReady()
 	 */
 	@Override
@@ -112,7 +112,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * destroy()
 	 */
 	@Override
@@ -125,11 +125,11 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#add(io
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#add(io
 	 * .github.trulyfree.modular.event.PrioritizedEvent)
 	 */
 	@Override
-	public boolean add(PrioritizedEvent ero) {
+	public boolean add(PrioritizedAction ero) {
 		if (!waitForIO()) {
 			return false;
 		}
@@ -144,7 +144,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#size()
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#size()
 	 */
 	@Override
 	public synchronized int size() {
@@ -161,7 +161,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * contains(java.lang.Object)
 	 */
 	@Override
@@ -179,7 +179,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * toArray()
 	 */
 	@Override
@@ -197,7 +197,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * toArray(java.lang.Object[])
 	 */
 	@Override
@@ -216,16 +216,16 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#get(
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#get(
 	 * int, int)
 	 */
 	@Override
-	public PrioritizedEvent get(int ord, int index) {
+	public PrioritizedAction get(int ord, int index) {
 		if (!waitForIO()) {
 			return null;
 		}
 		activeIO = true;
-		PrioritizedEvent toReturn = super.get(ord, index);
+		PrioritizedAction toReturn = super.get(ord, index);
 		activeIO = false;
 		notifyForIO();
 		return toReturn;
@@ -235,16 +235,16 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#remove
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#remove
 	 * (int, int)
 	 */
 	@Override
-	public PrioritizedEvent remove(int ord, int index) {
+	public PrioritizedAction remove(int ord, int index) {
 		if (!waitForIO()) {
 			return null;
 		}
 		activeIO = true;
-		PrioritizedEvent toReturn = super.remove(ord, index);
+		PrioritizedAction toReturn = super.remove(ord, index);
 		activeIO = false;
 		notifyForIO();
 		return toReturn;
@@ -254,7 +254,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#remove
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#remove
 	 * (java.lang.Object)
 	 */
 	@Override
@@ -272,7 +272,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#
+	 * @see io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#
 	 * retainAll(java.util.Collection)
 	 */
 	@Override
@@ -291,7 +291,7 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.event.handlers.PrioritizedEventHandler#clear(
+	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#clear(
 	 * )
 	 */
 	@Override
@@ -335,14 +335,14 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * (non-Javadoc)
 	 * 
 	 * @see io.github.trulyfree.modular.general.Forkable#setBefore(io.github.
-	 * trulyfree.modular.event.Event)
+	 * trulyfree.modular.event.Action)
 	 */
 	@Override
-	public boolean setBefore(Event event) {
+	public boolean setBefore(Action action) {
 		if (running) {
 			return false;
 		}
-		this.before = event;
+		this.before = action;
 		return true;
 	}
 
@@ -354,11 +354,11 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 	 * .modular.event.Event)
 	 */
 	@Override
-	public boolean setAfter(Event event) {
+	public boolean setAfter(Action action) {
 		if (running) {
 			return false;
 		}
-		this.after = event;
+		this.after = action;
 		return true;
 	}
 
@@ -427,14 +427,14 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 		 */
 		@Override
 		public void run() {
-			Iterator<PrioritizedEvent> iter = iterator();
+			Iterator<PrioritizedAction> iter = iterator();
 			while (!halted) {
 				if (iter.hasNext()) {
 					assignEvent(iter.next());
 				} else {
-					synchronized (BackgroundPrioritizedEventHandler.this) {
+					synchronized (BackgroundPrioritizedActionHandler.this) {
 						try {
-							BackgroundPrioritizedEventHandler.this.wait();
+							BackgroundPrioritizedActionHandler.this.wait();
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -442,15 +442,15 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 				}
 			}
 			waitForThreads();
-			synchronized (BackgroundPrioritizedEventHandler.this) {
-				BackgroundPrioritizedEventHandler.this.notifyAll();
+			synchronized (BackgroundPrioritizedActionHandler.this) {
+				BackgroundPrioritizedActionHandler.this.notifyAll();
 			}
 		}
 
 		/**
 		 * @param next
 		 */
-		private void assignEvent(PrioritizedEvent next) {
+		private void assignEvent(PrioritizedAction next) {
 			while (!halted) {
 				for (EventHandlingRunnable runnable : runnables) {
 					if (runnable.handleEvent(next)) {
@@ -474,8 +474,8 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 		@Override
 		public boolean safeHalt() {
 			halted = true;
-			synchronized (BackgroundPrioritizedEventHandler.this) {
-				BackgroundPrioritizedEventHandler.this.notifyAll();
+			synchronized (BackgroundPrioritizedActionHandler.this) {
+				BackgroundPrioritizedActionHandler.this.notifyAll();
 			}
 			waitForThreads();
 			return false;
@@ -507,19 +507,19 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 		}
 
 		/* (non-Javadoc)
-		 * @see io.github.trulyfree.modular.general.Forkable#setBefore(io.github.trulyfree.modular.event.Event)
+		 * @see io.github.trulyfree.modular.general.Forkable#setBefore(io.github.trulyfree.modular.action.Action)
 		 */
 		@Override
-		public boolean setBefore(Event event) {
+		public boolean setBefore(Action action) {
 			// Unused.
 			return false;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.github.trulyfree.modular.general.Forkable#setAfter(io.github.trulyfree.modular.event.Event)
+		 * @see io.github.trulyfree.modular.general.Forkable#setAfter(io.github.trulyfree.modular.action.Action)
 		 */
 		@Override
-		public boolean setAfter(Event event) {
+		public boolean setAfter(Action action) {
 			// Unused.
 			return false;
 		}
@@ -531,31 +531,31 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 		private class EventHandlingRunnable implements Runnable {
 
 			private volatile boolean handling;
-			private volatile Event event;
+			private volatile Action action;
 
 			@Override
 			public void run() {
 				do {
 					waitForEvent();
 					handling = true;
-					event.enact();
-					event = null;
+					action.enact();
+					action = null;
 					handling = false;
 					synchronized (ThreadedEventHandlerManager.this) {
 						ThreadedEventHandlerManager.this.notify();
 					}
-				} while (event != null);
+				} while (action != null);
 			}
 
 			/**
-			 * @param event
+			 * @param action
 			 * @return
 			 */
-			public synchronized boolean handleEvent(Event event) {
+			public synchronized boolean handleEvent(Action action) {
 				if (isHandling()) {
 					return false;
 				} else {
-					this.event = event;
+					this.action = action;
 					notify();
 					return true;
 				}

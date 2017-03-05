@@ -1,12 +1,12 @@
-package io.github.trulyfree.modular.event.handlers;
+package io.github.trulyfree.modular.action.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.PrioritizedEvent;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.PrioritizedAction;
 import io.github.trulyfree.modular.general.Priority;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -30,26 +30,26 @@ import io.github.trulyfree.modular.general.Priority;
  * @author vtcakavsmoace
  *
  */
-public class PrioritizedEventHandler
-		implements Collection<PrioritizedEvent>, EventHandler<PrioritizedEvent> {
+public class PrioritizedActionHandler
+		implements Collection<PrioritizedAction>, ActionHandler<PrioritizedAction> {
 
 	/**
 	 * 
 	 */
-	protected volatile ArrayList<ArrayList<PrioritizedEvent>> lists;
+	protected volatile ArrayList<ArrayList<PrioritizedAction>> lists;
 
 	/**
 	 * 
 	 */
-	public PrioritizedEventHandler() {}
+	public PrioritizedActionHandler() {}
 	
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.Event#enact()
+	 * @see io.github.trulyfree.modular.action.Action#enact()
 	 */
 	@Override
 	public boolean enact() {
-		for (Event event : this) {
-			event.enact();
+		for (Action action : this) {
+			action.enact();
 		}
 		return true;
 	}
@@ -57,10 +57,10 @@ public class PrioritizedEventHandler
 	/**
 	 * @param handler
 	 */
-	protected PrioritizedEventHandler(PrioritizedEventHandler handler) {
+	protected PrioritizedActionHandler(PrioritizedActionHandler handler) {
 		setup();
 		for (int ord = 0; ord < handler.lists.size(); ord++) {
-			for (PrioritizedEvent item : handler.lists.get(ord)) {
+			for (PrioritizedAction item : handler.lists.get(ord)) {
 				lists.get(ord).add(item);
 			}
 		}
@@ -75,7 +75,7 @@ public class PrioritizedEventHandler
 		int length = Priority.values().length;
 		lists = new ArrayList<>(length);
 		for (int index = 0; index < length; index++) {
-			lists.add(new ArrayList<PrioritizedEvent>());
+			lists.add(new ArrayList<PrioritizedAction>());
 		}
 		return true;
 	}
@@ -101,7 +101,7 @@ public class PrioritizedEventHandler
 	 * @see java.util.Collection#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(PrioritizedEvent ero) {
+	public boolean add(PrioritizedAction ero) {
 		if (ero == null || ero.getPriority() == null) {
 			return false;
 		}
@@ -119,7 +119,7 @@ public class PrioritizedEventHandler
 			return 0;
 		}
 		int size = 0;
-		for (ArrayList<PrioritizedEvent> list : lists) {
+		for (ArrayList<PrioritizedAction> list : lists) {
 			size += list.size();
 			if (size < 0) {
 				return Integer.MAX_VALUE;
@@ -144,8 +144,8 @@ public class PrioritizedEventHandler
 		if (lists == null) {
 			return false;
 		}
-		for (ArrayList<PrioritizedEvent> list : lists) {
-			for (PrioritizedEvent item : list) {
+		for (ArrayList<PrioritizedAction> list : lists) {
+			for (PrioritizedAction item : list) {
 				if (item.equals(o)) {
 					return true;
 				}
@@ -158,7 +158,7 @@ public class PrioritizedEventHandler
 	 * @see java.util.Collection#iterator()
 	 */
 	@Override
-	public Iterator<PrioritizedEvent> iterator() {
+	public Iterator<PrioritizedAction> iterator() {
 		return new IteratorImpl();
 	}
 
@@ -171,7 +171,7 @@ public class PrioritizedEventHandler
 			return new Object[0];
 		}
 		Object[] objarray = new Object[size()];
-		Iterator<PrioritizedEvent> iter = iterator();
+		Iterator<PrioritizedAction> iter = iterator();
 		for (int i = 0; i < objarray.length; i++) {
 			objarray[i] = iter.next();
 		}
@@ -200,7 +200,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent get(int ord, int index) {
+	public PrioritizedAction get(int ord, int index) {
 		if (lists == null || ord >= lists.size() || ord < 0 || index >= lists.get(ord).size() || index < 0) {
 			return null;
 		}
@@ -211,7 +211,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent get(int index) {
+	public PrioritizedAction get(int index) {
 		if (lists == null) {
 			return null;
 		}
@@ -224,7 +224,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent get(Priority val, int index) {
+	public PrioritizedAction get(Priority val, int index) {
 		return get(val.ordinal(), index);
 	}
 
@@ -249,7 +249,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent remove(int ord, int index) {
+	public PrioritizedAction remove(int ord, int index) {
 		if (lists == null || ord >= lists.size() || ord < 0 || index >= lists.get(ord).size() || index < 0) {
 			return null;
 		}
@@ -260,7 +260,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent remove(int index) {
+	public PrioritizedAction remove(int index) {
 		if (lists == null) {
 			return null;
 		}
@@ -273,7 +273,7 @@ public class PrioritizedEventHandler
 	 * @param index
 	 * @return
 	 */
-	public PrioritizedEvent remove(Priority val, int index) {
+	public PrioritizedAction remove(Priority val, int index) {
 		return remove(val.ordinal(), index);
 	}
 
@@ -282,12 +282,12 @@ public class PrioritizedEventHandler
 	 */
 	@Override
 	public boolean remove(Object o) {
-		if (o == null || !(o instanceof PrioritizedEvent) || size() == 0) {
+		if (o == null || !(o instanceof PrioritizedAction) || size() == 0) {
 			return false;
 		}
 		Priority val;
 		try {
-			val = ((PrioritizedEvent) o).getPriority();
+			val = ((PrioritizedAction) o).getPriority();
 		} catch (ClassCastException e) {
 			return false;
 		}
@@ -311,9 +311,9 @@ public class PrioritizedEventHandler
 	 * @see java.util.Collection#addAll(java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(Collection<? extends PrioritizedEvent> c) {
+	public boolean addAll(Collection<? extends PrioritizedAction> c) {
 		boolean changed = false;
-		for (PrioritizedEvent item : c) {
+		for (PrioritizedAction item : c) {
 			if (add(item)) {
 				changed = true;
 			}
@@ -341,7 +341,7 @@ public class PrioritizedEventHandler
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		boolean changed = false;
-		for (ArrayList<PrioritizedEvent> list : lists) {
+		for (ArrayList<PrioritizedAction> list : lists) {
 			for (int i = list.size() - 1; i >= 0; i--) {
 				if (!c.contains(list.get(i))) {
 					list.remove(i);
@@ -357,7 +357,7 @@ public class PrioritizedEventHandler
 	 */
 	@Override
 	public void clear() {
-		for (ArrayList<PrioritizedEvent> list : lists) {
+		for (ArrayList<PrioritizedAction> list : lists) {
 			list.clear();
 		}
 	}
@@ -366,7 +366,7 @@ public class PrioritizedEventHandler
 	 * @author vtcakavsmoace
 	 *
 	 */
-	private class IteratorImpl implements Iterator<PrioritizedEvent> {
+	private class IteratorImpl implements Iterator<PrioritizedAction> {
 
 		/**
 		 * 
@@ -377,10 +377,10 @@ public class PrioritizedEventHandler
 		 * @see java.util.Iterator#next()
 		 */
 		@Override
-		public PrioritizedEvent next() {
-			PrioritizedEvent toDo;
+		public PrioritizedAction next() {
+			PrioritizedAction toDo;
 			do {
-				toDo = PrioritizedEventHandler.this.remove(ord, 0);
+				toDo = PrioritizedActionHandler.this.remove(ord, 0);
 			} while (toDo == null && realign());
 			return toDo;
 		}
@@ -398,14 +398,14 @@ public class PrioritizedEventHandler
 		 */
 		@Override
 		public void remove() {
-			PrioritizedEventHandler.this.remove(ord, 0);
+			PrioritizedActionHandler.this.remove(ord, 0);
 		}
 
 		/**
 		 * @return
 		 */
 		private boolean realign() {
-			if (PrioritizedEventHandler.this.size() == 0) {
+			if (PrioritizedActionHandler.this.size() == 0) {
 				return false;
 			}
 			for (ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
@@ -419,19 +419,19 @@ public class PrioritizedEventHandler
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.ModifiableEventGroup#addEvent(io.github.trulyfree.modular.event.Event)
+	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean addEvent(PrioritizedEvent event) {
+	public boolean addEvent(PrioritizedAction event) {
 		return add(event);
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.ModifiableEventGroup#removeEvent(io.github.trulyfree.modular.event.Event)
+	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public PrioritizedEvent removeEvent(PrioritizedEvent event) {
-		ArrayList<PrioritizedEvent> list = lists.get(event.getPriority().ordinal());
+	public PrioritizedAction removeEvent(PrioritizedAction event) {
+		ArrayList<PrioritizedAction> list = lists.get(event.getPriority().ordinal());
 		int index = list.indexOf(event);
 		if (index >= 0) {
 			return list.remove(index);
@@ -440,12 +440,12 @@ public class PrioritizedEventHandler
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.EventGroup#enactNextEvent()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextEvent()
 	 */
 	@Override
 	public boolean enactNextEvent() {
 		for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
-			ArrayList<PrioritizedEvent> list = lists.get(ord);
+			ArrayList<PrioritizedAction> list = lists.get(ord);
 			if (!list.isEmpty()) {
 				return list.remove(0).enact();
 			}
@@ -454,11 +454,11 @@ public class PrioritizedEventHandler
 	}
 
 	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.event.EventGroup#getEvents()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
 	 */
 	@Override
-	public Collection<PrioritizedEvent> getEvents() {
-		return new PrioritizedEventHandler(this);
+	public Collection<PrioritizedAction> getEvents() {
+		return new PrioritizedActionHandler(this);
 	}
 
 }

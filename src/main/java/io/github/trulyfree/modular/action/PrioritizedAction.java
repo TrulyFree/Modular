@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.event;
+package io.github.trulyfree.modular.action;
 
 import io.github.trulyfree.modular.general.Priority;
 
@@ -20,7 +20,7 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 /**
- * PrioritizedEvent interface. All events with an assigned priority should
+ * PrioritizedAction interface. All events with an assigned priority should
  * implement this interface. This interface provides all methods necessary for
  * comparing two events of separate priority, but further implementation is
  * permitted.
@@ -28,12 +28,12 @@ import io.github.trulyfree.modular.general.Priority;
  * @author vtcakavsmoace
  *
  */
-public interface PrioritizedEvent extends Event, Comparable<Event> {
+public interface PrioritizedAction extends Action, Comparable<Action> {
 
 	/**
 	 * Method to be called in order to check the priority of this event.
 	 * 
-	 * @return priority The current priority level of the Event.
+	 * @return priority The current priority level of the Action.
 	 */
 	public Priority getPriority();
 
@@ -42,9 +42,9 @@ public interface PrioritizedEvent extends Event, Comparable<Event> {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public default int compareTo(Event event) {
-		if (event instanceof PrioritizedEvent) {
-			return getPriority().compareTo(((PrioritizedEvent) event).getPriority());
+	public default int compareTo(Action action) {
+		if (action instanceof PrioritizedAction) {
+			return getPriority().compareTo(((PrioritizedAction) action).getPriority());
 		} else {
 			return 1;
 		}

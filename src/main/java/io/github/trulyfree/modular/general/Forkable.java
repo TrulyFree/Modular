@@ -1,6 +1,6 @@
 package io.github.trulyfree.modular.general;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -22,7 +22,7 @@ import io.github.trulyfree.modular.event.Event;
 /**
  * Forkable interface. All modules or events which will run strictly on separate
  * threads should implement this interface. It is highly suggested that Forkable
- * Event implementations be an EventGroup in order to have an easy
+ * Action implementations be an ActionGroup in order to have an easy
  * implementation for safeHalt. Forkable Cancellable Events should not end
  * execution after being enacted if they are set to cancelled mid-execution.
  * 
@@ -33,7 +33,7 @@ public interface Forkable {
 
 	/**
 	 * Method to be called in order to safely halt the Forkable instance at the
-	 * next convienient process interval. It is suggested that Forkable Event
+	 * next convienient process interval. It is suggested that Forkable Action
 	 * implementations be EventGroups such that the safeHalt method cause the
 	 * Forkable instance to halt between events, where events would represent a
 	 * "single action". Consider: <code>if (!halted) enactNextEvent();</code>
@@ -71,7 +71,7 @@ public interface Forkable {
 	 * @return success A boolean representing whether or not the before event
 	 *         was set.
 	 */
-	public boolean setBefore(Event event);
+	public boolean setBefore(Action action);
 
 	/**
 	 * Method to be called in order to set the action to occur after the
@@ -82,6 +82,6 @@ public interface Forkable {
 	 * @return success A boolean representing whether or not the after event was
 	 *         set.
 	 */
-	public boolean setAfter(Event event);
+	public boolean setAfter(Action action);
 
 }

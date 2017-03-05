@@ -1,6 +1,6 @@
 package io.github.trulyfree.modular.test.integrate.impl;
 
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
 import io.github.trulyfree.modular.general.Cancellable;
 
 /* Modular library by TrulyFree: A general-use module-building library.
@@ -20,7 +20,7 @@ import io.github.trulyfree.modular.general.Cancellable;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class SimpleCancellableEvent implements Event, Cancellable {
+public abstract class SimpleCancellableEvent implements Action, Cancellable {
 
 	private boolean cancelled;
 
