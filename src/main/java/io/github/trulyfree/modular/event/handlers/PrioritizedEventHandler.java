@@ -24,7 +24,7 @@ public class PrioritizedEventHandler
 		return true;
 	}
 	
-	private PrioritizedEventHandler(PrioritizedEventHandler handler) {
+	protected PrioritizedEventHandler(PrioritizedEventHandler handler) {
 		setup();
 		for (int ord = 0; ord < handler.lists.size(); ord++) {
 			for (PrioritizedEvent item : handler.lists.get(ord)) {
