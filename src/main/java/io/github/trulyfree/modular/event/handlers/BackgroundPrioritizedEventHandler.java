@@ -285,17 +285,6 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 			}
 		}
 
-		private boolean threadsAreActive() {
-			for (Thread thread : threads) {
-				if (thread != null) {
-					if (thread.isAlive()) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
 		@Override
 		public boolean safeHalt() {
 			halted = true;
@@ -307,13 +296,11 @@ public class BackgroundPrioritizedEventHandler extends PrioritizedEventHandler i
 		}
 
 		private void waitForThreads() {
-			while (threadsAreActive()) {
-				synchronized (BackgroundPrioritizedEventHandler.this) {
-					try {
-						BackgroundPrioritizedEventHandler.this.wait(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+			for (Thread thread : threads) {
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}
