@@ -46,6 +46,11 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * 
 	 */
 	private final ThreadedEventHandlerManager watcher;
+	
+	/**
+	 * 
+	 */
+	private final Thread watcherThread;
 
 	/**
 	 * 
@@ -62,6 +67,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	public BackgroundPrioritizedActionHandler(int maxthreads) {
 		watcher = new ThreadedEventHandlerManager(maxthreads);
+		watcherThread = new Thread(watcher);
 	}
 
 	/*
@@ -79,7 +85,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		running = true;
 		if (before != null)
 			before.enact();
-		new Thread(watcher).start();
+		watcherThread.start();
 		return true;
 	}
 
