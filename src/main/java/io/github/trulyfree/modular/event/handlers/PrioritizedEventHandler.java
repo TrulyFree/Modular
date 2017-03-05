@@ -12,7 +12,7 @@ import io.github.trulyfree.modular.general.Priority;
 public class PrioritizedEventHandler
 		implements Collection<PrioritizedEvent>, EventHandler<PrioritizedEvent> {
 
-	private volatile ArrayList<ArrayList<PrioritizedEvent>> lists;
+	protected volatile ArrayList<ArrayList<PrioritizedEvent>> lists;
 
 	public PrioritizedEventHandler() {}
 	
