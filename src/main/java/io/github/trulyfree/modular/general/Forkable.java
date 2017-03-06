@@ -1,5 +1,7 @@
 package io.github.trulyfree.modular.general;
 
+import io.github.trulyfree.modular.action.Action;
+
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
@@ -18,10 +20,10 @@ package io.github.trulyfree.modular.general;
  */
 
 /**
- * Forkable interface. All modules or events which will run strictly on separate
+ * Forkable interface. All modules or actions which will run strictly on separate
  * threads should implement this interface. It is highly suggested that Forkable
- * Event implementations be an EventGroup in order to have an easy
- * implementation for safeHalt. Forkable Cancellable Events should not end
+ * Action implementations be an ActionGroup in order to have an easy
+ * implementation for safeHalt. Forkable Cancellable Actions should not end
  * execution after being enacted if they are set to cancelled mid-execution.
  * 
  * @author vtcakavsmoace
@@ -31,10 +33,10 @@ public interface Forkable {
 
 	/**
 	 * Method to be called in order to safely halt the Forkable instance at the
-	 * next convienient process interval. It is suggested that Forkable Event
-	 * implementations be EventGroups such that the safeHalt method cause the
-	 * Forkable instance to halt between events, where events would represent a
-	 * "single action". Consider: <code>if (!halted) enactNextEvent();</code>
+	 * next convienient process interval. It is suggested that Forkable Action
+	 * implementations be ActionGroups such that the safeHalt method cause the
+	 * Forkable instance to halt between actions, where actions would represent a
+	 * "single action". Consider: <code>if (!halted) enactNextAction();</code>
 	 * 
 	 * @return success A boolean representing whether or not the halting
 	 *         operation succeeded. This should always halt the current thread
@@ -59,5 +61,31 @@ public interface Forkable {
 	 *             which calls this.
 	 */
 	public boolean immediateHalt() throws Exception;
+
+	/**
+	 * Method to be called in order to set the action to occur before the
+	 * forkable is forked. This should not be changed while the forkable is
+	 * forked, and if there is an attempt to call this method while the fork is
+	 * active, no action should occur and the method should return false.
+	 * 
+	 * @param action
+	 *            The new before action.
+	 * @return success A boolean representing whether or not the before action
+	 *         was set.
+	 */
+	public boolean setBefore(Action action);
+
+	/**
+	 * Method to be called in order to set the action to occur after the
+	 * forkable is forked. This should not be changed while the forkable is
+	 * forked, and if there is an attempt to call this method while the fork is
+	 * active, no action should occur and the method should return false.
+	 * 
+	 * @param action
+	 *            The new after action.
+	 * @return success A boolean representing whether or not the after action was
+	 *         set.
+	 */
+	public boolean setAfter(Action action);
 
 }

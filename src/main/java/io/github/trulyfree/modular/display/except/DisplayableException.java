@@ -51,7 +51,7 @@ public class DisplayableException extends Exception {
 
 	/**
 	 * @param message
-	 *            The message detailing the event leading to the exception.
+	 *            The message detailing the action leading to the exception.
 	 * @param disp
 	 *            The displayable which caused the exception.
 	 */
@@ -71,7 +71,7 @@ public class DisplayableException extends Exception {
 
 	/**
 	 * @param message
-	 *            The message detailing the event leading to the exception.
+	 *            The message detailing the action leading to the exception.
 	 * @param cause
 	 *            The throwable which caused the exception to be thrown.
 	 * @param disp
@@ -83,7 +83,7 @@ public class DisplayableException extends Exception {
 
 	/**
 	 * @param message
-	 *            The message detailing the event leading to the exception.
+	 *            The message detailing the action leading to the exception.
 	 * @param cause
 	 *            The throwable which caused the exception to be thrown.
 	 * @param enableSuppression
@@ -100,7 +100,7 @@ public class DisplayableException extends Exception {
 
 	/**
 	 * @param message
-	 *            The message detailing the event leading to the exception.
+	 *            The message detailing the action leading to the exception.
 	 * @param disp
 	 *            The displayable which caused the exception.
 	 * @return fullMessage The message to be used by the Exception.

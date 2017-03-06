@@ -18,7 +18,7 @@ package io.github.trulyfree.modular.general;
  */
 
 /**
- * Cancellable interface. All cancellable events or modules should implement
+ * Cancellable interface. All cancellable actions or modules should implement
  * this interface. It is highly recommended that all implementations of this
  * class prevent any form of interaction with the instance while the instance is
  * in the cancelled state.

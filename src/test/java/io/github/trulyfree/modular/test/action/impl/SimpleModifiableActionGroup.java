@@ -1,11 +1,11 @@
-package io.github.trulyfree.modular.test.event.impl;
+package io.github.trulyfree.modular.test.action.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.github.trulyfree.modular.event.ModifiableEventGroup;
-import io.github.trulyfree.modular.event.Event;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ModifiableActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -24,69 +24,62 @@ import io.github.trulyfree.modular.event.Event;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleModifiableEventGroup<T extends Event> implements ModifiableEventGroup<T> {
+public class SimpleModifiableActionGroup<T extends Action> implements ModifiableActionGroup<T> {
 
 	private int current;
-	
-	private List<T> events;
-	
-	public SimpleModifiableEventGroup() {
+
+	private List<T> actions;
+
+	public SimpleModifiableActionGroup() {
 		current = 0;
-		events = new ArrayList<T>();
+		actions = new ArrayList<T>();
 	}
-	
+
 	@Override
-	public synchronized boolean enactNextEvent() {
-		return events.get(next()).enact();
+	public synchronized boolean enactNextAction() {
+		return actions.get(next()).enact();
 	}
 
 	@Override
 	public synchronized int size() {
-		return events.size();
+		return actions.size();
 	}
 
 	@Override
-	public synchronized Collection<T> getEvents() {
-		Collection<T> events = new ArrayList<T>(size());
-		for (T event : this.events) {
-			events.add(event);
+	public synchronized Collection<T> getActions() {
+		Collection<T> actions = new ArrayList<T>(size());
+		for (T action : this.actions) {
+			actions.add(action);
 		}
-		return events;
+		return actions;
 	}
 
 	@Override
-	public synchronized boolean addEvent(T event) {
-		return events.add(event);
+	public synchronized boolean addAction(T action) {
+		return actions.add(action);
 	}
 
 	@Override
-	public synchronized T removeEvent(T event) {
-		int index = events.indexOf(event);
-		if (index == -1) {
-			return null;
-		} else {
-			T toReturn = events.get(index);
-			events.remove(index);
-			return toReturn;
-		}
+	public synchronized boolean removeAction(T action) {
+		return actions.remove(action);
 	}
 
 	@Override
 	public synchronized void enactAllOfType(Class<? extends T> type) {
-		for (T event : events) {
-			if (type.isInstance(event)) {
-				event.enact();
+		for (T action : actions) {
+			if (type.isInstance(action)) {
+				action.enact();
 			}
 		}
 	}
 
 	@Override
 	public synchronized void enactAll() {
-		for (T event : events) {
-			event.enact();
+		for (T action : actions) {
+			action.enact();
 		}
 	}
-	
+
 	private int next() {
 		final int intermediary = current;
 		current++;

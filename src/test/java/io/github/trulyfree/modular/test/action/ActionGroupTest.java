@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.test.event;
+package io.github.trulyfree.modular.test.action;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -12,9 +12,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.event.EventGroup;
-import io.github.trulyfree.modular.test.event.impl.SimpleEventGroup;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.ActionGroup;
+import io.github.trulyfree.modular.test.action.impl.SimpleActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -34,68 +34,68 @@ import io.github.trulyfree.modular.test.event.impl.SimpleEventGroup;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EventGroupTest {
+public class ActionGroupTest {
 
-	private static EventGroup<EventImpl> eg;
+	private static ActionGroup<ActionImpl> eg;
 
-	private static EventImpl event1;
-	private static EventImpl2 event2;
+	private static ActionImpl action1;
+	private static ActionImpl2 action2;
 
 	@BeforeClass
 	public static void setup() {
-		event1 = new EventImpl();
+		action1 = new ActionImpl();
 
-		event2 = new EventImpl2();
+		action2 = new ActionImpl2();
 
-		List<EventImpl> events = new ArrayList<EventImpl>(2);
-		events.add(event1);
-		events.add(event2);
+		List<ActionImpl> actions = new ArrayList<ActionImpl>(2);
+		actions.add(action1);
+		actions.add(action2);
 
-		eg = new SimpleEventGroup<EventImpl>(events);
+		eg = new SimpleActionGroup<ActionImpl>(actions);
 	}
 
 	@Test
 	public void stage0_verifyNoAction() {
-		for (EventImpl event : eg.getEvents()) {
-			assertFalse(event.modified);
+		for (ActionImpl action : eg.getActions()) {
+			assertFalse(action.modified);
 		}
 	}
 
 	@Test
-	public void stage1_0_testEnactNextEvent() {
-		assertTrue(eg.enactNextEvent());
+	public void stage1_0_testEnactNextAction() {
+		assertTrue(eg.enactNextAction());
 	}
 
 	@Test
-	public void stage1_1_verifyEnactNextEvent() {
-		assertTrue(event1.modified);
+	public void stage1_1_verifyEnactNextAction() {
+		assertTrue(action1.modified);
 	}
 
 	@Test
-	public void stage2_0_testEnactNextEvent() {
-		stage1_0_testEnactNextEvent();
+	public void stage2_0_testEnactNextAction() {
+		stage1_0_testEnactNextAction();
 	}
 
 	@Test
-	public void stage2_1_verifyEnactNextEvent() {
-		assertTrue(event2.modified);
+	public void stage2_1_verifyEnactNextAction() {
+		assertTrue(action2.modified);
 	}
 	
 	@Test
 	public void stage3_0_setupStage3() {
-		event1.modified = false;
-		event2.modified = false;
+		action1.modified = false;
+		action2.modified = false;
 	}
 	
 	@Test
 	public void stage3_1_testEnactAllOfType() {
-		eg.enactAllOfType(EventImpl2.class);
+		eg.enactAllOfType(ActionImpl2.class);
 	}
 	
 	@Test
 	public void stage3_2_verifyEnactAllOfType() {
-		assertFalse(event1.modified);
-		assertTrue(event2.modified);
+		assertFalse(action1.modified);
+		assertTrue(action2.modified);
 	}
 	
 	@Test
@@ -110,18 +110,18 @@ public class EventGroupTest {
 	
 	@Test
 	public void stage4_2_verifyEnactAll() {
-		assertTrue(event1.modified);
-		assertTrue(event2.modified);
+		assertTrue(action1.modified);
+		assertTrue(action2.modified);
 	}
 
 	@AfterClass
 	public static void destroy() {
-		event1 = null;
-		event2 = null;
+		action1 = null;
+		action2 = null;
 		eg = null;
 	}
 
-	private static class EventImpl implements Event {
+	private static class ActionImpl implements Action {
 
 		public boolean modified;
 		
@@ -133,6 +133,6 @@ public class EventGroupTest {
 		
 	}
 	
-	private static class EventImpl2 extends EventImpl {}
+	private static class ActionImpl2 extends ActionImpl {}
 	
 }

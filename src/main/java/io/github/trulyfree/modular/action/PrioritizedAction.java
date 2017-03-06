@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular.event;
+package io.github.trulyfree.modular.action;
 
 import io.github.trulyfree.modular.general.Priority;
 
@@ -20,32 +20,20 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 /**
- * PrioritizedEvent interface. All events with an assigned priority should
+ * PrioritizedAction interface. All actions with an assigned priority should
  * implement this interface. This interface provides all methods necessary for
- * comparing two events of separate priority, but further implementation is
+ * comparing two actions of separate priority, but further implementation is
  * permitted.
  * 
  * @author vtcakavsmoace
  *
  */
-public interface PrioritizedEvent extends Event, Comparable<Event> {
+public interface PrioritizedAction extends Action, Comparable<Action> {
 
 	/**
-	 * Method to be called in order to set the priority of this event.
-	 * Generally, this should not be used after instantiation, but some
-	 * implementations may find it valuable.
+	 * Method to be called in order to check the priority of this action.
 	 * 
-	 * @param priority
-	 *            The target priority level for the Event.
-	 * @return success A boolean representing the success of the priority
-	 *         setting operation.
-	 */
-	public boolean setPriority(Priority priority);
-
-	/**
-	 * Method to be called in order to check the priority of this event.
-	 * 
-	 * @return priority The current priority level of the Event.
+	 * @return priority The current priority level of the Action.
 	 */
 	public Priority getPriority();
 
@@ -54,9 +42,9 @@ public interface PrioritizedEvent extends Event, Comparable<Event> {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public default int compareTo(Event event) {
-		if (event instanceof PrioritizedEvent) {
-			return getPriority().compareTo(((PrioritizedEvent) event).getPriority());
+	public default int compareTo(Action action) {
+		if (action instanceof PrioritizedAction) {
+			return getPriority().compareTo(((PrioritizedAction) action).getPriority());
 		} else {
 			return 1;
 		}

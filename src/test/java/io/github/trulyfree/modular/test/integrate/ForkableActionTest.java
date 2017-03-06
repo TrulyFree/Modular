@@ -11,8 +11,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.event.Event;
-import io.github.trulyfree.modular.test.integrate.impl.SimpleForkableEvent;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.test.integrate.impl.SimpleForkableAction;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -32,17 +32,17 @@ import io.github.trulyfree.modular.test.integrate.impl.SimpleForkableEvent;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ForkableEventTest {
+public class ForkableActionTest {
 
-	private static SimpleForkableEvent sfe;
+	private static SimpleForkableAction sfe;
 
 	public static volatile boolean finished;
 
 	@Test
 	public void stage0_0_setup() {
 		finished = false;
-		List<Event> events = new ArrayList<Event>();
-		events.add(new Event() {
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(new Action() {
 
 			@Override
 			public boolean enact() {
@@ -51,7 +51,7 @@ public class ForkableEventTest {
 			}
 
 		});
-		sfe = new SimpleForkableEvent(events);
+		sfe = new SimpleForkableAction(actions);
 	}
 
 	@Test

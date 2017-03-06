@@ -1,3 +1,8 @@
+package io.github.trulyfree.modular.test.action.impl;
+
+import io.github.trulyfree.modular.action.PrioritizedAction;
+import io.github.trulyfree.modular.general.Priority;
+
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
@@ -15,8 +20,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Defines interfaces with direct relevance to events and their handling
- * process.
- */
-package io.github.trulyfree.modular.event;
+public abstract class SimplePrioritizedAction implements PrioritizedAction {
+
+	private Priority priority;
+
+	public SimplePrioritizedAction(Priority priority) {
+		this.priority = priority;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return priority;
+	}
+
+}

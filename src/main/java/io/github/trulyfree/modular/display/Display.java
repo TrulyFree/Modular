@@ -45,7 +45,7 @@ public interface Display<T extends Displayable> extends Module {
 	 * Method to be called in order to set the current DisplayableModule being
 	 * displayaed by this display. This method should single-handledly perform
 	 * parsing and rendering for the display. If this method fails, it should
-	 * revert to the previous setup to prevent unresolvable module or screen
+	 * revert to the previous setup to praction unresolvable module or screen
 	 * problems.
 	 * 
 	 * @param module
