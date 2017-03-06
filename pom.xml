@@ -4,7 +4,30 @@
 	<groupId>io.github.trulyfree</groupId>
 	<artifactId>modular</artifactId>
 	<version>0.1.1-beta</version>
-	<name>Modular</name>
+	<name>io.github.trulyfree:Modular</name>
+	<scm>
+		<connection>scm:git:https://github.com/TrulyFree/Modular.git</connection>
+		<developerConnection>scm:git:https://github.com/TrulyFree/Modular.git</developerConnection>
+		<url>https://github.com/TrulyFree/Modular</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>GPL-3.0</name>
+			<url>https://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>VTCAKAVSMoACE</name>
+			<email>vtcakavsmoace@gmail.com</email>
+			<organization>TrulyFree</organization>
+			<organizationUrl>https://github.com/TrulyFree</organizationUrl>
+			<roles>
+				<role>Project Lead</role>
+			</roles>
+			<timezone>0</timezone>
+		</developer>
+	</developers>
 	<description>A module framework for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
 	<dependencies>
 		<dependency>
