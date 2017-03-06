@@ -20,19 +20,29 @@ import io.github.trulyfree.modular.action.Action;
  */
 
 /**
+ * Handlerable interface. Any object to which a handler may be applied should
+ * implement this interface, and the modular program should set the action
+ * handler of the target object.
+ * 
  * @author vtcakavsmoace
- *
  */
 public interface Handlerable {
 
 	/**
+	 * Method to call in order to set the event handler of the target
+	 * Handerable. The Handlerable should submit all following actions to this
+	 * action handler.
+	 * 
 	 * @param handler
-	 * @return
+	 *            The new action handler.
+	 * @return success A boolean representing the success of the set operation.
 	 */
 	public <T extends Action> boolean setEventHandler(ActionHandler<T> handler);
 
 	/**
-	 * @return
+	 * Method to call in order to get the current event handler.
+	 * 
+	 * @return handler The current event handler.
 	 */
 	public ActionHandler<? extends Action> getEventHandler();
 
