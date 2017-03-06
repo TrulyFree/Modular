@@ -38,17 +38,7 @@ public class PrioritizedEventHandlerTest {
 	}
 	
 	@Test
-	public void stage0_verifyNoAction() {
-		assertFalse(handler.isReady());
-	}
-	
-	@Test
-	public void stage1_0_testSetup() {
-		assertTrue(handler.setup());
-	}
-	
-	@Test
-	public void stage1_1_verifySetup() {
+	public void stage1_0_verifySetup() {
 		assertTrue(handler.isReady());
 		assertEquals(0, handler.getActions().size());
 		for (EventImpl event : events) {

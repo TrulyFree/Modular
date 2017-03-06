@@ -101,7 +101,7 @@ public class ModifiableEventGroupTest {
 	@Test
 	public void stage4_0_testRemoveEvent() {
 		for (EventImpl event : meg.getActions()) {
-			assertEquals(event, meg.removeEvent(event));
+			assertEquals(true, meg.removeEvent(event));
 		}
 	}
 
