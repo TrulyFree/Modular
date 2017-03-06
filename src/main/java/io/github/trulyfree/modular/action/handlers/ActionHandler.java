@@ -22,8 +22,9 @@ import io.github.trulyfree.modular.module.Module;
  */
 
 /**
+ * ActionHandler interface. Defines the minimum support requirements for ActionHandlers.
  * @author vtcakavsmoace
  *
- * @param <T>
+ * @param <T> The type of action this action handler supports.
  */
 public interface ActionHandler<T extends Action> extends ModifiableActionGroup<T>, Module, Action {}

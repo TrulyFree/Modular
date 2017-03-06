@@ -36,6 +36,10 @@ public interface Handlerable {
 	 * @param handler
 	 *            The new action handler.
 	 * @return success A boolean representing the success of the set operation.
+	 * 
+	 * @param <T>
+	 *            A parameter specifying the type of action supported by the
+	 *            action handler.
 	 */
 	public <T extends Action> boolean setEventHandler(ActionHandler<T> handler);
 

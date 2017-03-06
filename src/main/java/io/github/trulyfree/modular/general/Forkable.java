@@ -68,6 +68,8 @@ public interface Forkable {
 	 * forked, and if there is an attempt to call this method while the fork is
 	 * active, no action should occur and the method should return false.
 	 * 
+	 * @param action
+	 *            The new before action.
 	 * @return success A boolean representing whether or not the before event
 	 *         was set.
 	 */
@@ -79,6 +81,8 @@ public interface Forkable {
 	 * forked, and if there is an attempt to call this method while the fork is
 	 * active, no action should occur and the method should return false.
 	 * 
+	 * @param action
+	 *            The new after action.
 	 * @return success A boolean representing whether or not the after event was
 	 *         set.
 	 */
