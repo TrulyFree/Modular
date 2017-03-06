@@ -45,7 +45,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 
 	@BeforeClass
 	public static void setup() {
-		handler = new BackgroundPrioritizedActionHandler(5);
+		handler = new BackgroundPrioritizedActionHandler((byte) 5);
 		events = new ArrayList<>();
 		for (@SuppressWarnings("unused")
 		Priority priority : Priority.values()) {

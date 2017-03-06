@@ -30,7 +30,13 @@ import io.github.trulyfree.modular.general.Forkable;
 
 /**
  * BackgroundPrioritizedActionHandler class. Most modular programs will likely
- * wish to use this handler type.
+ * wish to use this handler type. Thread orientation is in the
+ * "Producers-Distributor-Consumers" analogy; 1 to many independent threads may
+ * produce actions for this action handler, non-blockingly. The distributor
+ * thread will handle the distribution of the actions to the consumer threads,
+ * blocking until actions are available to be distributed. The distributor will
+ * distribute higher priority actions first. The consumers will then enact all
+ * the submitted actions.
  * 
  * @author vtcakavsmoace
  *
@@ -38,41 +44,44 @@ import io.github.trulyfree.modular.general.Forkable;
 public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler implements Forkable {
 
 	/**
-	 * 
-	 */
-	private volatile boolean running;
-
-	/**
-	 * 
+	 * A boolean representing whether the lists are being interacted with. This
+	 * prevents concurrent modification problems or repeatedly enacting the same
+	 * action.
 	 */
 	private volatile boolean activeIO;
 
 	/**
-	 * 
+	 * The "distributor" in the analogy; this is the runnable associated with
+	 * the distributor thread, which distributes actions to the consumers.
 	 */
-	private final ThreadedEventHandlerManager watcher;
+	private final EventDistributor distributor;
 
 	/**
-	 * 
+	 * The thread which holds the distributor runnable.
 	 */
-	private final Thread watcherThread;
+	private final Thread distributorThread;
 
 	/**
-	 * 
+	 * The action to be enacted before the action handler is started. This will
+	 * generally remain unused.
 	 */
 	private Action before;
 
 	/**
-	 * 
+	 * The action to be enacted after the action handler is halted. This will
+	 * generally remain unused.
 	 */
 	private Action after;
 
 	/**
+	 * Standard constructor for BackgroundPrioritizedActionHandler.
+	 * 
 	 * @param maxthreads
+	 *            An byte defining the maximum number of consumer threads.
 	 */
-	public BackgroundPrioritizedActionHandler(int maxthreads) {
-		watcher = new ThreadedEventHandlerManager(maxthreads);
-		watcherThread = new Thread(watcher);
+	public BackgroundPrioritizedActionHandler(byte maxthreads) {
+		distributor = new EventDistributor(maxthreads);
+		distributorThread = new Thread(distributor);
 	}
 
 	/*
@@ -84,13 +93,12 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean enact() {
-		if (running) {
+		if (distributorThread.isAlive()) {
 			return false;
 		}
-		running = true;
 		if (before != null)
 			before.enact();
-		watcherThread.start();
+		distributorThread.start();
 		return true;
 	}
 
@@ -103,7 +111,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean setup() {
-		if (running) {
+		if (distributorThread.isAlive()) {
 			return false;
 		}
 		return super.setup();
@@ -118,7 +126,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean isReady() {
-		return running || super.isReady();
+		return distributorThread.isAlive() || super.isReady();
 	}
 
 	/*
@@ -333,7 +341,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean safeHalt() {
-		watcher.safeHalt();
+		distributor.safeHalt();
 		if (after != null)
 			after.enact();
 		return true;
@@ -346,7 +354,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean immediateHalt() throws Exception {
-		watcher.immediateHalt();
+		distributor.immediateHalt();
 		if (after != null)
 			after.enact();
 		return true;
@@ -360,7 +368,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean setBefore(Action action) {
-		if (running) {
+		if (distributorThread.isAlive()) {
 			return false;
 		}
 		this.before = action;
@@ -376,7 +384,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 */
 	@Override
 	public boolean setAfter(Action action) {
-		if (running) {
+		if (distributorThread.isAlive()) {
 			return false;
 		}
 		this.after = action;
@@ -384,7 +392,11 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	}
 
 	/**
-	 * @return
+	 * Method to call in order to wait until IO becomes available again. If the
+	 * thread is interrupted while waiting for IO, this method will return
+	 * false.
+	 * 
+	 * @return success A boolean representing the success of waiting for IO.
 	 */
 	private boolean waitForIO() {
 		synchronized (this.lists) {
@@ -401,7 +413,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	}
 
 	/**
-	 * 
+	 * Method to call in order to notify the next add operation in the IO queue
+	 * that they are clear to make an IO action.
 	 */
 	private void notifyForIO() {
 		synchronized (this.lists) {
@@ -410,20 +423,25 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	}
 
 	/**
+	 * EventDistributor class. This class defines the properties of the action
+	 * distributor which handles the distribution of actions to consumers.
+	 * 
 	 * @author vtcakavsmoace
-	 *
 	 */
-	private class ThreadedEventHandlerManager implements Forkable, Runnable {
+	private class EventDistributor implements Forkable, Runnable {
 
 		/**
-		 * 
+		 * The consumer pool, which actions are distributed to.
 		 */
 		private final ExecutorService pool;
 
 		/**
+		 * Standard EventDistributor constructor.
+		 * 
 		 * @param maxthreads
+		 *            A byte representing the number of consumer threads to use.
 		 */
-		public ThreadedEventHandlerManager(int maxthreads) {
+		public EventDistributor(byte maxthreads) {
 			pool = Executors.newFixedThreadPool(maxthreads);
 		}
 
@@ -451,20 +469,23 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		}
 
 		/**
+		 * Method to call in order to assign an action to a consumer.
+		 * 
 		 * @param next
+		 *            The action to assign to a consumer.
 		 */
 		private void assignEvent(final PrioritizedAction next) {
-			Callable<Boolean> task = new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws Exception {
-					boolean result = next.enact();
-					synchronized (ThreadedEventHandlerManager.this) {
-						ThreadedEventHandlerManager.this.notify();
-					}
-					return result;
-				}
-			};
 			if (!pool.isShutdown()) {
+				Callable<Boolean> task = new Callable<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						boolean result = next.enact();
+						synchronized (EventDistributor.this) {
+							EventDistributor.this.notify();
+						}
+						return result;
+					}
+				};
 				pool.submit(task);
 			}
 		}
@@ -492,7 +513,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		}
 
 		/**
-		 * 
+		 * Method to call in order to wait for threads to terminate. This will
+		 * wait a maximum of 100 milliseconds for threads to terminate.
 		 */
 		private void waitForThreads() {
 			try {
