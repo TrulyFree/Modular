@@ -48,12 +48,8 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public Action removeEvent(Action action) {
-		int index = list.indexOf(action);
-		if (index >= 0) {
-			return list.remove(index);
-		}
-		return null;
+	public boolean removeEvent(Action action) {
+		return list.remove(action);
 	}
 
 	/* (non-Javadoc)
@@ -71,7 +67,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
 	 */
 	@Override
-	public Collection<Action> getEvents() {
+	public Collection<Action> getActions() {
 		return new ArrayList<Action>(list);
 	}
 

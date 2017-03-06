@@ -49,9 +49,9 @@ public class GeneralizedEventHandlerTest {
 	@Test
 	public void stage1_1_verifySetup() {
 		assertTrue(handler.isReady());
-		assertEquals(0, handler.getEvents().size());
+		assertEquals(0, handler.getActions().size());
 		for (EventImpl event : events) {
-			assertFalse(handler.getEvents().contains(event));
+			assertFalse(handler.getActions().contains(event));
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class GeneralizedEventHandlerTest {
 	@Test
 	public void stage2_1_verifyAddEvent() {
 		for (Action action : events) {
-			assertTrue(handler.getEvents().contains(action));
+			assertTrue(handler.getActions().contains(action));
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class GeneralizedEventHandlerTest {
 	
 	@Test
 	public void stage3_0_testAndVerifyEachEvent() {
-		for (Action action : handler.getEvents()) {
+		for (Action action : handler.getActions()) {
 			assertTrue(action.enact());
 		}
 		assertEquals(11, expected);

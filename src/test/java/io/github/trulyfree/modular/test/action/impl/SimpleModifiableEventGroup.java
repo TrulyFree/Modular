@@ -27,14 +27,14 @@ import io.github.trulyfree.modular.action.ModifiableActionGroup;
 public class SimpleModifiableEventGroup<T extends Action> implements ModifiableActionGroup<T> {
 
 	private int current;
-	
+
 	private List<T> events;
-	
+
 	public SimpleModifiableEventGroup() {
 		current = 0;
 		events = new ArrayList<T>();
 	}
-	
+
 	@Override
 	public synchronized boolean enactNextEvent() {
 		return events.get(next()).enact();
@@ -46,7 +46,7 @@ public class SimpleModifiableEventGroup<T extends Action> implements ModifiableA
 	}
 
 	@Override
-	public synchronized Collection<T> getEvents() {
+	public synchronized Collection<T> getActions() {
 		Collection<T> events = new ArrayList<T>(size());
 		for (T event : this.events) {
 			events.add(event);
@@ -60,15 +60,8 @@ public class SimpleModifiableEventGroup<T extends Action> implements ModifiableA
 	}
 
 	@Override
-	public synchronized T removeEvent(T event) {
-		int index = events.indexOf(event);
-		if (index == -1) {
-			return null;
-		} else {
-			T toReturn = events.get(index);
-			events.remove(index);
-			return toReturn;
-		}
+	public synchronized boolean removeEvent(T event) {
+		return events.remove(event);
 	}
 
 	@Override
@@ -86,7 +79,7 @@ public class SimpleModifiableEventGroup<T extends Action> implements ModifiableA
 			event.enact();
 		}
 	}
-	
+
 	private int next() {
 		final int intermediary = current;
 		current++;

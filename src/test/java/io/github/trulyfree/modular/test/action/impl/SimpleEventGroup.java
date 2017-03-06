@@ -46,7 +46,7 @@ public class SimpleEventGroup<T extends Action> implements ActionGroup<T> {
 	}
 
 	@Override
-	public Collection<T> getEvents() {
+	public Collection<T> getActions() {
 		Collection<T> events = new ArrayList<T>(size());
 		for (T event : this.events) {
 			events.add(event);

@@ -56,7 +56,7 @@ public class EventGroupTest {
 
 	@Test
 	public void stage0_verifyNoAction() {
-		for (EventImpl event : eg.getEvents()) {
+		for (EventImpl event : eg.getActions()) {
 			assertFalse(event.modified);
 		}
 	}

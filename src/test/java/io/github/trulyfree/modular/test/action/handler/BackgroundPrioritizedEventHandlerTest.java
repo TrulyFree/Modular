@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.junit.AfterClass;
@@ -16,63 +15,45 @@ import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.action.Action;
 import io.github.trulyfree.modular.action.PrioritizedAction;
-import io.github.trulyfree.modular.action.handlers.ActionHandler;
 import io.github.trulyfree.modular.action.handlers.BackgroundPrioritizedActionHandler;
 import io.github.trulyfree.modular.general.Priority;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BackgroundPrioritizedEventHandlerTest {
 
-	private static ActionHandler<PrioritizedAction> handler;
+	private static BackgroundPrioritizedActionHandler handler;
 	private static ArrayList<ArrayList<EventImpl>> events;
 
 	private static StringBuffer check;
 
-	private static Thread targetThread;
-
 	@BeforeClass
 	public static void setup() {
-		handler = new BackgroundPrioritizedActionHandler(1);
+		handler = new BackgroundPrioritizedActionHandler(5);
 		events = new ArrayList<>();
 		for (@SuppressWarnings("unused")
 		Priority priority : Priority.values()) {
 			events.add(new ArrayList<EventImpl>());
 		}
 
+		check = new StringBuffer();
+	}
+
+	@Test
+	public void stage0_nonStaticSetup() {
 		for (ArrayList<EventImpl> list : events) {
 			for (Priority priority : Priority.values()) {
-				list.add(new EventImpl(priority));
+				list.add(new EventImpl(priority, this));
 			}
 		}
-
-		check = new StringBuffer();
-
-		try {
-			Field f = handler.getClass().getDeclaredField("watcherThread"); // NoSuchFieldException
-			f.setAccessible(true);
-			targetThread = (Thread) f.get(handler);
-		} catch (Exception e) {
-			fail();
-		}
 	}
 
 	@Test
-	public void stage0_verifyNoAction() {
-		assertFalse(handler.isReady());
-	}
-
-	@Test
-	public void stage1_0_testSetup() {
-		assertTrue(handler.setup());
-	}
-
-	@Test
-	public void stage1_1_verifySetup() {
+	public void stage1_0_verifySetup() {
 		assertTrue(handler.isReady());
-		assertEquals(0, handler.getEvents().size());
+		assertEquals(0, handler.getActions().size());
 		for (ArrayList<EventImpl> list : events) {
 			for (EventImpl event : list) {
-				assertFalse(handler.getEvents().contains(event));
+				assertFalse(handler.getActions().contains(event));
 			}
 		}
 	}
@@ -90,7 +71,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 	public void stage2_1_verifyAddEvent() {
 		for (ArrayList<EventImpl> list : events) {
 			for (Action action : list) {
-				assertTrue(handler.getEvents().contains(action));
+				assertTrue(handler.getActions().contains(action));
 			}
 		}
 	}
@@ -98,12 +79,12 @@ public class BackgroundPrioritizedEventHandlerTest {
 	@Test
 	public void stage2_2_checkAddEvent() {
 		assertFalse(handler.addEvent(null));
-		assertFalse(handler.addEvent(new EventImpl(null)));
+		assertFalse(handler.addEvent(new EventImpl(null, null)));
 	}
 
 	@Test
 	public void stage3_0_testAndVerifyEachEvent() {
-		for (Action action : handler.getEvents()) {
+		for (Action action : handler.getActions()) {
 			assertTrue(action.enact());
 		}
 		assertEquals(Priority.values().length * Priority.values().length, check.length());
@@ -124,7 +105,6 @@ public class BackgroundPrioritizedEventHandlerTest {
 
 	@Test
 	public void stage4_0_setupStage4() {
-		stage2_0_testAddEvent();
 		check = new StringBuffer();
 	}
 
@@ -134,66 +114,111 @@ public class BackgroundPrioritizedEventHandlerTest {
 	}
 
 	@Test
-	public void stage4_2_verifyEnactRemoval() {
-		sleepUntilWaiting();
-		stage3_2_verifyEnactEachEventRemoval();
+	public void stage4_2_verifyEnact() {
+		for (int i = 0; i < Priority.values().length; i++) {
+			for (int k = 0; k < Priority.values().length; k++) {
+				assertEquals(i * Priority.values().length + k, check.length());
+				handler.addEvent(events.get(i).get(k));
+				synchronized (this) {
+					try {
+						wait(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Test
-	public void stage4_3_verifyEnact() {
-		assertEquals(Priority.values().length * Priority.values().length, check.length());
-	}
-
-	@Test
-	public void stage5_0_testConcurrentAdd() {
-		handler.addEvent(new EventImpl(Priority.AESTHETIC));
-	}
-
-	@Test
-	public void stage5_1_verifyConcurrentAdd() {
-		sleepUntilWaiting();
-		assertEquals(Priority.values().length * Priority.values().length + 1, check.length());
-	}
-
-	@Test
-	public void stage6_0_setupStage4() {
+	public void stage5_0_setupStage5() {
 		stage2_0_testAddEvent();
 	}
 
 	@Test
-	public void stage6_1_testClear() {
+	public void stage5_1_testClear() {
 		handler.clear();
 	}
 
 	@Test
-	public void stage6_2_verifyClear() {
+	public void stage5_2_verifyClear() {
 		stage3_2_verifyEnactEachEventRemoval();
+	}
+
+	@Test
+	public void stage6_0_setupStage6() {
+		check = new StringBuffer();
+	}
+
+	@Test
+	public void stage6_1_verifyConcurrentEnact() {
+		Thread[] threads = new Thread[4];
+		final int between = Priority.values().length / threads.length;
+		for (int i = 0; i < threads.length; i++) {
+			final int intermediate = i * between;
+			threads[i] = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					for (int k = intermediate; k < intermediate + between; k++) {
+						for (Priority priority : Priority.values()) {
+							handler.add(new EventImpl(priority, this));
+							synchronized (this) {
+								try {
+									this.wait(1);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		for (Thread thread : threads) {
+			thread.start();
+		}
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				fail();
+			}
+		}
+		assertEquals(Priority.values().length * Priority.values().length, check.length());
+	}
+
+	@Test
+	public void stage7_0_testSafeHalt() {
+		handler.safeHalt();
 	}
 
 	@AfterClass
 	public static void destroy() {
-		((BackgroundPrioritizedActionHandler) handler).safeHalt();
 		handler = null;
 		events = null;
 		check = null;
 	}
 
-	private static void sleepUntilWaiting() {
-		while (targetThread.getState() != Thread.State.WAITING)
-			;
+	public void modify(Object obj) {
+		check.append(" ");
+		synchronized (obj) {
+			obj.notify();
+		}
 	}
 
-	private static class EventImpl implements PrioritizedAction {
+	private class EventImpl implements PrioritizedAction {
 		private final Priority priority;
+		private final Object obj;
 
-		public EventImpl(Priority priority) {
+		public EventImpl(Priority priority, Object obj) {
 			this.priority = priority;
+			this.obj = obj;
 		}
 
 		@Override
 		public boolean enact() {
-			check.append(" ");
-			System.out.println("Double check.");
+			modify(obj);
 			return true;
 		}
 

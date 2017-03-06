@@ -50,9 +50,9 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage0_verifyNoAction() {
-		assertEquals(0, meg.getEvents().size());
+		assertEquals(0, meg.getActions().size());
 		for (EventImpl event : eventsToAdd) {
-			assertFalse(meg.getEvents().contains(event));
+			assertFalse(meg.getActions().contains(event));
 			assertFalse(event.modified);
 		}
 		assertEquals(null, removedEvents);
@@ -65,7 +65,7 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage1_1_verifySize() {
-		assertEquals(meg.size(), meg.getEvents().size());
+		assertEquals(meg.size(), meg.getActions().size());
 	}
 
 	@Test
@@ -78,13 +78,13 @@ public class ModifiableEventGroupTest {
 	@Test
 	public void stage2_1_verifyAddEvent() {
 		for (Action action : eventsToAdd) {
-			assertTrue(meg.getEvents().contains(action));
+			assertTrue(meg.getActions().contains(action));
 		}
 	}
 
 	@Test
 	public void stage3_0_testAndVerifyEachEvent() {
-		for (EventImpl event : meg.getEvents()) {
+		for (EventImpl event : meg.getActions()) {
 			assertTrue(event.enact());
 			assertTrue(event.modified);
 		}
@@ -100,7 +100,7 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage4_0_testRemoveEvent() {
-		for (EventImpl event : meg.getEvents()) {
+		for (EventImpl event : meg.getActions()) {
 			assertEquals(event, meg.removeEvent(event));
 		}
 	}
@@ -108,7 +108,7 @@ public class ModifiableEventGroupTest {
 	@Test
 	public void stage4_1_verifyRemoveEvent() {
 		for (Action action : eventsToAdd) {
-			assertFalse(meg.getEvents().contains(action));
+			assertFalse(meg.getActions().contains(action));
 		}
 	}
 
@@ -131,7 +131,7 @@ public class ModifiableEventGroupTest {
 	@Test
 	public void stage5_2_verifyClear() {
 		for (Action action : eventsToAdd) {
-			assertFalse(meg.getEvents().contains(action));
+			assertFalse(meg.getActions().contains(action));
 		}
 	}
 
@@ -148,7 +148,7 @@ public class ModifiableEventGroupTest {
 	@Test
 	public void stage6_2_verifyRemoveEventByType() {
 		assertTrue(removedEvents.contains(eventsToAdd[2]));
-		assertFalse(meg.getEvents().contains(eventsToAdd[2]));
+		assertFalse(meg.getActions().contains(eventsToAdd[2]));
 	}
 	
 	@Test

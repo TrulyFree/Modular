@@ -36,12 +36,18 @@ public class PrioritizedActionHandler
 	/**
 	 * 
 	 */
-	protected volatile ArrayList<ArrayList<PrioritizedAction>> lists;
+	protected final ArrayList<ArrayList<PrioritizedAction>> lists;
 
 	/**
 	 * 
 	 */
-	public PrioritizedActionHandler() {}
+	public PrioritizedActionHandler() {
+		int length = Priority.values().length;
+		lists = new ArrayList<>(length);
+		for (int index = 0; index < length; index++) {
+			lists.add(new ArrayList<PrioritizedAction>());
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see io.github.trulyfree.modular.action.Action#enact()
@@ -58,7 +64,7 @@ public class PrioritizedActionHandler
 	 * @param handler
 	 */
 	protected PrioritizedActionHandler(PrioritizedActionHandler handler) {
-		setup();
+		this();
 		for (int ord = 0; ord < handler.lists.size(); ord++) {
 			for (PrioritizedAction item : handler.lists.get(ord)) {
 				lists.get(ord).add(item);
@@ -70,14 +76,7 @@ public class PrioritizedActionHandler
 	 * @see io.github.trulyfree.modular.module.Module#setup()
 	 */
 	public boolean setup() {
-		if (isReady())
-			return false;
-		int length = Priority.values().length;
-		lists = new ArrayList<>(length);
-		for (int index = 0; index < length; index++) {
-			lists.add(new ArrayList<PrioritizedAction>());
-		}
-		return true;
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +92,7 @@ public class PrioritizedActionHandler
 	 */
 	@Override
 	public boolean destroy() {
-		lists = null;
+		clear();
 		return true;
 	}
 
@@ -430,13 +429,8 @@ public class PrioritizedActionHandler
 	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public PrioritizedAction removeEvent(PrioritizedAction event) {
-		ArrayList<PrioritizedAction> list = lists.get(event.getPriority().ordinal());
-		int index = list.indexOf(event);
-		if (index >= 0) {
-			return list.remove(index);
-		}
-		return null;
+	public boolean removeEvent(PrioritizedAction event) {
+		return remove(event);
 	}
 
 	/* (non-Javadoc)
@@ -457,7 +451,7 @@ public class PrioritizedActionHandler
 	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
 	 */
 	@Override
-	public Collection<PrioritizedAction> getEvents() {
+	public Collection<PrioritizedAction> getActions() {
 		return new PrioritizedActionHandler(this);
 	}
 

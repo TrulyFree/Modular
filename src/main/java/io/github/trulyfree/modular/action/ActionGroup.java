@@ -60,10 +60,10 @@ public interface ActionGroup<T extends Action> {
 	 * @return events The events of this ActionGroup. Note that modifications to
 	 *         this collection should NOT modify the events of the ActionGroup.
 	 */
-	public Collection<T> getEvents();
+	public Collection<T> getActions();
 	
 	public default void enactAllOfType(Class<? extends T> type) {
-		for (T event : getEvents()) {
+		for (T event : getActions()) {
 			if (type.isInstance(event)) {
 				event.enact();
 			}
@@ -71,7 +71,7 @@ public interface ActionGroup<T extends Action> {
 	}
 
 	public default void enactAll() {
-		for (T event : getEvents()) {
+		for (T event : getActions()) {
 			event.enact();
 		}
 	}

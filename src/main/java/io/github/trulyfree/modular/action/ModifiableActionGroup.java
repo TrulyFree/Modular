@@ -59,7 +59,7 @@ public interface ModifiableActionGroup<T extends Action> extends ActionGroup<T> 
 	 *            The Action to remove from the ActionGroup.
 	 * @return removed The Action removed by this operation.
 	 */
-	public T removeEvent(T event);
+	public boolean removeEvent(T event);
 
 	/**
 	 * Method to be called in order to remove Events of a specific type from
@@ -73,10 +73,11 @@ public interface ModifiableActionGroup<T extends Action> extends ActionGroup<T> 
 	 *         removed, this should return an empty collection of Events.
 	 */
 	public default Collection<T> removeEventByType(Class<? extends Action> type) {
-		Collection<T> toReturn = new ArrayList<T>(this.getEvents().size());
-		for (T event : this.getEvents()) {
+		Collection<T> toReturn = new ArrayList<T>(this.getActions().size());
+		for (T event : this.getActions()) {
 			if (type.isInstance(event)) {
-				toReturn.add(this.removeEvent(event));
+				this.removeEvent(event);
+				toReturn.add(event);
 			}
 		}
 		return toReturn;
@@ -88,7 +89,7 @@ public interface ModifiableActionGroup<T extends Action> extends ActionGroup<T> 
 	 * according to need.
 	 */
 	public default void clear() {
-		for (T event : this.getEvents()) {
+		for (T event : this.getActions()) {
 			this.removeEvent(event);
 		}
 	}
