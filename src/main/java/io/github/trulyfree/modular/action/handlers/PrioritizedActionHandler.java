@@ -27,19 +27,25 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 /**
+ * PrioritizedActionHandler class. This class handles all currently held actions
+ * by order of highest to lowest priority synchronously whenever "enact" is
+ * called. This action handler is not thread safe.
+ * 
  * @author vtcakavsmoace
  *
  */
-public class PrioritizedActionHandler
-		implements Collection<PrioritizedAction>, ActionHandler<PrioritizedAction> {
+public class PrioritizedActionHandler implements Collection<PrioritizedAction>, ActionHandler<PrioritizedAction> {
 
 	/**
-	 * 
+	 * The lists containing all known prioritized actions. All actions will be
+	 * enacted according to priority whenever "enact" is called.
 	 */
 	protected final ArrayList<ArrayList<PrioritizedAction>> lists;
 
 	/**
-	 * 
+	 * Standard constructor for PrioritizedActionHandler. Due to needs for the
+	 * lists to be always available for IO, setup occurs here and the "setup"
+	 * method is not necessary.
 	 */
 	public PrioritizedActionHandler() {
 		int length = Priority.values().length;
@@ -48,8 +54,10 @@ public class PrioritizedActionHandler
 			lists.add(new ArrayList<PrioritizedAction>());
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.action.Action#enact()
 	 */
 	@Override
@@ -59,11 +67,15 @@ public class PrioritizedActionHandler
 		}
 		return true;
 	}
-	
+
 	/**
+	 * Constructor for PrioritizedActionHandler which allows for "getEvents()"
+	 * to return a seperate event set.
+	 * 
 	 * @param handler
+	 *            The handler which this constructor is duplicating.
 	 */
-	protected PrioritizedActionHandler(PrioritizedActionHandler handler) {
+	private PrioritizedActionHandler(PrioritizedActionHandler handler) {
 		this();
 		for (int ord = 0; ord < handler.lists.size(); ord++) {
 			for (PrioritizedAction item : handler.lists.get(ord)) {
@@ -71,15 +83,19 @@ public class PrioritizedActionHandler
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.module.Module#setup()
 	 */
 	public boolean setup() {
-		return false;
+		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.module.Module#isReady()
 	 */
 	@Override
@@ -87,7 +103,9 @@ public class PrioritizedActionHandler
 		return lists != null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.module.Module#destroy()
 	 */
 	@Override
@@ -96,7 +114,9 @@ public class PrioritizedActionHandler
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#add(java.lang.Object)
 	 */
 	@Override
@@ -109,7 +129,9 @@ public class PrioritizedActionHandler
 		return lists.get(index).add(ero);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#size()
 	 */
 	@Override
@@ -127,7 +149,9 @@ public class PrioritizedActionHandler
 		return size;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#isEmpty()
 	 */
 	@Override
@@ -135,7 +159,9 @@ public class PrioritizedActionHandler
 		return size() == 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#contains(java.lang.Object)
 	 */
 	@Override
@@ -153,7 +179,9 @@ public class PrioritizedActionHandler
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#iterator()
 	 */
 	@Override
@@ -161,7 +189,9 @@ public class PrioritizedActionHandler
 		return new IteratorImpl();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#toArray()
 	 */
 	@Override
@@ -177,7 +207,9 @@ public class PrioritizedActionHandler
 		return objarray;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#toArray(java.lang.Object[])
 	 */
 	@SuppressWarnings("unchecked")
@@ -195,9 +227,15 @@ public class PrioritizedActionHandler
 	}
 
 	/**
+	 * Method to call in order to get an event of specific Priority ordinal and
+	 * index within that priority's specific list.
+	 * 
 	 * @param ord
+	 *            The ordinal of the priority of the target action.
 	 * @param index
-	 * @return
+	 *            The index of the target action within the target priority's
+	 *            list.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction get(int ord, int index) {
 		if (lists == null || ord >= lists.size() || ord < 0 || index >= lists.get(ord).size() || index < 0) {
@@ -207,8 +245,13 @@ public class PrioritizedActionHandler
 	}
 
 	/**
+	 * Method to call in order to get an event within any of the lists according
+	 * to index within the lists. Usage of this method is largely recommended
+	 * against, but may be useful.
+	 * 
 	 * @param index
-	 * @return
+	 *            The index of the action within the lists.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction get(int index) {
 		if (lists == null) {
@@ -219,17 +262,29 @@ public class PrioritizedActionHandler
 	}
 
 	/**
+	 * Method to call in order to get an event of specific Priority and index
+	 * within that priority's specific list.
+	 * 
 	 * @param val
+	 *            The priority level of the target action.
 	 * @param index
-	 * @return
+	 *            The index of the target action within the target priority's
+	 *            list.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction get(Priority val, int index) {
 		return get(val.ordinal(), index);
 	}
 
 	/**
+	 * Method to call in order to retrieve a pair of integers representing the
+	 * priority and index specific to a priority given an index unspecific to a
+	 * priority.
+	 * 
 	 * @param index
-	 * @return
+	 *            The index of the target action.
+	 * @return locPair A pair of integers representing the target priority and
+	 *         index, respectively.
 	 */
 	public int[] getLocPair(int index) {
 		int ord;
@@ -244,39 +299,55 @@ public class PrioritizedActionHandler
 	}
 
 	/**
+	 * Method to call in order to remove an event of specific Priority ordinal
+	 * and index within that priority's specific list.
+	 * 
 	 * @param ord
+	 *            The ordinal of the priority of the target action.
 	 * @param index
-	 * @return
+	 *            The index of the target action within the target priority's
+	 *            list.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction remove(int ord, int index) {
-		if (lists == null || ord >= lists.size() || ord < 0 || index >= lists.get(ord).size() || index < 0) {
+		if (ord >= lists.size() || ord < 0 || index >= lists.get(ord).size() || index < 0) {
 			return null;
 		}
 		return lists.get(ord).remove(index);
 	}
 
 	/**
+	 * Method to call in order to remove an event within any of the lists
+	 * according to index within the lists. Usage of this method is largely
+	 * recommended against, but may be useful.
+	 * 
 	 * @param index
-	 * @return
+	 *            The index of the action within the lists.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction remove(int index) {
-		if (lists == null) {
-			return null;
-		}
 		int[] locPair = getLocPair(index);
 		return remove(locPair[0], locPair[1]);
 	}
 
 	/**
+	 * Method to call in order to remove an event of specific Priority and index
+	 * within that priority's specific list.
+	 * 
 	 * @param val
+	 *            The priority level of the target action.
 	 * @param index
-	 * @return
+	 *            The index of the target action within the target priority's
+	 *            list.
+	 * @return action The target action.
 	 */
 	public PrioritizedAction remove(Priority val, int index) {
 		return remove(val.ordinal(), index);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#remove(java.lang.Object)
 	 */
 	@Override
@@ -293,7 +364,9 @@ public class PrioritizedActionHandler
 		return lists.get(val.ordinal()).remove(o);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#containsAll(java.util.Collection)
 	 */
 	@Override
@@ -306,7 +379,9 @@ public class PrioritizedActionHandler
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#addAll(java.util.Collection)
 	 */
 	@Override
@@ -320,7 +395,9 @@ public class PrioritizedActionHandler
 		return changed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#removeAll(java.util.Collection)
 	 */
 	@Override
@@ -334,7 +411,9 @@ public class PrioritizedActionHandler
 		return changed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#retainAll(java.util.Collection)
 	 */
 	@Override
@@ -351,7 +430,9 @@ public class PrioritizedActionHandler
 		return changed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Collection#clear()
 	 */
 	@Override
@@ -362,17 +443,23 @@ public class PrioritizedActionHandler
 	}
 
 	/**
+	 * Simple IteratorImpl class. This class provides a simple iterator instance
+	 * which always selects the action of highest priority first, removing as
+	 * the iteration occurs.
+	 * 
 	 * @author vtcakavsmoace
 	 *
 	 */
 	private class IteratorImpl implements Iterator<PrioritizedAction> {
 
 		/**
-		 * 
+		 * The ordinal of the next action.
 		 */
-		int ord;
+		private int ord;
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#next()
 		 */
 		@Override
@@ -384,7 +471,9 @@ public class PrioritizedActionHandler
 			return toDo;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#hasNext()
 		 */
 		@Override
@@ -392,7 +481,9 @@ public class PrioritizedActionHandler
 			return realign();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#remove()
 		 */
 		@Override
@@ -401,7 +492,10 @@ public class PrioritizedActionHandler
 		}
 
 		/**
-		 * @return
+		 * Method to call in order to realign the iterator to the event of
+		 * highest priority.
+		 * 
+		 * @return success A boolean representing the success of the realignment action. Returns false whenever no actions may be found.
 		 */
 		private boolean realign() {
 			if (PrioritizedActionHandler.this.size() == 0) {
@@ -417,23 +511,33 @@ public class PrioritizedActionHandler
 
 	}
 
-	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.github.trulyfree.modular.action.Action)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.
+	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
 	public boolean addEvent(PrioritizedAction event) {
 		return add(event);
 	}
 
-	/* (non-Javadoc)
-	 * @see io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.github.trulyfree.modular.action.Action)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.
+	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
 	public boolean removeEvent(PrioritizedAction event) {
 		return remove(event);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextEvent()
 	 */
 	@Override
@@ -447,7 +551,9 @@ public class PrioritizedActionHandler
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
 	 */
 	@Override
