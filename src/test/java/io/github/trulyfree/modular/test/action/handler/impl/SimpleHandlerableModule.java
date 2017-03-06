@@ -10,13 +10,13 @@ public class SimpleHandlerableModule implements Module, Handlerable {
 	private ActionHandler<? extends Action> handler;
 
 	@Override
-	public <T extends Action> boolean setEventHandler(ActionHandler<T> handler) {
+	public <T extends Action> boolean setActionHandler(ActionHandler<T> handler) {
 		this.handler = handler;
 		return true;
 	}
 
 	@Override
-	public ActionHandler<? extends Action> getEventHandler() {
+	public ActionHandler<? extends Action> getActionHandler() {
 		return handler;
 	}
 

@@ -54,7 +54,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * The "distributor" in the analogy; this is the runnable associated with
 	 * the distributor thread, which distributes actions to the consumers.
 	 */
-	private final EventDistributor distributor;
+	private final ActionDistributor distributor;
 
 	/**
 	 * The thread which holds the distributor runnable.
@@ -80,7 +80,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 *            An byte defining the maximum number of consumer threads.
 	 */
 	public BackgroundPrioritizedActionHandler(byte maxthreads) {
-		distributor = new EventDistributor(maxthreads);
+		distributor = new ActionDistributor(maxthreads);
 		distributorThread = new Thread(distributor);
 	}
 
@@ -147,7 +147,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * 
 	 * @see
 	 * io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler#add(
-	 * io .github.trulyfree.modular.event.PrioritizedEvent)
+	 * io .github.trulyfree.modular.action.PrioritizedAction)
 	 */
 	@Override
 	public boolean add(PrioritizedAction ero) {
@@ -364,7 +364,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see io.github.trulyfree.modular.general.Forkable#setBefore(io.github.
-	 * trulyfree.modular.event.Action)
+	 * trulyfree.modular.action.Action)
 	 */
 	@Override
 	public boolean setBefore(Action action) {
@@ -380,7 +380,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * 
 	 * @see
 	 * io.github.trulyfree.modular.general.Forkable#setAfter(io.github.trulyfree
-	 * .modular.event.Event)
+	 * .modular.action.Action)
 	 */
 	@Override
 	public boolean setAfter(Action action) {
@@ -423,12 +423,12 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	}
 
 	/**
-	 * EventDistributor class. This class defines the properties of the action
+	 * ActionDistributor class. This class defines the properties of the action
 	 * distributor which handles the distribution of actions to consumers.
 	 * 
 	 * @author vtcakavsmoace
 	 */
-	private class EventDistributor implements Forkable, Runnable {
+	private class ActionDistributor implements Forkable, Runnable {
 
 		/**
 		 * The consumer pool, which actions are distributed to.
@@ -436,12 +436,12 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		private final ExecutorService pool;
 
 		/**
-		 * Standard EventDistributor constructor.
+		 * Standard ActionDistributor constructor.
 		 * 
 		 * @param maxthreads
 		 *            A byte representing the number of consumer threads to use.
 		 */
-		public EventDistributor(byte maxthreads) {
+		public ActionDistributor(byte maxthreads) {
 			pool = Executors.newFixedThreadPool(maxthreads);
 		}
 
@@ -455,7 +455,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 			Iterator<PrioritizedAction> iter = iterator();
 			while (!pool.isShutdown()) {
 				if (iter.hasNext()) {
-					assignEvent(iter.next());
+					assignAction(iter.next());
 				} else {
 					synchronized (BackgroundPrioritizedActionHandler.this) {
 						try {
@@ -474,14 +474,14 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		 * @param next
 		 *            The action to assign to a consumer.
 		 */
-		private void assignEvent(final PrioritizedAction next) {
+		private void assignAction(final PrioritizedAction next) {
 			if (!pool.isShutdown()) {
 				Callable<Boolean> task = new Callable<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
 						boolean result = next.enact();
-						synchronized (EventDistributor.this) {
-							EventDistributor.this.notify();
+						synchronized (ActionDistributor.this) {
+							ActionDistributor.this.notify();
 						}
 						return result;
 					}

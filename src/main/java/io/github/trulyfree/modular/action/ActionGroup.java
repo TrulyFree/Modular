@@ -20,10 +20,10 @@ import java.util.Collection;
  */
 
 /**
- * ActionGroup interface. All events which are related in some way should be
- * packaged in an ActionGroup. Depending on the usage of EventHandlers, it may be
+ * ActionGroup interface. All actions which are related in some way should be
+ * packaged in an ActionGroup. Depending on the usage of ActionHandlers, it may be
  * efficient to use an implementation which also implements "Action", by which
- * the "enact" method loops throughout the events contained within this event
+ * the "enact" method loops throughout the actions contained within this action
  * group and enacts them all.
  * 
  * @author vtcakavsmoace
@@ -38,41 +38,41 @@ public interface ActionGroup<T extends Action> {
 	 * ActionGroup. This method should be preferred over iterating through the
 	 * children and executing them individually in an external class.
 	 * 
-	 * @return success A boolean representing the success of the event enacted.
+	 * @return success A boolean representing the success of the action enacted.
 	 */
-	public boolean enactNextEvent();
+	public boolean enactNextAction();
 
 	/**
-	 * Method to be called in order to check the number of events held by this
+	 * Method to be called in order to check the number of actions held by this
 	 * ActionGroup in total, including those already enacted.
 	 * 
-	 * @return size The number of events held by this ActionGroup.
+	 * @return size The number of actions held by this ActionGroup.
 	 */
 	public int size();
 
 	/**
-	 * Method to be called in order to retrieve the events held by this
+	 * Method to be called in order to retrieve the actions held by this
 	 * ActionGroup, including those already enacted. The collection returned
 	 * should NOT be capable of modifying the ActionGroup's internal Action
 	 * collection. If the ActionGroup is intended to be modifiable, the user
 	 * should implement the ModifiableActionGroup interface.
 	 * 
-	 * @return events The events of this ActionGroup. Note that modifications to
-	 *         this collection should NOT modify the events of the ActionGroup.
+	 * @return actions The actions of this ActionGroup. Note that modifications to
+	 *         this collection should NOT modify the actions of the ActionGroup.
 	 */
 	public Collection<T> getActions();
 	
 	public default void enactAllOfType(Class<? extends T> type) {
-		for (T event : getActions()) {
-			if (type.isInstance(event)) {
-				event.enact();
+		for (T action : getActions()) {
+			if (type.isInstance(action)) {
+				action.enact();
 			}
 		}
 	}
 
 	public default void enactAll() {
-		for (T event : getActions()) {
-			event.enact();
+		for (T action : getActions()) {
+			action.enact();
 		}
 	}
 

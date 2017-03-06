@@ -13,8 +13,10 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.PrioritizedAction;
 import io.github.trulyfree.modular.action.handlers.ActionHandler;
-import io.github.trulyfree.modular.action.handlers.GeneralizedActionHandler;
+import io.github.trulyfree.modular.action.handlers.PrioritizedActionHandler;
+import io.github.trulyfree.modular.general.Priority;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -34,87 +36,78 @@ import io.github.trulyfree.modular.action.handlers.GeneralizedActionHandler;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GeneralizedEventHandlerTest {
+public class PrioritizedActionHandlerTest {
 
-	private static ActionHandler<Action> handler;
-	private static ArrayList<EventImpl> events;
+	private static ActionHandler<PrioritizedAction> handler;
+	private static ArrayList<ActionImpl> actions;
 
 	private static int expected;
 
 	@BeforeClass
 	public static void setup() {
-		handler = new GeneralizedActionHandler();
-		events = new ArrayList<EventImpl>();
+		handler = new PrioritizedActionHandler();
+		actions = new ArrayList<ActionImpl>();
 
-		for (int i = 1; i <= 10; i++) {
-			events.add(new EventImpl(i));
+		for (Priority priority : Priority.values()) {
+			actions.add(new ActionImpl(priority.ordinal(), priority));
 		}
-		expected = 1;
+		expected = Integer.MAX_VALUE;
 	}
 
 	@Test
-	public void stage0_verifyNoAction() {
-		assertFalse(handler.isReady());
-	}
-
-	@Test
-	public void stage1_0_testSetup() {
-		assertTrue(handler.setup());
-	}
-
-	@Test
-	public void stage1_1_verifySetup() {
+	public void stage1_0_verifySetup() {
 		assertTrue(handler.isReady());
 		assertEquals(0, handler.getActions().size());
-		for (EventImpl event : events) {
-			assertFalse(handler.getActions().contains(event));
+		for (ActionImpl action : actions) {
+			assertFalse(handler.getActions().contains(action));
 		}
 	}
 
 	@Test
-	public void stage2_0_testAddEvent() {
-		for (EventImpl event : events) {
-			assertTrue(handler.addEvent(event));
+	public void stage2_0_testAddAction() {
+		for (ActionImpl action : actions) {
+			assertTrue(handler.addAction(action));
 		}
 	}
 
 	@Test
-	public void stage2_1_verifyAddEvent() {
-		for (Action action : events) {
+	public void stage2_1_verifyAddAction() {
+		for (Action action : actions) {
 			assertTrue(handler.getActions().contains(action));
 		}
 	}
 
 	@Test
-	public void stage2_2_checkAddEvent() {
-		assertFalse(handler.addEvent(null));
+	public void stage2_2_checkAddAction() {
+		assertFalse(handler.addAction(null));
+		assertFalse(handler.addAction(new ActionImpl(0, null)));
 	}
 
 	@Test
-	public void stage3_0_testAndVerifyEachEvent() {
+	public void stage3_0_testAndVerifyEachAction() {
 		for (Action action : handler.getActions()) {
 			assertTrue(action.enact());
 		}
-		assertEquals(11, expected);
+		assertEquals(Priority.AESTHETIC.ordinal(), expected);
 	}
 
 	@Test
-	public void stage3_1_testAndVerifyEnactEachEvent() {
-		expected = 1;
-		while (handler.enactNextEvent()) {
+	public void stage3_1_testAndVerifyEnactEachAction() {
+		expected = Integer.MAX_VALUE;
+		while (handler.enactNextAction()) {
 		}
-		assertEquals(11, expected);
+		assertEquals(Priority.AESTHETIC.ordinal(), expected);
 	}
 
 	@Test
-	public void stage3_2_verifyEnactEachEventRemoval() {
+	public void stage3_2_verifyEnactEachActionRemoval() {
 		assertEquals(0, handler.size());
 	}
 
 	@Test
 	public void stage4_0_setupStage4() {
-		stage2_0_testAddEvent();
-		expected = 1;
+		stage2_0_testAddAction();
+		expected = Integer.MAX_VALUE;
 	}
 
 	@Test
@@ -124,12 +117,12 @@ public class GeneralizedEventHandlerTest {
 
 	@Test
 	public void stage4_2_verifyEnactRemoval() {
-		stage3_2_verifyEnactEachEventRemoval();
+		stage3_2_verifyEnactEachActionRemoval();
 	}
 
 	@Test
 	public void stage5_0_setupStage4() {
-		stage2_0_testAddEvent();
+		stage2_0_testAddAction();
 	}
 
 	@Test
@@ -139,31 +132,39 @@ public class GeneralizedEventHandlerTest {
 
 	@Test
 	public void stage5_2_verifyClear() {
-		stage3_2_verifyEnactEachEventRemoval();
+		stage3_2_verifyEnactEachActionRemoval();
 	}
 
 	@AfterClass
 	public static void destroy() {
 		handler = null;
-		events = null;
+		actions = null;
 		expected = 0;
 	}
 
 	private static void modify(int val) {
-		assertEquals(expected++, val);
+		assertTrue(val < expected);
+		expected = val;
 	}
 
-	private static class EventImpl implements Action {
+	private static class ActionImpl implements PrioritizedAction {
 		private final int val;
+		private final Priority priority;
 
-		public EventImpl(int val) {
+		public ActionImpl(int val, Priority priority) {
 			this.val = val;
+			this.priority = priority;
 		}
 
 		@Override
 		public boolean enact() {
 			modify(val);
 			return true;
+		}
+
+		@Override
+		public Priority getPriority() {
+			return priority;
 		}
 	}
 

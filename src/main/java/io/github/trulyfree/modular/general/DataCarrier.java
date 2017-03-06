@@ -19,7 +19,7 @@ package io.github.trulyfree.modular.general;
 
 /**
  * DataCarrier interface. This interface should be implemented by anything that
- * carries data between one module/event to another asynchronously.
+ * carries data between one module/action to another asynchronously.
  * 
  * @author vtcakavsmoace
  *

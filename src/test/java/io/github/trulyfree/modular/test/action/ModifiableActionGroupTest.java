@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.action.Action;
 import io.github.trulyfree.modular.action.ModifiableActionGroup;
-import io.github.trulyfree.modular.test.action.impl.SimpleModifiableEventGroup;
+import io.github.trulyfree.modular.test.action.impl.SimpleModifiableActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -34,28 +34,28 @@ import io.github.trulyfree.modular.test.action.impl.SimpleModifiableEventGroup;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ModifiableEventGroupTest {
+public class ModifiableActionGroupTest {
 
-	private static ModifiableActionGroup<EventImpl> meg;
-	private static EventImpl[] eventsToAdd;
+	private static ModifiableActionGroup<ActionImpl> meg;
+	private static ActionImpl[] actionsToAdd;
 
-	private static Collection<EventImpl> removedEvents;
+	private static Collection<ActionImpl> removedActions;
 
 	@BeforeClass
 	public static void setup() {
-		meg = new SimpleModifiableEventGroup<EventImpl>();
+		meg = new SimpleModifiableActionGroup<ActionImpl>();
 
-		eventsToAdd = new EventImpl[] { new EventImpl(), new EventImpl(), new EventImpl2() };
+		actionsToAdd = new ActionImpl[] { new ActionImpl(), new ActionImpl(), new ActionImpl2() };
 	}
 
 	@Test
 	public void stage0_verifyNoAction() {
 		assertEquals(0, meg.getActions().size());
-		for (EventImpl event : eventsToAdd) {
-			assertFalse(meg.getActions().contains(event));
-			assertFalse(event.modified);
+		for (ActionImpl action : actionsToAdd) {
+			assertFalse(meg.getActions().contains(action));
+			assertFalse(action.modified);
 		}
-		assertEquals(null, removedEvents);
+		assertEquals(null, removedActions);
 	}
 
 	@Test
@@ -69,57 +69,57 @@ public class ModifiableEventGroupTest {
 	}
 
 	@Test
-	public void stage2_0_testAddEvent() {
-		for (EventImpl event : eventsToAdd) {
-			assertTrue(meg.addEvent(event));
+	public void stage2_0_testAddAction() {
+		for (ActionImpl action : actionsToAdd) {
+			assertTrue(meg.addAction(action));
 		}
 	}
 
 	@Test
-	public void stage2_1_verifyAddEvent() {
-		for (Action action : eventsToAdd) {
+	public void stage2_1_verifyAddAction() {
+		for (Action action : actionsToAdd) {
 			assertTrue(meg.getActions().contains(action));
 		}
 	}
 
 	@Test
-	public void stage3_0_testAndVerifyEachEvent() {
-		for (EventImpl event : meg.getActions()) {
-			assertTrue(event.enact());
-			assertTrue(event.modified);
+	public void stage3_0_testAndVerifyEachAction() {
+		for (ActionImpl action : meg.getActions()) {
+			assertTrue(action.enact());
+			assertTrue(action.modified);
 		}
 	}
 
 	@Test
-	public void stage3_1_testAndVerifyEnactEachEvent() {
+	public void stage3_1_testAndVerifyEnactEachAction() {
 		for (int index = 0; index < meg.size(); index++) {
-			assertTrue(meg.enactNextEvent());
-			assertTrue(eventsToAdd[index].modified);
+			assertTrue(meg.enactNextAction());
+			assertTrue(actionsToAdd[index].modified);
 		}
 	}
 
 	@Test
-	public void stage4_0_testRemoveEvent() {
-		for (EventImpl event : meg.getActions()) {
-			assertEquals(true, meg.removeEvent(event));
+	public void stage4_0_testRemoveAction() {
+		for (ActionImpl action : meg.getActions()) {
+			assertEquals(true, meg.removeAction(action));
 		}
 	}
 
 	@Test
-	public void stage4_1_verifyRemoveEvent() {
-		for (Action action : eventsToAdd) {
+	public void stage4_1_verifyRemoveAction() {
+		for (Action action : actionsToAdd) {
 			assertFalse(meg.getActions().contains(action));
 		}
 	}
 
 	@Test
 	public void stage5_0_setupStage5() {
-		removedEvents = null;
+		removedActions = null;
 		meg.clear();
-		stage2_0_testAddEvent();
-		stage2_1_verifyAddEvent();
-		for (EventImpl event : eventsToAdd) {
-			event.modified = false;
+		stage2_0_testAddAction();
+		stage2_1_verifyAddAction();
+		for (ActionImpl action : actionsToAdd) {
+			action.modified = false;
 		}
 	}
 
@@ -130,7 +130,7 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage5_2_verifyClear() {
-		for (Action action : eventsToAdd) {
+		for (Action action : actionsToAdd) {
 			assertFalse(meg.getActions().contains(action));
 		}
 	}
@@ -141,14 +141,14 @@ public class ModifiableEventGroupTest {
 	}
 
 	@Test
-	public void stage6_1_testRemoveEventByType() {
-		removedEvents = meg.removeEventByType(EventImpl2.class);
+	public void stage6_1_testRemoveActionByType() {
+		removedActions = meg.removeActionByType(ActionImpl2.class);
 	}
 
 	@Test
-	public void stage6_2_verifyRemoveEventByType() {
-		assertTrue(removedEvents.contains(eventsToAdd[2]));
-		assertFalse(meg.getActions().contains(eventsToAdd[2]));
+	public void stage6_2_verifyRemoveActionByType() {
+		assertTrue(removedActions.contains(actionsToAdd[2]));
+		assertFalse(meg.getActions().contains(actionsToAdd[2]));
 	}
 	
 	@Test
@@ -158,14 +158,14 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage7_1_testEnactAllOfType() {
-		meg.enactAllOfType(EventImpl2.class);
+		meg.enactAllOfType(ActionImpl2.class);
 	}
 
 	@Test
 	public void stage7_2_verifyEnactAllOfType() {
-		assertFalse(eventsToAdd[0].modified);
-		assertFalse(eventsToAdd[1].modified);
-		assertTrue(eventsToAdd[2].modified);
+		assertFalse(actionsToAdd[0].modified);
+		assertFalse(actionsToAdd[1].modified);
+		assertTrue(actionsToAdd[2].modified);
 	}
 
 	@Test
@@ -180,18 +180,18 @@ public class ModifiableEventGroupTest {
 
 	@Test
 	public void stage4_2_verifyEnactAll() {
-		for (EventImpl event : eventsToAdd) {
-			assertTrue(event.modified);
+		for (ActionImpl action : actionsToAdd) {
+			assertTrue(action.modified);
 		}
 	}
 
 	@AfterClass
 	public static void destroy() {
 		meg = null;
-		eventsToAdd = null;
+		actionsToAdd = null;
 	}
 
-	private static class EventImpl implements Action {
+	private static class ActionImpl implements Action {
 
 		public boolean modified;
 
@@ -203,7 +203,7 @@ public class ModifiableEventGroupTest {
 
 	}
 
-	private static class EventImpl2 extends EventImpl {
+	private static class ActionImpl2 extends ActionImpl {
 	}
 
 }

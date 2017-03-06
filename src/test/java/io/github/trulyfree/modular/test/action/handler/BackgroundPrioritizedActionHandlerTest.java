@@ -36,20 +36,20 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BackgroundPrioritizedEventHandlerTest {
+public class BackgroundPrioritizedActionHandlerTest {
 
 	private static BackgroundPrioritizedActionHandler handler;
-	private static ArrayList<ArrayList<EventImpl>> events;
+	private static ArrayList<ArrayList<ActionImpl>> actions;
 
 	private static StringBuffer check;
 
 	@BeforeClass
 	public static void setup() {
 		handler = new BackgroundPrioritizedActionHandler((byte) 5);
-		events = new ArrayList<>();
+		actions = new ArrayList<>();
 		for (@SuppressWarnings("unused")
 		Priority priority : Priority.values()) {
-			events.add(new ArrayList<EventImpl>());
+			actions.add(new ArrayList<ActionImpl>());
 		}
 
 		check = new StringBuffer();
@@ -57,9 +57,9 @@ public class BackgroundPrioritizedEventHandlerTest {
 
 	@Test
 	public void stage0_nonStaticSetup() {
-		for (ArrayList<EventImpl> list : events) {
+		for (ArrayList<ActionImpl> list : actions) {
 			for (Priority priority : Priority.values()) {
-				list.add(new EventImpl(priority, this));
+				list.add(new ActionImpl(priority, this));
 			}
 		}
 	}
@@ -68,25 +68,25 @@ public class BackgroundPrioritizedEventHandlerTest {
 	public void stage1_0_verifySetup() {
 		assertTrue(handler.isReady());
 		assertEquals(0, handler.getActions().size());
-		for (ArrayList<EventImpl> list : events) {
-			for (EventImpl event : list) {
-				assertFalse(handler.getActions().contains(event));
+		for (ArrayList<ActionImpl> list : actions) {
+			for (ActionImpl action : list) {
+				assertFalse(handler.getActions().contains(action));
 			}
 		}
 	}
 
 	@Test
-	public void stage2_0_testAddEvent() {
-		for (ArrayList<EventImpl> list : events) {
-			for (EventImpl event : list) {
-				assertTrue(handler.addEvent(event));
+	public void stage2_0_testAddAction() {
+		for (ArrayList<ActionImpl> list : actions) {
+			for (ActionImpl action : list) {
+				assertTrue(handler.addAction(action));
 			}
 		}
 	}
 
 	@Test
-	public void stage2_1_verifyAddEvent() {
-		for (ArrayList<EventImpl> list : events) {
+	public void stage2_1_verifyAddAction() {
+		for (ArrayList<ActionImpl> list : actions) {
 			for (Action action : list) {
 				assertTrue(handler.getActions().contains(action));
 			}
@@ -94,13 +94,13 @@ public class BackgroundPrioritizedEventHandlerTest {
 	}
 
 	@Test
-	public void stage2_2_checkAddEvent() {
-		assertFalse(handler.addEvent(null));
-		assertFalse(handler.addEvent(new EventImpl(null, null)));
+	public void stage2_2_checkAddAction() {
+		assertFalse(handler.addAction(null));
+		assertFalse(handler.addAction(new ActionImpl(null, null)));
 	}
 
 	@Test
-	public void stage3_0_testAndVerifyEachEvent() {
+	public void stage3_0_testAndVerifyEachAction() {
 		for (Action action : handler.getActions()) {
 			assertTrue(action.enact());
 		}
@@ -108,15 +108,15 @@ public class BackgroundPrioritizedEventHandlerTest {
 	}
 
 	@Test
-	public void stage3_1_testAndVerifyEnactEachEvent() {
+	public void stage3_1_testAndVerifyEnactEachAction() {
 		check = new StringBuffer();
-		while (handler.enactNextEvent()) {
+		while (handler.enactNextAction()) {
 		}
 		assertEquals(Priority.values().length * Priority.values().length, check.length());
 	}
 
 	@Test
-	public void stage3_2_verifyEnactEachEventRemoval() {
+	public void stage3_2_verifyEnactEachActionRemoval() {
 		assertEquals(0, handler.size());
 	}
 
@@ -135,7 +135,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 		for (int i = 0; i < Priority.values().length; i++) {
 			for (int k = 0; k < Priority.values().length; k++) {
 				assertEquals(i * Priority.values().length + k, check.length());
-				handler.addEvent(events.get(i).get(k));
+				handler.addAction(actions.get(i).get(k));
 				synchronized (this) {
 					try {
 						wait(10);
@@ -149,7 +149,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 
 	@Test
 	public void stage5_0_setupStage5() {
-		stage2_0_testAddEvent();
+		stage2_0_testAddAction();
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 
 	@Test
 	public void stage5_2_verifyClear() {
-		stage3_2_verifyEnactEachEventRemoval();
+		stage3_2_verifyEnactEachActionRemoval();
 	}
 
 	@Test
@@ -178,7 +178,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 				public void run() {
 					for (int k = intermediate; k < intermediate + between; k++) {
 						for (Priority priority : Priority.values()) {
-							handler.add(new EventImpl(priority, this));
+							handler.add(new ActionImpl(priority, this));
 							synchronized (this) {
 								try {
 									this.wait(1);
@@ -213,7 +213,7 @@ public class BackgroundPrioritizedEventHandlerTest {
 	@AfterClass
 	public static void destroy() {
 		handler = null;
-		events = null;
+		actions = null;
 		check = null;
 	}
 
@@ -224,11 +224,11 @@ public class BackgroundPrioritizedEventHandlerTest {
 		}
 	}
 
-	private class EventImpl implements PrioritizedAction {
+	private class ActionImpl implements PrioritizedAction {
 		private final Priority priority;
 		private final Object obj;
 
-		public EventImpl(Priority priority, Object obj) {
+		public ActionImpl(Priority priority, Object obj) {
 			this.priority = priority;
 			this.obj = obj;
 		}

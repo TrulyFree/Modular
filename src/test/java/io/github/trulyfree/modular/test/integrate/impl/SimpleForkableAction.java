@@ -4,8 +4,8 @@ import java.util.List;
 
 import io.github.trulyfree.modular.action.Action;
 import io.github.trulyfree.modular.general.Forkable;
-import io.github.trulyfree.modular.test.action.impl.SimpleEventGroup;
-import io.github.trulyfree.modular.test.integrate.ForkableEventTest;
+import io.github.trulyfree.modular.test.action.impl.SimpleActionGroup;
+import io.github.trulyfree.modular.test.integrate.ForkableActionTest;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -24,7 +24,7 @@ import io.github.trulyfree.modular.test.integrate.ForkableEventTest;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleForkableEvent extends SimpleEventGroup<Action> implements Forkable, Action {
+public class SimpleForkableAction extends SimpleActionGroup<Action> implements Forkable, Action {
 
 	private volatile boolean halted;
 	private volatile boolean running;
@@ -38,7 +38,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Action> implements For
 
 	public int value = 0;
 
-	public SimpleForkableEvent(List<Action> actions) {
+	public SimpleForkableAction(List<Action> actions) {
 		super(actions);
 		fork = new Thread(new Runnable() {
 
@@ -46,10 +46,10 @@ public class SimpleForkableEvent extends SimpleEventGroup<Action> implements For
 			public void run() {
 				for (;;) {
 					if (!getHalted()) {
-						enactNextEvent();
+						enactNextAction();
 					} else {
-						synchronized (SimpleForkableEvent.this) {
-							SimpleForkableEvent.this.notify();
+						synchronized (SimpleForkableAction.this) {
+							SimpleForkableAction.this.notify();
 						}
 						break;
 					}
@@ -67,7 +67,7 @@ public class SimpleForkableEvent extends SimpleEventGroup<Action> implements For
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		ForkableEventTest.finished = true;
+		ForkableActionTest.finished = true;
 		if (after != null)
 			after.enact();
 		running = false;

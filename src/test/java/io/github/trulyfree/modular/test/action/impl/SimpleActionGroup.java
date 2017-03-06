@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.trulyfree.modular.action.Action;
-import io.github.trulyfree.modular.action.ModifiableActionGroup;
+import io.github.trulyfree.modular.action.ActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -24,62 +24,36 @@ import io.github.trulyfree.modular.action.ModifiableActionGroup;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleModifiableEventGroup<T extends Action> implements ModifiableActionGroup<T> {
+public class SimpleActionGroup<T extends Action> implements ActionGroup<T> {
 
+	private List<T> actions;
+	
 	private int current;
 
-	private List<T> events;
-
-	public SimpleModifiableEventGroup() {
+	public SimpleActionGroup(List<T> actions) {
+		this.actions = actions;
 		current = 0;
-		events = new ArrayList<T>();
 	}
 
 	@Override
-	public synchronized boolean enactNextEvent() {
-		return events.get(next()).enact();
+	public boolean enactNextAction() {
+		return actions.get(next()).enact();
 	}
 
 	@Override
-	public synchronized int size() {
-		return events.size();
+	public int size() {
+		return actions.size();
 	}
 
 	@Override
-	public synchronized Collection<T> getActions() {
-		Collection<T> events = new ArrayList<T>(size());
-		for (T event : this.events) {
-			events.add(event);
+	public Collection<T> getActions() {
+		Collection<T> actions = new ArrayList<T>(size());
+		for (T action : this.actions) {
+			actions.add(action);
 		}
-		return events;
+		return actions;
 	}
-
-	@Override
-	public synchronized boolean addEvent(T event) {
-		return events.add(event);
-	}
-
-	@Override
-	public synchronized boolean removeEvent(T event) {
-		return events.remove(event);
-	}
-
-	@Override
-	public synchronized void enactAllOfType(Class<? extends T> type) {
-		for (T event : events) {
-			if (type.isInstance(event)) {
-				event.enact();
-			}
-		}
-	}
-
-	@Override
-	public synchronized void enactAll() {
-		for (T event : events) {
-			event.enact();
-		}
-	}
-
+	
 	private int next() {
 		final int intermediary = current;
 		current++;

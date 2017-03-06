@@ -16,7 +16,7 @@
  */
 
 /**
- * Defines interfaces with direct relevance to events and their handling
+ * Defines interfaces with direct relevance to actions and their handling
  * process.
  */
 package io.github.trulyfree.modular.action;

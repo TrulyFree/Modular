@@ -1,6 +1,8 @@
 package io.github.trulyfree.modular.test.action;
 
-import static org.junit.Assert.*;
+import static io.github.trulyfree.modular.general.Priority.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -9,6 +11,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.action.PrioritizedAction;
+import io.github.trulyfree.modular.test.action.impl.SimplePrioritizedAction;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -28,18 +32,26 @@ import io.github.trulyfree.modular.action.Action;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EventTest {
+public class PrioritizedActionTest {
 
 	private static int modified;
 
-	private static Action event1;
-	private static Action event2;
+	private static Action action0;
+	private static PrioritizedAction action1;
+	private static PrioritizedAction action2;
 
 	@BeforeClass
 	public static void setup() {
 		modified = 0;
 
-		event1 = new Action() {
+		action0 = new Action() {
+			@Override
+			public boolean enact() {
+				return true;
+			}
+		};
+
+		action1 = new SimplePrioritizedAction(DIRE) {
 			@Override
 			public boolean enact() {
 				modified = 1;
@@ -47,7 +59,7 @@ public class EventTest {
 			}
 		};
 
-		event2 = new Action() {
+		action2 = new SimplePrioritizedAction(AESTHETIC) {
 			@Override
 			public boolean enact() {
 				modified = 0;
@@ -63,7 +75,7 @@ public class EventTest {
 
 	@Test
 	public void stage1_0_testEnact() {
-		assertTrue(event1.enact());
+		assertTrue(action1.enact());
 	}
 
 	@Test
@@ -73,7 +85,7 @@ public class EventTest {
 
 	@Test
 	public void stage2_0_testEnact() {
-		assertTrue(event2.enact());
+		assertTrue(action2.enact());
 	}
 
 	@Test
@@ -81,11 +93,30 @@ public class EventTest {
 		assertEquals(0, modified);
 	}
 
+	@Test
+	public void stage3_testGetPriority() {
+		assertTrue(action1.getPriority() == DIRE);
+		assertTrue(action2.getPriority() == AESTHETIC);
+	}
+
+	@Test
+	public void stage5_testCompareToOtherPrioritized() {
+		assertTrue(action1.compareTo(action2) > 0);
+		assertTrue(action2.compareTo(action1) < 0);
+		assertTrue(action1.compareTo(action1) == 0);
+	}
+
+	@Test
+	public void stage6_testCompareToStandardAction() {
+		assertEquals(action1.compareTo(action0), 1);
+		assertEquals(action2.compareTo(action0), 1);
+	}
+
 	@AfterClass
 	public static void destroy() {
 		modified = 0;
-		event1 = null;
-		event2 = null;
+		action1 = null;
+		action2 = null;
 	}
 
 }

@@ -1,7 +1,7 @@
-package io.github.trulyfree.modular.test.action.impl;
+package io.github.trulyfree.modular.test.integrate.impl;
 
-import io.github.trulyfree.modular.action.PrioritizedAction;
-import io.github.trulyfree.modular.general.Priority;
+import io.github.trulyfree.modular.action.Action;
+import io.github.trulyfree.modular.general.Cancellable;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -20,17 +20,19 @@ import io.github.trulyfree.modular.general.Priority;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class SimplePrioritizedEvent implements PrioritizedAction {
+public abstract class SimpleCancellableAction implements Action, Cancellable {
 
-	private Priority priority;
+	private boolean cancelled;
 
-	public SimplePrioritizedEvent(Priority priority) {
-		this.priority = priority;
+	@Override
+	public final boolean setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+		return true;
 	}
 
 	@Override
-	public Priority getPriority() {
-		return priority;
+	public final boolean isCancelled() {
+		return cancelled;
 	}
 
 }

@@ -22,12 +22,12 @@ import io.github.trulyfree.modular.action.Action;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * ModifiableActionGroup interface. Groups of Events which occur with relevancy
+ * ModifiableActionGroup interface. Groups of Actions which occur with relevancy
  * to each other and may alter in count should be packaged together in a
- * ModifiableActionGroup. Depending on the usage of EventHandlers, it may be
+ * ModifiableActionGroup. Depending on the usage of ActionHandlers, it may be
  * efficient to use an implementation shich also implements "Action", by which
- * the "enact" method loops throughout the Events contained within this Action
- * group and enacts them all. Such a method for ModifiableEventGroups is highly
+ * the "enact" method loops throughout the Actions contained within this Action
+ * group and enacts them all. Such a method for ModifiableActionGroups is highly
  * suggested to be created with the "synchronous" keyword.
  * 
  * @author vtcakavsmoace
@@ -42,55 +42,55 @@ public interface ModifiableActionGroup<T extends Action> extends ActionGroup<T> 
 	 * Implementations which extend existing List implementations should find
 	 * this method to be a single call.
 	 * 
-	 * @param event
+	 * @param action
 	 *            The Action to add to the ActionGroup.
 	 * @return success A boolean representing the success of the add operation.
 	 *         Note that if a throwable is thrown by this method, it should be
 	 *         caught and the method return false.
 	 */
-	public boolean addEvent(T event);
+	public boolean addAction(T action);
 
 	/**
 	 * Method to be called in order to remove an Action from this ActionGroup.
 	 * Implementations which extend existing List implementations should find
 	 * this method to be very simple to implement.
 	 * 
-	 * @param event
+	 * @param action
 	 *            The Action to remove from the ActionGroup.
 	 * @return removed The Action removed by this operation.
 	 */
-	public boolean removeEvent(T event);
+	public boolean removeAction(T action);
 
 	/**
-	 * Method to be called in order to remove Events of a specific type from
+	 * Method to be called in order to remove Actions of a specific type from
 	 * this ActionGroup. A suggested implementation has been provided, but
 	 * implementations may differ on the approach chosen.
 	 * 
 	 * @param type
 	 *            The type of Action to remove. Note that this should respect
 	 *            polymorphism.
-	 * @return removed The Action(s) removed by this operation. If no events are
-	 *         removed, this should return an empty collection of Events.
+	 * @return removed The Action(s) removed by this operation. If no actions are
+	 *         removed, this should return an empty collection of Actions.
 	 */
-	public default Collection<T> removeEventByType(Class<? extends Action> type) {
+	public default Collection<T> removeActionByType(Class<? extends Action> type) {
 		Collection<T> toReturn = new ArrayList<T>(this.getActions().size());
-		for (T event : this.getActions()) {
-			if (type.isInstance(event)) {
-				this.removeEvent(event);
-				toReturn.add(event);
+		for (T action : this.getActions()) {
+			if (type.isInstance(action)) {
+				this.removeAction(action);
+				toReturn.add(action);
 			}
 		}
 		return toReturn;
 	}
 
 	/**
-	 * Method to be called in order to remove all Events from this ActionGroup. A
+	 * Method to be called in order to remove all Actions from this ActionGroup. A
 	 * suggested implementation has been provided. Implementations may differ
 	 * according to need.
 	 */
 	public default void clear() {
-		for (T event : this.getActions()) {
-			this.removeEvent(event);
+		for (T action : this.getActions()) {
+			this.removeAction(action);
 		}
 	}
 

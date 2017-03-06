@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.trulyfree.modular.action.Action;
-import io.github.trulyfree.modular.action.ActionGroup;
+import io.github.trulyfree.modular.action.ModifiableActionGroup;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -24,36 +24,62 @@ import io.github.trulyfree.modular.action.ActionGroup;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SimpleEventGroup<T extends Action> implements ActionGroup<T> {
+public class SimpleModifiableActionGroup<T extends Action> implements ModifiableActionGroup<T> {
 
-	private List<T> events;
-	
 	private int current;
 
-	public SimpleEventGroup(List<T> events) {
-		this.events = events;
+	private List<T> actions;
+
+	public SimpleModifiableActionGroup() {
 		current = 0;
+		actions = new ArrayList<T>();
 	}
 
 	@Override
-	public boolean enactNextEvent() {
-		return events.get(next()).enact();
+	public synchronized boolean enactNextAction() {
+		return actions.get(next()).enact();
 	}
 
 	@Override
-	public int size() {
-		return events.size();
+	public synchronized int size() {
+		return actions.size();
 	}
 
 	@Override
-	public Collection<T> getActions() {
-		Collection<T> events = new ArrayList<T>(size());
-		for (T event : this.events) {
-			events.add(event);
+	public synchronized Collection<T> getActions() {
+		Collection<T> actions = new ArrayList<T>(size());
+		for (T action : this.actions) {
+			actions.add(action);
 		}
-		return events;
+		return actions;
 	}
-	
+
+	@Override
+	public synchronized boolean addAction(T action) {
+		return actions.add(action);
+	}
+
+	@Override
+	public synchronized boolean removeAction(T action) {
+		return actions.remove(action);
+	}
+
+	@Override
+	public synchronized void enactAllOfType(Class<? extends T> type) {
+		for (T action : actions) {
+			if (type.isInstance(action)) {
+				action.enact();
+			}
+		}
+	}
+
+	@Override
+	public synchronized void enactAll() {
+		for (T action : actions) {
+			action.enact();
+		}
+	}
+
 	private int next() {
 		final int intermediary = current;
 		current++;

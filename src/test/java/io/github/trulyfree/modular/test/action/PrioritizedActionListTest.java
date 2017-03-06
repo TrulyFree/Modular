@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular.action.PrioritizedAction;
 import io.github.trulyfree.modular.general.Priority;
-import io.github.trulyfree.modular.test.action.impl.SimplePrioritizedEvent;
+import io.github.trulyfree.modular.test.action.impl.SimplePrioritizedAction;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -34,26 +34,26 @@ import io.github.trulyfree.modular.test.action.impl.SimplePrioritizedEvent;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PrioritizedEventListTest {
+public class PrioritizedActionListTest {
 
 	private static int modified = 0;
-	private static List<PrioritizedAction> eventList, compare;
+	private static List<PrioritizedAction> actionList, compare;
 
 	@BeforeClass
 	public static void setup() {
-		eventList = new ArrayList<PrioritizedAction>(Priority.values().length);
+		actionList = new ArrayList<PrioritizedAction>(Priority.values().length);
 		compare = new ArrayList<PrioritizedAction>(Priority.values().length);
 
-		for (int i = 0; i < eventList.size(); i++) {
+		for (int i = 0; i < actionList.size(); i++) {
 			final int intermediary = i;
-			eventList.add(new SimplePrioritizedEvent(Priority.values()[i]) {
+			actionList.add(new SimplePrioritizedAction(Priority.values()[i]) {
 				@Override
 				public boolean enact() {
 					modified = intermediary + 1;
 					return true;
 				}
 			});
-			compare.add(new SimplePrioritizedEvent(Priority.values()[i]) {
+			compare.add(new SimplePrioritizedAction(Priority.values()[i]) {
 				@Override
 				public boolean enact() {
 					return true;
@@ -69,24 +69,24 @@ public class PrioritizedEventListTest {
 
 	@Test
 	public void stage1_testAndVerifyEnactEach() {
-		for (int i = 0; i < eventList.size(); i++) {
-			eventList.get(i).enact();
+		for (int i = 0; i < actionList.size(); i++) {
+			actionList.get(i).enact();
 			assertEquals(i + 1, modified);
 		}
 	}
 
 	@Test
-	public void stage2_0_shuffleEvents() {
-		Collections.reverse(eventList);
+	public void stage2_0_shuffleActions() {
+		Collections.reverse(actionList);
 	}
 
 	@Test
-	public void stage2_1_verifyShuffleEvents() {
+	public void stage2_1_verifyShuffleActions() {
 		boolean succeed;
-		for (PrioritizedAction event1 : compare) {
+		for (PrioritizedAction action1 : compare) {
 			succeed = false;
-			for (PrioritizedAction event2 : eventList) {
-				if (event1.compareTo(event2) == 0) {
+			for (PrioritizedAction action2 : actionList) {
+				if (action1.compareTo(action2) == 0) {
 					succeed = true;
 					break;
 				}
@@ -98,14 +98,14 @@ public class PrioritizedEventListTest {
 	}
 
 	@Test
-	public void stage3_0_orderEvents() {
-		Collections.sort(eventList);
+	public void stage3_0_orderActions() {
+		Collections.sort(actionList);
 	}
 
 	@Test
-	public void stage3_1_verifyOrderEvents() {
-		for (int i = 0; i < eventList.size(); i++) {
-			assertEquals(0, eventList.get(i).compareTo(compare.get(i)));
+	public void stage3_1_verifyOrderActions() {
+		for (int i = 0; i < actionList.size(); i++) {
+			assertEquals(0, actionList.get(i).compareTo(compare.get(i)));
 		}
 	}
 
@@ -116,7 +116,7 @@ public class PrioritizedEventListTest {
 
 	@AfterClass
 	public static void destroy() {
-		eventList = null;
+		actionList = null;
 		compare = null;
 		modified = 0;
 	}

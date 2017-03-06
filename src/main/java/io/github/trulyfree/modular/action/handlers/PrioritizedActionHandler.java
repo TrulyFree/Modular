@@ -69,8 +69,8 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Constructor for PrioritizedActionHandler which allows for "getEvents()"
-	 * to return a seperate event set.
+	 * Constructor for PrioritizedActionHandler which allows for "getActions()"
+	 * to return a seperate action set.
 	 * 
 	 * @param handler
 	 *            The handler which this constructor is duplicating.
@@ -227,7 +227,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to get an event of specific Priority ordinal and
+	 * Method to call in order to get an action of specific Priority ordinal and
 	 * index within that priority's specific list.
 	 * 
 	 * @param ord
@@ -245,7 +245,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to get an event within any of the lists according
+	 * Method to call in order to get an action within any of the lists according
 	 * to index within the lists. Usage of this method is largely recommended
 	 * against, but may be useful.
 	 * 
@@ -262,7 +262,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to get an event of specific Priority and index
+	 * Method to call in order to get an action of specific Priority and index
 	 * within that priority's specific list.
 	 * 
 	 * @param val
@@ -299,7 +299,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to remove an event of specific Priority ordinal
+	 * Method to call in order to remove an action of specific Priority ordinal
 	 * and index within that priority's specific list.
 	 * 
 	 * @param ord
@@ -317,7 +317,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to remove an event within any of the lists
+	 * Method to call in order to remove an action within any of the lists
 	 * according to index within the lists. Usage of this method is largely
 	 * recommended against, but may be useful.
 	 * 
@@ -331,7 +331,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	}
 
 	/**
-	 * Method to call in order to remove an event of specific Priority and index
+	 * Method to call in order to remove an action of specific Priority and index
 	 * within that priority's specific list.
 	 * 
 	 * @param val
@@ -492,7 +492,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 		}
 
 		/**
-		 * Method to call in order to realign the iterator to the event of
+		 * Method to call in order to realign the iterator to the action of
 		 * highest priority.
 		 * 
 		 * @return success A boolean representing the success of the realignment action. Returns false whenever no actions may be found.
@@ -515,33 +515,33 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#addAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean addEvent(PrioritizedAction event) {
-		return add(event);
+	public boolean addAction(PrioritizedAction action) {
+		return add(action);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#removeAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean removeEvent(PrioritizedAction event) {
-		return remove(event);
+	public boolean removeAction(PrioritizedAction action) {
+		return remove(action);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextEvent()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextAction()
 	 */
 	@Override
-	public boolean enactNextEvent() {
+	public boolean enactNextAction() {
 		for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
 			ArrayList<PrioritizedAction> list = lists.get(ord);
 			if (!list.isEmpty()) {
@@ -554,7 +554,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#getActions()
 	 */
 	@Override
 	public Collection<PrioritizedAction> getActions() {

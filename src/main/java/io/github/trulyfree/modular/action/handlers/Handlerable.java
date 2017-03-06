@@ -29,7 +29,7 @@ import io.github.trulyfree.modular.action.Action;
 public interface Handlerable {
 
 	/**
-	 * Method to call in order to set the event handler of the target
+	 * Method to call in order to set the action handler of the target
 	 * Handerable. The Handlerable should submit all following actions to this
 	 * action handler.
 	 * 
@@ -41,13 +41,13 @@ public interface Handlerable {
 	 *            A parameter specifying the type of action supported by the
 	 *            action handler.
 	 */
-	public <T extends Action> boolean setEventHandler(ActionHandler<T> handler);
+	public <T extends Action> boolean setActionHandler(ActionHandler<T> handler);
 
 	/**
-	 * Method to call in order to get the current event handler.
+	 * Method to call in order to get the current action handler.
 	 * 
-	 * @return handler The current event handler.
+	 * @return handler The current action handler.
 	 */
-	public ActionHandler<? extends Action> getEventHandler();
+	public ActionHandler<? extends Action> getActionHandler();
 
 }

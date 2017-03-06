@@ -20,9 +20,9 @@ import io.github.trulyfree.modular.general.Priority;
  */
 
 /**
- * PrioritizedAction interface. All events with an assigned priority should
+ * PrioritizedAction interface. All actions with an assigned priority should
  * implement this interface. This interface provides all methods necessary for
- * comparing two events of separate priority, but further implementation is
+ * comparing two actions of separate priority, but further implementation is
  * permitted.
  * 
  * @author vtcakavsmoace
@@ -31,7 +31,7 @@ import io.github.trulyfree.modular.general.Priority;
 public interface PrioritizedAction extends Action, Comparable<Action> {
 
 	/**
-	 * Method to be called in order to check the priority of this event.
+	 * Method to be called in order to check the priority of this action.
 	 * 
 	 * @return priority The current priority level of the Action.
 	 */

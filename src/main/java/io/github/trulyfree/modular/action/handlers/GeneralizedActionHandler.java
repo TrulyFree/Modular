@@ -40,11 +40,11 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.action.ModifiableActionGroup#addEvent(io.
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#addAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean addEvent(Action action) {
+	public boolean addAction(Action action) {
 		if (action == null) {
 			return false;
 		}
@@ -55,21 +55,21 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular.action.ModifiableActionGroup#removeEvent(io.
+	 * io.github.trulyfree.modular.action.ModifiableActionGroup#removeAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
-	public boolean removeEvent(Action action) {
+	public boolean removeAction(Action action) {
 		return list.remove(action);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextEvent()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#enactNextAction()
 	 */
 	@Override
-	public boolean enactNextEvent() {
+	public boolean enactNextAction() {
 		if (!list.isEmpty()) {
 			return list.remove(0).enact();
 		}
@@ -79,7 +79,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular.action.ActionGroup#getEvents()
+	 * @see io.github.trulyfree.modular.action.ActionGroup#getActions()
 	 */
 	@Override
 	public Collection<Action> getActions() {
@@ -146,7 +146,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	@Override
 	public boolean enact() {
 		while (!list.isEmpty()) {
-			enactNextEvent();
+			enactNextAction();
 		}
 		return true;
 	}

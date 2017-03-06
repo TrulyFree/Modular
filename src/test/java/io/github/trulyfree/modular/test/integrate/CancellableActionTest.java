@@ -8,7 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import io.github.trulyfree.modular.test.integrate.impl.SimpleCancellableEvent;
+import io.github.trulyfree.modular.test.integrate.impl.SimpleCancellableAction;
 
 /* Modular library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -28,17 +28,17 @@ import io.github.trulyfree.modular.test.integrate.impl.SimpleCancellableEvent;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CancellableEventTest {
+public class CancellableActionTest {
 
 	private static int modified;
 
-	private static SimpleCancellableEvent event;
+	private static SimpleCancellableAction action;
 
 	@BeforeClass
 	public static void setup() {
 		modified = 0;
 
-		event = new SimpleCancellableEvent() {
+		action = new SimpleCancellableAction() {
 			@Override
 			public boolean enact() {
 				final boolean enacted = !isCancelled();
@@ -52,12 +52,12 @@ public class CancellableEventTest {
 	@Test
 	public void stage0_verifyNoAction() {
 		assertEquals(0, modified);
-		assertFalse(event.isCancelled());
+		assertFalse(action.isCancelled());
 	}
 
 	@Test
 	public void stage1_0_testEnact() {
-		assertTrue(event.enact());
+		assertTrue(action.enact());
 	}
 
 	@Test
@@ -73,17 +73,17 @@ public class CancellableEventTest {
 
 	@Test
 	public void stage2_1_testCancelled() {
-		assertTrue(event.setCancelled(true));
+		assertTrue(action.setCancelled(true));
 	}
 
 	@Test
 	public void stage2_2_verifyCancelled() {
-		assertTrue(event.isCancelled());
+		assertTrue(action.isCancelled());
 	}
 
 	@Test
 	public void stage3_0_testEnactFailure() {
-		assertFalse(event.enact());
+		assertFalse(action.enact());
 	}
 
 	@Test
@@ -93,12 +93,12 @@ public class CancellableEventTest {
 
 	@Test
 	public void stage4_0_testCancelled() {
-		assertTrue(event.setCancelled(false));
+		assertTrue(action.setCancelled(false));
 	}
 
 	@Test
 	public void stage4_1_verifyCancelled() {
-		assertFalse(event.isCancelled());
+		assertFalse(action.isCancelled());
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class CancellableEventTest {
 	@AfterClass
 	public static void destroy() {
 		modified = 0;
-		event = null;
+		action = null;
 	}
 
 }

@@ -32,11 +32,11 @@ public interface Action {
 	 * this method as synonymous with Runnable's "run", except that this returns
 	 * a boolean if the operation is successful. This method should not cause
 	 * any throwables to be thrown. Instead, all throwables should be handled
-	 * within this method. If the event is cancelled, throws a fatal throwable,
+	 * within this method. If the action is cancelled, throws a fatal throwable,
 	 * or is for any other reason not successfully completed, it should catch
 	 * any thrown throwables and return false.
 	 * 
-	 * @return success The success of this operation. If the event fails to be
+	 * @return success The success of this operation. If the action fails to be
 	 *         enacted for any reason, this should return false.
 	 */
 	public boolean enact();
