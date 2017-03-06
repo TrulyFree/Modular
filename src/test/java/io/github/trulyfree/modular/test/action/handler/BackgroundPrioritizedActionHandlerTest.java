@@ -121,17 +121,32 @@ public class BackgroundPrioritizedActionHandlerTest {
 	}
 
 	@Test
-	public void stage4_0_setupStage4() {
+	public void stage4_0_setupStage5() {
+		stage2_0_testAddAction();
+	}
+
+	@Test
+	public void stage4_1_testClear() {
+		handler.clear();
+	}
+
+	@Test
+	public void stage4_2_verifyClear() {
+		stage3_2_verifyEnactEachActionRemoval();
+	}
+
+	@Test
+	public void stage5_0_setupStage4() {
 		check = new StringBuffer();
 	}
 
 	@Test
-	public void stage4_1_testEnact() {
+	public void stage5_1_testEnact() {
 		assertTrue(handler.enact());
 	}
 
 	@Test
-	public void stage4_2_verifyEnact() {
+	public void stage5_2_verifyEnact() {
 		for (int i = 0; i < Priority.values().length; i++) {
 			for (int k = 0; k < Priority.values().length; k++) {
 				assertEquals(i * Priority.values().length + k, check.length());
@@ -145,21 +160,6 @@ public class BackgroundPrioritizedActionHandlerTest {
 				}
 			}
 		}
-	}
-
-	@Test
-	public void stage5_0_setupStage5() {
-		stage2_0_testAddAction();
-	}
-
-	@Test
-	public void stage5_1_testClear() {
-		handler.clear();
-	}
-
-	@Test
-	public void stage5_2_verifyClear() {
-		stage3_2_verifyEnactEachActionRemoval();
 	}
 
 	@Test
