@@ -2,10 +2,33 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.trulyfree</groupId>
-	<artifactId>modular</artifactId>
+	<artifactId>modular8</artifactId>
 	<version>0.1.1-beta</version>
-	<name>Modular</name>
-	<description>A module framework for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
+	<name>io.github.trulyfree:Modular8</name>
+	<scm>
+		<connection>scm:git:https://github.com/TrulyFree/Modular8.git</connection>
+		<developerConnection>scm:git:https://github.com/TrulyFree/Modular8.git</developerConnection>
+		<url>https://github.com/TrulyFree/Modular8</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>GPL-3.0</name>
+			<url>https://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>VTCAKAVSMoACE</name>
+			<email>vtcakavsmoace@gmail.com</email>
+			<organization>TrulyFree</organization>
+			<organizationUrl>https://github.com/TrulyFree</organizationUrl>
+			<roles>
+				<role>Project Lead</role>
+			</roles>
+			<timezone>0</timezone>
+		</developer>
+	</developers>
+	<description>A module framework in Java 8 for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -37,5 +60,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<url>trulyfree.github.io/Modular/</url>
+	<url>trulyfree.github.io/Modular8/</url>
 </project>
