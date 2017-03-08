@@ -1,6 +1,6 @@
-io.github.trulyfree.modular.action
-io.github.trulyfree.modular.action.handlers
-io.github.trulyfree.modular.display
-io.github.trulyfree.modular.display.except
-io.github.trulyfree.modular.general
-io.github.trulyfree.modular.module
+io.github.trulyfree.modular8.action
+io.github.trulyfree.modular8.action.handlers
+io.github.trulyfree.modular8.display
+io.github.trulyfree.modular8.display.except
+io.github.trulyfree.modular8.general
+io.github.trulyfree.modular8.module
