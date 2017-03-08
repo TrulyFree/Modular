@@ -3,7 +3,7 @@ package io.github.trulyfree.modular8.display;
 import io.github.trulyfree.modular8.display.except.DisplayableException;
 import io.github.trulyfree.modular8.module.Module;
 
-/* Modular library by TrulyFree: A general-use module-building library.
+/* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ import io.github.trulyfree.modular8.module.Module;
  */
 
 /**
- * Display interface. All Modular programs with displays should define an
+ * Display interface. All Modular8 programs with displays should define an
  * implementation of this interface. The task of the implementation is to parse
  * and display DisplayableModules provided by the module.
  * 

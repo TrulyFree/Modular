@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import io.github.trulyfree.modular8.action.Action;
 
-/* Modular library by TrulyFree: A general-use Action-building library.
+/* Modular8 library by TrulyFree: A general-use Action-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify

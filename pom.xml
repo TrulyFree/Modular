@@ -6,9 +6,9 @@
 	<version>0.1.1-beta</version>
 	<name>io.github.trulyfree:Modular8</name>
 	<scm>
-		<connection>scm:git:https://github.com/TrulyFree/Modular.git</connection>
-		<developerConnection>scm:git:https://github.com/TrulyFree/Modular.git</developerConnection>
-		<url>https://github.com/TrulyFree/Modular</url>
+		<connection>scm:git:https://github.com/TrulyFree/Modular8.git</connection>
+		<developerConnection>scm:git:https://github.com/TrulyFree/Modular8.git</developerConnection>
+		<url>https://github.com/TrulyFree/Modular8</url>
 	</scm>
 	<licenses>
 		<license>

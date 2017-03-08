@@ -2,7 +2,7 @@ package io.github.trulyfree.modular8.display;
 
 import io.github.trulyfree.modular8.general.Priority;
 
-/* Modular library by TrulyFree: A general-use module-building library.
+/* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ import io.github.trulyfree.modular8.general.Priority;
  * Displayable interface. Anonymous implementations of this interface are
  * strongly recommended against, as the parameter of target Displays should be a
  * specific implementation of this interface. Developers should provide a
- * library for their Modular project which provides an implementation of this
+ * library for their Modular8 project which provides an implementation of this
  * interface that third-party developers may extend to create Displayables which
  * support the project.
  * 

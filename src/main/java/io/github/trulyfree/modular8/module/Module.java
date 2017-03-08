@@ -1,6 +1,6 @@
 package io.github.trulyfree.modular8.module;
 
-/* Modular library by TrulyFree: A general-use module-building library.
+/* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@ package io.github.trulyfree.modular8.module;
  */
 
 /**
- * Module main interface. All modules based off of Modular should implement this
+ * Module main interface. All modules based off of Modular8 should implement this
  * interface. It is highly recommended that all implementations of this class
  * use only non-final instance fields as to assure the usefulness of the setup
  * and destroy methods.

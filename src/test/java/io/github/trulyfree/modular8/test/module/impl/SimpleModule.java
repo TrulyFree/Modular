@@ -2,7 +2,7 @@ package io.github.trulyfree.modular8.test.module.impl;
 
 import io.github.trulyfree.modular8.module.Module;
 
-/* Modular library by TrulyFree: A general-use module-building library.
+/* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
  * 
  * This program is free software: you can redistribute it and/or modify
