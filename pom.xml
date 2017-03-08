@@ -28,7 +28,7 @@
 			<timezone>0</timezone>
 		</developer>
 	</developers>
-	<description>A module framework for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
+	<description>A module framework in Java 8 for TrulyFree applications. Provider of several interfaces which may be used by third-party developers or users to create custom modules for various applications.</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -60,5 +60,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<url>trulyfree.github.io/Modular/</url>
+	<url>trulyfree.github.io/Modular8/</url>
 </project>
