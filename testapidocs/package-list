@@ -1,6 +1,6 @@
 io.github.trulyfree.modular8.test.action
-io.github.trulyfree.modular8.test.action.handler
-io.github.trulyfree.modular8.test.action.handler.impl
+io.github.trulyfree.modular8.test.action.handlers
+io.github.trulyfree.modular8.test.action.handlers.impl
 io.github.trulyfree.modular8.test.action.impl
 io.github.trulyfree.modular8.test.display
 io.github.trulyfree.modular8.test.display.impl
