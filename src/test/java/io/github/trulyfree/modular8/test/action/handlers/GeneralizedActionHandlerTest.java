@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular8.test.action.handler;
+package io.github.trulyfree.modular8.test.action.handlers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
