@@ -1,4 +1,4 @@
-package io.github.trulyfree.modular8.test.action.handler.impl;
+package io.github.trulyfree.modular8.test.action.handlers.impl;
 
 import io.github.trulyfree.modular8.action.Action;
 import io.github.trulyfree.modular8.action.handlers.ActionHandler;

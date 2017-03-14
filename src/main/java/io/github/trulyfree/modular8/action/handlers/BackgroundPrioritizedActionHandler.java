@@ -146,8 +146,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#add(
-	 * io .github.trulyfree.modular.action.PrioritizedAction)
+	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#
+	 * add( io .github.trulyfree.modular.action.PrioritizedAction)
 	 */
 	@Override
 	public boolean add(PrioritizedAction ero) {
@@ -168,8 +168,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#size
-	 * ()
+	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#
+	 * size ()
 	 */
 	@Override
 	public int size() {
@@ -244,8 +244,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#get(
-	 * int, int)
+	 * io.github.trulyfree.modular8.action.handlers.PrioritizedActionHandler#
+	 * get( int, int)
 	 */
 	@Override
 	public PrioritizedAction get(int ord, int index) {
@@ -378,9 +378,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * io.github.trulyfree.modular8.general.Forkable#setAfter(io.github.trulyfree
-	 * .modular.action.Action)
+	 * @see io.github.trulyfree.modular8.general.Forkable#setAfter(io.github.
+	 * trulyfree .modular.action.Action)
 	 */
 	@Override
 	public boolean setAfter(Action action) {
@@ -436,6 +435,13 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		private final ExecutorService pool;
 
 		/**
+		 * A byte value which represents how many threads in the pool need to be
+		 * assigned. This is necessary for prioritizing the events, as otherwise
+		 * the events will be dumped into the pool regardless of prioritization.
+		 */
+		private volatile byte toAssign;
+
+		/**
 		 * Standard ActionDistributor constructor.
 		 * 
 		 * @param maxthreads
@@ -443,6 +449,7 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		 */
 		public ActionDistributor(byte maxthreads) {
 			pool = Executors.newFixedThreadPool(maxthreads);
+			toAssign = maxthreads;
 		}
 
 		/*
@@ -475,11 +482,23 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		 *            The action to assign to a consumer.
 		 */
 		private void assignAction(final PrioritizedAction next) {
+			if (toAssign == 0) {
+				synchronized (this) {
+					try {
+						this.wait();
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			toAssign--;
 			if (!pool.isShutdown()) {
 				Callable<Boolean> task = new Callable<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
 						boolean result = next.enact();
+						toAssign++;
 						synchronized (ActionDistributor.this) {
 							ActionDistributor.this.notify();
 						}
@@ -551,7 +570,8 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see io.github.trulyfree.modular8.general.Forkable#setAfter(io.github.
+		 * @see
+		 * io.github.trulyfree.modular8.general.Forkable#setAfter(io.github.
 		 * trulyfree.modular.action.Action)
 		 */
 		@Override
