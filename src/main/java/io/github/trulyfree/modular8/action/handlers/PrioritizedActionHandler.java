@@ -3,7 +3,9 @@ package io.github.trulyfree.modular8.action.handlers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import io.github.trulyfree.modular8.action.Action;
 import io.github.trulyfree.modular8.action.PrioritizedAction;
@@ -29,7 +31,7 @@ import io.github.trulyfree.modular8.general.Priority;
 /**
  * PrioritizedActionHandler class. This class handles all currently held actions
  * by order of highest to lowest priority synchronously whenever "enact" is
- * called. This action handler is not thread safe.
+ * called. This action handler is thread safe.
  * 
  * @author vtcakavsmoace
  *
@@ -40,25 +42,18 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 * The lists containing all known prioritized actions. All actions will be
 	 * enacted according to priority whenever "enact" is called.
 	 */
-	protected final ArrayList<ArrayList<PrioritizedAction>> lists;
+	protected volatile List<List<PrioritizedAction>> lists;
 
 	/**
-	 * Standard constructor for PrioritizedActionHandler. Due to needs for the
-	 * lists to be always available for IO, setup occurs here and the "setup"
-	 * method is not necessary.
+	 * Standard constructor for PrioritizedActionHandler.
 	 */
 	public PrioritizedActionHandler() {
-		int length = Priority.values().length;
-		lists = new ArrayList<>(length);
-		for (int index = 0; index < length; index++) {
-			lists.add(new ArrayList<PrioritizedAction>());
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.Action#enact()
+	 * @see io.github.trulyfree.modular6.action.Action#enact()
 	 */
 	@Override
 	public boolean enact() {
@@ -76,7 +71,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 *            The handler which this constructor is duplicating.
 	 */
 	private PrioritizedActionHandler(PrioritizedActionHandler handler) {
-		this();
+		setup();
 		for (int ord = 0; ord < handler.lists.size(); ord++) {
 			for (PrioritizedAction item : handler.lists.get(ord)) {
 				lists.get(ord).add(item);
@@ -87,16 +82,21 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#setup()
+	 * @see io.github.trulyfree.modular6.module.Module#setup()
 	 */
 	public boolean setup() {
+		int length = Priority.values().length;
+		lists = Collections.synchronizedList(new ArrayList<List<PrioritizedAction>>(length));
+		for (int index = 0; index < length; index++) {
+			lists.add(Collections.synchronizedList(new ArrayList<PrioritizedAction>()));
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#isReady()
+	 * @see io.github.trulyfree.modular6.module.Module#isReady()
 	 */
 	@Override
 	public boolean isReady() {
@@ -106,7 +106,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#destroy()
+	 * @see io.github.trulyfree.modular6.module.Module#destroy()
 	 */
 	@Override
 	public boolean destroy() {
@@ -140,7 +140,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 			return 0;
 		}
 		int size = 0;
-		for (ArrayList<PrioritizedAction> list : lists) {
+		for (List<PrioritizedAction> list : lists) {
 			size += list.size();
 			if (size < 0) {
 				return Integer.MAX_VALUE;
@@ -169,7 +169,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 		if (lists == null) {
 			return false;
 		}
-		for (ArrayList<PrioritizedAction> list : lists) {
+		for (List<PrioritizedAction> list : lists) {
 			for (PrioritizedAction item : list) {
 				if (item.equals(o)) {
 					return true;
@@ -419,7 +419,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		boolean changed = false;
-		for (ArrayList<PrioritizedAction> list : lists) {
+		for (List<PrioritizedAction> list : lists) {
 			for (int i = list.size() - 1; i >= 0; i--) {
 				if (!c.contains(list.get(i))) {
 					list.remove(i);
@@ -437,7 +437,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 */
 	@Override
 	public void clear() {
-		for (ArrayList<PrioritizedAction> list : lists) {
+		for (List<PrioritizedAction> list : lists) {
 			list.clear();
 		}
 	}
@@ -515,7 +515,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.ModifiableActionGroup#addAction(io.
+	 * io.github.trulyfree.modular6.action.ModifiableActionGroup#addAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
@@ -527,7 +527,7 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.ModifiableActionGroup#removeAction(io.
+	 * io.github.trulyfree.modular6.action.ModifiableActionGroup#removeAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
@@ -538,12 +538,12 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ActionGroup#enactNextAction()
+	 * @see io.github.trulyfree.modular6.action.ActionGroup#enactNextAction()
 	 */
 	@Override
 	public boolean enactNextAction() {
 		for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
-			ArrayList<PrioritizedAction> list = lists.get(ord);
+			List<PrioritizedAction> list = lists.get(ord);
 			if (!list.isEmpty()) {
 				return list.remove(0).enact();
 			}
@@ -554,11 +554,39 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ActionGroup#getActions()
+	 * @see io.github.trulyfree.modular6.action.ActionGroup#getActions()
 	 */
 	@Override
 	public Collection<PrioritizedAction> getActions() {
 		return new PrioritizedActionHandler(this);
+	}
+
+	@Override
+	public Collection<PrioritizedAction> removeActionByType(Class<? extends Action> type) {
+		Collection<PrioritizedAction> toReturn = new ArrayList<PrioritizedAction>(this.getActions().size());
+		for (PrioritizedAction action : this.getActions()) {
+			if (type.isInstance(action)) {
+				this.removeAction(action);
+				toReturn.add(action);
+			}
+		}
+		return toReturn;
+	}
+
+	@Override
+	public void enactAllOfType(Class<? extends PrioritizedAction> type) {
+		for (PrioritizedAction action : getActions()) {
+			if (type.isInstance(action)) {
+				action.enact();
+			}
+		}
+	}
+
+	@Override
+	public void enactAll() {
+		for (PrioritizedAction action : getActions()) {
+			action.enact();
+		}
 	}
 
 }

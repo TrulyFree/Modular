@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import io.github.trulyfree.modular8.action.PrioritizedAction;
+import io.github.trulyfree.modular8.action.Action;
 
 /* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -25,20 +25,7 @@ import io.github.trulyfree.modular8.action.PrioritizedAction;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * BackgroundPrioritizedActionHandler class. Most modular programs will likely
- * wish to use this handler type. Thread orientation is in the
- * "Producers-Distributor-Consumers" analogy; 1 to many independent threads may
- * produce actions for this action handler, non-blockingly. The distributor
- * thread will handle the distribution of the actions to the consumer threads,
- * blocking until actions are available to be distributed. The distributor will
- * distribute higher priority actions first. The consumers will then enact all
- * the submitted actions.
- * 
- * @author vtcakavsmoace
- *
- */
-public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler {
+public class BackgroundGeneralizedActionHandler extends GeneralizedActionHandler {
 
 	/**
 	 * Executor pool which will execute all actions handled by this handler.
@@ -52,18 +39,17 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	private final byte threads;
 
 	/**
-	 * Standard constructor for the BackgroundPrioritizedActionHandler class.
+	 * Standard constructor for the BackgroundGeneralizedActionHandler class.
 	 * 
 	 * @param threads
 	 *            Number of threads to dedicate to the executor pool.
 	 */
-	public BackgroundPrioritizedActionHandler(byte threads) {
+	public BackgroundGeneralizedActionHandler(byte threads) {
 		this.threads = threads;
 	}
 
-	@Override
-	public synchronized boolean add(PrioritizedAction action) {
-		boolean toReturn = super.add(action);
+	public synchronized boolean addAction(Action action) {
+		boolean toReturn = super.addAction(action);
 		this.notify();
 		return toReturn;
 	}
@@ -72,10 +58,9 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular6.action.handlers.PrioritizedActionHandler#
+	 * io.github.trulyfree.modular6.action.handlers.GeneralizedActionHandler#
 	 * setup()
 	 */
-	@Override
 	public boolean setup() {
 		super.setup();
 		this.pool = Executors.newFixedThreadPool(threads);
@@ -86,10 +71,9 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular6.action.handlers.PrioritizedActionHandler#
+	 * io.github.trulyfree.modular6.action.handlers.GeneralizedActionHandler#
 	 * isReady()
 	 */
-	@Override
 	public boolean isReady() {
 		return super.isReady() && this.pool != null;
 	}
@@ -98,15 +82,14 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular6.action.handlers.PrioritizedActionHandler#
+	 * io.github.trulyfree.modular6.action.handlers.GeneralizedActionHandler#
 	 * destroy()
 	 */
-	@Override
 	public boolean destroy() {
 		super.destroy();
 		pool.shutdownNow();
 		try {
-			return pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+			return pool.awaitTermination(0, TimeUnit.NANOSECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -117,14 +100,14 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular6.action.handlers.PrioritizedActionHandler#
+	 * io.github.trulyfree.modular6.action.handlers.GeneralizedActionHandler#
 	 * enact()
 	 */
 	@Override
 	public boolean enact() {
 		ArrayList<Callable<Boolean>> submitted = new ArrayList<Callable<Boolean>>(threads);
 		for (int i = 0; i < threads; i++) {
-			submitted.add(getCallable(i));
+			submitted.add(getCallable());
 		}
 		for (Callable<Boolean> toSubmit : submitted) {
 			pool.submit(toSubmit);
@@ -141,15 +124,15 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 	 * @return callable The callable instance to be submitted to the executor
 	 *         pool.
 	 */
-	private Callable<Boolean> getCallable(final int loc) {
+	private Callable<Boolean> getCallable() {
 		Callable<Boolean> task = new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
 				while (!pool.isShutdown()) {
-					while (BackgroundPrioritizedActionHandler.this.isEmpty()) {
-						synchronized (BackgroundPrioritizedActionHandler.this) {
+					while (BackgroundGeneralizedActionHandler.this.list.isEmpty()) {
+						synchronized (BackgroundGeneralizedActionHandler.this) {
 							try {
-								BackgroundPrioritizedActionHandler.this.wait();
+								BackgroundGeneralizedActionHandler.this.wait();
 							} catch (InterruptedException e) {
 								return true;
 							}
@@ -162,4 +145,5 @@ public class BackgroundPrioritizedActionHandler extends PrioritizedActionHandler
 		};
 		return task;
 	}
+
 }

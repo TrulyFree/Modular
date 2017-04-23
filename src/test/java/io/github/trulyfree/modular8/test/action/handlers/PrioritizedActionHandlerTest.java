@@ -56,6 +56,7 @@ public class PrioritizedActionHandlerTest {
 
 	@Test
 	public void stage1_0_verifySetup() {
+		assertTrue(handler.setup());
 		assertTrue(handler.isReady());
 		assertEquals(0, handler.getActions().size());
 		for (ActionImpl action : actions) {
@@ -165,6 +166,13 @@ public class PrioritizedActionHandlerTest {
 		@Override
 		public Priority getPriority() {
 			return priority;
+		}
+
+		@Override
+		public int compareTo(Action action) {
+			if (action instanceof PrioritizedAction)
+				return this.getPriority().compareTo(((PrioritizedAction) action).getPriority());
+			return 1;
 		}
 	}
 

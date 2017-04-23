@@ -3,7 +3,6 @@ package io.github.trulyfree.modular8.test.action.handlers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -14,9 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import io.github.trulyfree.modular8.action.Action;
-import io.github.trulyfree.modular8.action.PrioritizedAction;
-import io.github.trulyfree.modular8.action.handlers.BackgroundPrioritizedActionHandler;
-import io.github.trulyfree.modular8.general.Priority;
+import io.github.trulyfree.modular8.action.handlers.BackgroundGeneralizedActionHandler;
 
 /* Modular8 library by TrulyFree: A general-use module-building library.
  * Copyright (C) 2016  VTCAKAVSMoACE
@@ -36,68 +33,54 @@ import io.github.trulyfree.modular8.general.Priority;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BackgroundPrioritizedActionHandlerTest {
+public class BackgroundGeneralizedActionHandlerTest {
 
-	private static BackgroundPrioritizedActionHandler handler;
-	private static ArrayList<ArrayList<ActionImpl>> actions;
+	private static BackgroundGeneralizedActionHandler handler;
+	private static ArrayList<ActionImpl> actions;
 
-	private static int check;
+	private static volatile int check;
 
 	@BeforeClass
 	public static void setup() {
-		handler = new BackgroundPrioritizedActionHandler((byte) 5);
-		actions = new ArrayList<ArrayList<ActionImpl>>();
-		for (@SuppressWarnings("unused")
-		Priority priority : Priority.values()) {
-			actions.add(new ArrayList<ActionImpl>());
-		}
+		handler = new BackgroundGeneralizedActionHandler((byte) 5);
+		actions = new ArrayList<ActionImpl>();
 
 		check = 0;
 	}
 
 	@Test
 	public void stage0_nonStaticSetup() {
-		for (ArrayList<ActionImpl> list : actions) {
-			for (Priority priority : Priority.values()) {
-				list.add(new ActionImpl(priority, this, -1));
-			}
+		for (int i = 0; i < 25; i++) {
+			actions.add(new ActionImpl(this, 25));
 		}
 	}
 
 	@Test
 	public void stage1_0_verifySetup() {
 		assertTrue(handler.setup());
-		assertTrue(handler.isReady());
 		assertEquals(0, handler.getActions().size());
-		for (ArrayList<ActionImpl> list : actions) {
-			for (ActionImpl action : list) {
-				assertFalse(handler.getActions().contains(action));
-			}
+		for (ActionImpl action : actions) {
+			assertFalse(handler.getActions().contains(action));
 		}
 	}
 
 	@Test
 	public void stage2_0_testAddAction() {
-		for (ArrayList<ActionImpl> list : actions) {
-			for (ActionImpl action : list) {
-				assertTrue(handler.addAction(action));
-			}
+		for (ActionImpl action : actions) {
+			assertTrue(handler.addAction(action));
 		}
 	}
 
 	@Test
 	public void stage2_1_verifyAddAction() {
-		for (ArrayList<ActionImpl> list : actions) {
-			for (Action action : list) {
-				assertTrue(handler.getActions().contains(action));
-			}
+		for (Action action : actions) {
+			assertTrue(handler.getActions().contains(action));
 		}
 	}
 
 	@Test
 	public void stage2_2_checkAddAction() {
 		assertFalse(handler.addAction(null));
-		assertFalse(handler.addAction(new ActionImpl(null, null, -1)));
 	}
 
 	@Test
@@ -105,15 +88,15 @@ public class BackgroundPrioritizedActionHandlerTest {
 		for (Action action : handler.getActions()) {
 			assertTrue(action.enact());
 		}
-		assertEquals(Priority.values().length * Priority.values().length, check);
+		assertEquals(25, check);
 	}
 
 	@Test
 	public void stage3_1_testAndVerifyEnactEachAction() {
 		check = 0;
-		while (handler.enactNextAction()) {
+		for (int i = 0; i < 25; i++) {
+			assertTrue(handler.enactNextAction());
 		}
-		assertEquals(Priority.values().length * Priority.values().length, check);
 	}
 
 	@Test
@@ -148,10 +131,8 @@ public class BackgroundPrioritizedActionHandlerTest {
 
 	@Test
 	public void stage5_2_verifyEnact() {
-		for (int i = 0; i < Priority.values().length; i++) {
-			for (int k = 0; k < Priority.values().length; k++) {
-				handler.addAction(actions.get(i).get(k));
-			}
+		for (int k = 0; k < 25; k++) {
+			handler.addAction(actions.get(k));
 		}
 		synchronized (this) {
 			try {
@@ -160,34 +141,24 @@ public class BackgroundPrioritizedActionHandlerTest {
 				e.printStackTrace();
 			}
 		}
-		assertEquals(Priority.values().length * Priority.values().length, check);
-	}
-
-	@Test
-	public void stage5_3_testDestroy() {
-		assertTrue(handler.destroy());
+		assertEquals(25, check);
 	}
 
 	@Test
 	public void stage6_0_setupStage6() {
 		check = 0;
-		assertTrue(handler.setup());
 	}
 
 	@Test
-	public void stage6_1_testEnact() {
-		assertTrue(handler.enact());
-	}
-
-	@Test
-	public void stage6_2_verifyConcurrentEnact() {
+	public void stage6_1_verifyConcurrentEnact() {
 		final Thread[] threads = new Thread[4];
 		for (int i = 0; i < threads.length; i++) {
+			final int intermediary = i;
 			threads[i] = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					for (Priority priority : Priority.values()) {
-						handler.addAction(new ActionImpl(priority, BackgroundPrioritizedActionHandlerTest.this, Priority.values().length * threads.length));
+					for (int u = 0; u < 5; u++) {
+						handler.addAction(new ActionImpl(threads[intermediary], 20));
 					}
 				}
 			});
@@ -199,15 +170,15 @@ public class BackgroundPrioritizedActionHandlerTest {
 			try {
 				this.wait(100);
 			} catch (InterruptedException e) {
-				fail();
+				e.printStackTrace();
 			}
 		}
-		assertEquals(Priority.values().length * threads.length, check);
+		assertEquals(20, check);
 	}
 
 	@Test
-	public void stage6_3_testDestroy() {
-		assertTrue(handler.destroy());
+	public void stage7_0_testDestroy() {
+		handler.destroy();
 	}
 
 	@AfterClass
@@ -217,13 +188,11 @@ public class BackgroundPrioritizedActionHandlerTest {
 		check = 0;
 	}
 
-	private class ActionImpl implements PrioritizedAction {
-		private final Priority priority;
+	private class ActionImpl implements Action {
 		private final Object lock;
 		private final int max;
 
-		public ActionImpl(Priority priority, Object lock, int max) {
-			this.priority = priority;
+		public ActionImpl(Object lock, int max) {
 			this.lock = lock;
 			this.max = max;
 		}
@@ -237,18 +206,6 @@ public class BackgroundPrioritizedActionHandlerTest {
 				}
 			}
 			return true;
-		}
-
-		@Override
-		public Priority getPriority() {
-			return priority;
-		}
-
-		@Override
-		public int compareTo(Action action) {
-			if (action instanceof PrioritizedAction)
-				return this.getPriority().compareTo(((PrioritizedAction) action).getPriority());
-			return 1;
 		}
 	}
 

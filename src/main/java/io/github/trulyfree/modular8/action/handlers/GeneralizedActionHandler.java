@@ -2,6 +2,8 @@ package io.github.trulyfree.modular8.action.handlers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import io.github.trulyfree.modular8.action.Action;
 
@@ -24,7 +26,7 @@ import io.github.trulyfree.modular8.action.Action;
 
 /**
  * GeneralizedActionHandler class. This class handles all currently held actions
- * synchronously whenever "enact" is called. This action handler is not thread safe.
+ * synchronously whenever "enact" is called. This action handler is thread safe.
  * 
  * @author vtcakavsmoace
  *
@@ -32,15 +34,16 @@ import io.github.trulyfree.modular8.action.Action;
 public class GeneralizedActionHandler implements ActionHandler<Action> {
 
 	/**
-	 * A list defining the known actions, all of which will be enacted whenever enact is called.
+	 * A list defining the known actions, all of which will be enacted whenever
+	 * enact is called.
 	 */
-	private ArrayList<Action> list;
+	protected volatile List<Action> list;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.ModifiableActionGroup#addAction(io.
+	 * io.github.trulyfree.modular6.action.ModifiableActionGroup#addAction(io.
 	 * github.trulyfree.modular.action.Action)
 	 */
 	@Override
@@ -55,8 +58,8 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * io.github.trulyfree.modular8.action.ModifiableActionGroup#removeAction(io.
-	 * github.trulyfree.modular.action.Action)
+	 * io.github.trulyfree.modular6.action.ModifiableActionGroup#removeAction(
+	 * io. github.trulyfree.modular.action.Action)
 	 */
 	@Override
 	public boolean removeAction(Action action) {
@@ -66,7 +69,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ActionGroup#enactNextAction()
+	 * @see io.github.trulyfree.modular6.action.ActionGroup#enactNextAction()
 	 */
 	@Override
 	public boolean enactNextAction() {
@@ -79,7 +82,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ActionGroup#getActions()
+	 * @see io.github.trulyfree.modular6.action.ActionGroup#getActions()
 	 */
 	@Override
 	public Collection<Action> getActions() {
@@ -89,18 +92,18 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#setup()
+	 * @see io.github.trulyfree.modular6.module.Module#setup()
 	 */
 	@Override
 	public boolean setup() {
-		list = new ArrayList<Action>();
+		list = Collections.synchronizedList(new ArrayList<Action>());
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#isReady()
+	 * @see io.github.trulyfree.modular6.module.Module#isReady()
 	 */
 	@Override
 	public boolean isReady() {
@@ -110,7 +113,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.module.Module#destroy()
+	 * @see io.github.trulyfree.modular6.module.Module#destroy()
 	 */
 	@Override
 	public boolean destroy() {
@@ -121,7 +124,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ActionGroup#size()
+	 * @see io.github.trulyfree.modular6.action.ActionGroup#size()
 	 */
 	@Override
 	public int size() {
@@ -131,7 +134,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.ModifiableActionGroup#clear()
+	 * @see io.github.trulyfree.modular6.action.ModifiableActionGroup#clear()
 	 */
 	@Override
 	public void clear() {
@@ -141,7 +144,7 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.github.trulyfree.modular8.action.Action#enact()
+	 * @see io.github.trulyfree.modular6.action.Action#enact()
 	 */
 	@Override
 	public boolean enact() {
@@ -149,6 +152,34 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 			enactNextAction();
 		}
 		return true;
+	}
+
+	@Override
+	public Collection<Action> removeActionByType(Class<? extends Action> type) {
+		Collection<Action> toReturn = new ArrayList<Action>(this.getActions().size());
+		for (Action action : this.getActions()) {
+			if (type.isInstance(action)) {
+				this.removeAction(action);
+				toReturn.add(action);
+			}
+		}
+		return toReturn;
+	}
+
+	@Override
+	public void enactAllOfType(Class<? extends Action> type) {
+		for (Action action : getActions()) {
+			if (type.isInstance(action)) {
+				action.enact();
+			}
+		}
+	}
+
+	@Override
+	public void enactAll() {
+		for (Action action : getActions()) {
+			action.enact();
+		}
 	}
 
 }
