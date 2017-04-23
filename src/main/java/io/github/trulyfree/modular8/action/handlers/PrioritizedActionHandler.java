@@ -57,8 +57,8 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 */
 	@Override
 	public boolean enact() {
-		for (Action action : this) {
-			action.enact();
+		while (!this.isEmpty()) {
+			enactNextAction();
 		}
 		return true;
 	}
@@ -542,11 +542,15 @@ public class PrioritizedActionHandler implements Collection<PrioritizedAction>, 
 	 */
 	@Override
 	public boolean enactNextAction() {
-		for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
-			List<PrioritizedAction> list = lists.get(ord);
-			if (!list.isEmpty()) {
-				return list.remove(0).enact();
+		try {
+			for (int ord = Priority.MAX.ordinal(); ord >= 0; ord--) {
+				List<PrioritizedAction> list = lists.get(ord);
+				if (!list.isEmpty()) {
+					return list.remove(0).enact();
+				}
 			}
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
