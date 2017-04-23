@@ -73,8 +73,12 @@ public class GeneralizedActionHandler implements ActionHandler<Action> {
 	 */
 	@Override
 	public boolean enactNextAction() {
+		try {
 		if (!list.isEmpty()) {
 			return list.remove(0).enact();
+		}
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
